@@ -9,7 +9,7 @@ class UserManager{
 
 
     async createUser(userEmail, userNickname, userPassword, userGender, userAge, userheight, userAddress1, userAddress2) {
-        console.log("TEST");
+        console.log("TEST2");
     }
 
     async initUserObject(){

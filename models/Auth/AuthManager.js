@@ -1,9 +1,21 @@
 const jwt = require('jsonwebtoken');
-
+const bcrypt = require('bcrypt-nodejs');
 
 class AuthManager {
 
-    async verify(token, secret) {
+    static async checkEmail(userEmail) {
+        
+    }
+
+    static async checkNickname(userNickname){
+
+    }
+
+    static async encryptPassword(password){
+
+    }
+
+    static async verify(token, secret) {
         const userInfo;
         const p = new Promise(
             (resolve, reject) => {
@@ -18,7 +30,7 @@ class AuthManager {
         return userInfo;
     }
 
-    async sign(userEmail, secret) {
+    static async sign(userEmail, secret) {
         const token = await jwt.sign({ user_email: userEmail }, secret, { expiresIn: '14d' });
         return token;
     }

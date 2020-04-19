@@ -1,5 +1,5 @@
 const express = require('express');
-const um = require('../models/UserManager');
+// const um = require('../models/UserManager');
 const router = express.Router();
 
 router.get('/', async (req, res) => {

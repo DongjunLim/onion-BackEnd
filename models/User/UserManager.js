@@ -8,14 +8,14 @@ class UserManager{
     }
 
 
-    async createUser(userEmail, userNickname, userPassword, userGender, userAge, userheight, userAddress1, userAddress2) {
+    static async createUser(userEmail, userNickname, userPassword, userGender, userAge, userheight, userAddress1, userAddress2) {
         console.log("TEST2");
     }
 
-    async initUserObject(){
+    static async initUserObject(){
 
     }
-    async checkEmail(){
+    static async checkEmail(){
         /*
             DB에서 Email 받아와서 확인하는 로직작성
         */

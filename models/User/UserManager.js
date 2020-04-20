@@ -7,7 +7,6 @@ class UserManager{
         this.name = "Dongjun";
     }
 
-
     static async createUser(userEmail, userNickname, userPassword, userGender, userAge, userheight, userAddress1, userAddress2) {
         console.log("TEST2");
     }

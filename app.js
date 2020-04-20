@@ -1,5 +1,4 @@
 const express = require('express');
-const mongoos = require('mongoose');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const {secret, PORT} = require('./config');
@@ -15,7 +14,8 @@ const profileRouter = require('./routes/profile');
 const loginRouter = require('./routes/login');
 const myprofileRouter = require('./routes/myprofile');
 
-
+const mongoose = require('mongoose');
+const dbAccount = require("./mongoAccount.json");
 
 app.use(morgan('dev'));
 app.use(bodyParser.json());
@@ -32,13 +32,26 @@ app.use('/account',accountRouter);
 
 
 app.set('jwt-secret',secret);
+//for DataBase
+let db = mongoose.connection;
+const DB_options = {
+    autoIndex: false, // Don't build indexes
+    reconnectTries: Number.MAX_VALUE, // Never stop trying to reconnect
+    reconnectInterval: 500 , // Reconnect every 500ms
+    poolSize: 10 , // Maintain up to 10 socket connections
+    // If not connected, return errors immediately rather than waiting for reconnect
+    bufferMaxEntries: 0
+}
 
-mongoos.promise = global.Promise;
+mongoose.promise = global.Promise;
 
-mongoos.connect('mongodb://root:1234@127.0.0.1/onion_BackEnd?authSource=admin').then(() => console.log('Successfully connected to mongodb')).catch(e => console.error(e));
-
-
-
+mongoose.connect(
+    "mongodb://"+ dbAccount.mongooseID +":" + dbAccount.mongoosePW + "@127.0.0.1/onion_BackEnd?authSource=admin"
+    , DB_options ).then(
+    () => { console.log('Successfully connected to mongodb'); } ,
+    err => { console.error.bind(console,'Check DB - Connection error : '); }
+)
+//
 
 
 app.listen(PORT, () => {

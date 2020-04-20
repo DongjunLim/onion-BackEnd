@@ -42,8 +42,6 @@ module.exports.accountController = {
             userInstagramUrl
         );
 
-
-        
         return result ? res.sendStatus(201) : res.sendStatus(204);
     }
 }

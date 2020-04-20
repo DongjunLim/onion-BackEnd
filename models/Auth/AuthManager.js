@@ -16,7 +16,7 @@ class AuthManager {
     }
 
     static async verify(token, secret) {
-        const userInfo;
+        let userInfo;
         const p = new Promise(
             (resolve, reject) => {
                 jwt.verify(token, secret, (err, decoded) => {

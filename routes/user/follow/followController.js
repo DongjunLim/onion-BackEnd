@@ -1,17 +1,40 @@
+const UserManager = require('../../../models/Profile/ProfileManager');
+
+
 module.exports.followController = {
-    getFollowerList: (req, res) => {
+    //API28
+    getFollowerList: async (req, res) => {
+
+        const output = await UserManager.getFollowerList(req.userNickname);
+
+        return output ? res.send(output) : res.sendStatus(202);
+    },
+
+    //API29
+    getFollowUserList: async (req, res) => {
+        
+        const output = await UserManager.getFollowUserList(req.userNickname);
+
+        return output ? res.send(output) : res.sendStatus(202);
 
     },
 
-    getFollowUserList: (req, res) => {
+    //API30
+    addFollowUser: async (req, res) => {
+        const { targetNickname } = req.body;
 
+        const output = await UserManager.follow(req.userNickname,targetNickname);
+
+        return output ? res.sendStatus(201) : res.sendStatus(202);
     },
 
-    addFollowUser: (req, res) => {
+    //API31
+    removeFollowUser: async (req, res) => {
+        const { targetNickname } = req.body;
 
-    },
+        const output = await UserManager.unFollow(req.userNickname, targetNickname);
 
-    removeFollowUser: (req, res) => {
+        return output ? res.sendStatus(200) : res.sendStatus(202);
 
     }
 }

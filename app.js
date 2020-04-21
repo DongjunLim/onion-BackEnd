@@ -30,7 +30,6 @@ app.use('/account',accountRouter);
 // app.use('/feed',feedRouter);
 // app.use('/login',loginRouter);
 
-
 app.set('jwt-secret',secret);
 //for DataBase
 let db = mongoose.connection;

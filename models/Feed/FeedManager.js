@@ -1,23 +1,57 @@
 const FEED_HANDLER = require("../../schemas/FEED");
 const UserManager = require("../User/UserManager");
+const AWS = require('aws-sdk');
+const s3Account = require("../../s3Account.json");
+const crypto = require("crypto");
 
 class FeedManager{
-	static async createFeed(uploadedPhoto, feedContent, productTag, hashTag, category, height, gender, age){
+
+	//not completed
+	static async createFeed(uploadedPhoto, userNickname, feedContent, productTag, hashTag, category, height, gender, age){
 		var feed_handler = new FEED_HANDLER();
+		var file_name = crypto.randomBytes(20).toString('hex');
+		var uploadedPhotoUrl = 'photo/' + file_name;
+		var uploadedThumbnailUrl = 'thumbnail/' + file_name;
+	
+
+
+		var s3 = new AWS.S3({
+			accessKeyId: s3Account.AWS_ACCESS_KEY,
+			secretAccessKey: s3Account.AWS_SECRET_ACCESS_KEY,
+			region : 'ap-northeast-2'
+		})
 
 		/*
-			썸네일 생성 코드
-
-			스토리지에 사진과 썸네일을 넣고 경로를 반환하는 코드
-			var uploadedPhotoUrl = ~~~
-			var uploadedThumbnailUrl = ~~~
+			리사이즈 프로세스 필요 (썸네일)
 		*/
 
-		/*
-		//토큰 열어서 닉네임 사용
-		feed_handler.feed_user_nickname: String;
-		*/
 
+		var paramForS3_photo = {
+			'Bucket':'onionphotostorage'
+			'Key' : uploadedPhotoUrl, // '저장될 경로/파일이름' ex. /image/logo -> image 폴더에 logo.png로 저장됨. 
+			'ACL':'public-read',
+			'Body': uploadedPhoto,
+			'ContentType':'image/png'
+		}
+		var paramForS3_thumbnail = {
+			'Bucket':'onionphotostorage'
+			'Key' : uploadedThumbnailUrl,
+			'ACL':'public-read',
+			'Body': uploadedPhoto,
+			'ContentType':'image/png'
+		}
+
+
+		s3.upload(paramForS3_photo, function(err, data){
+			console.log(err);
+			console.log(data);
+		});
+		s3.upload(paramForS3_thumbnail, function(err, data){
+			console.log(err);
+			console.log(data);
+		});
+		
+		feed_handler.feed_user_nickname= userNickname;
 		feed_handler.feed_photo_url = uploadedPhotoUrl;
 		feed_handler.feed_thumbnail_url = uploadedThumbnailUrl;
 		feed_handler.feed_hashtag = hashTag;
@@ -77,7 +111,12 @@ class FeedManager{
 	static async getItemBasedFeedList(){
 
 	}
+<<<<<<< Updated upstream
 	static async getTimelineFeedList(){
+=======
+	//not completed
+	static async getTimelineFeedList(userNickname){
+>>>>>>> Stashed changes
 		/*
 		토큰으로 닉네임 가져오기?
 
@@ -87,12 +126,14 @@ class FeedManager{
 		*/
 	}
 
+<<<<<<< Updated upstream
 	static async getUserFeedList(){
+=======
+	//not completed
+	static async getUserFeedList(userNickname){
+>>>>>>> Stashed changes
 		var feed_handler = new FEED_HANDLER();
-		/*
-		토큰으로 닉네임 가져오기?
-		var userNickname = ~~
-		*/
+
 		var queryResult =  await feed_handler.find({feed_user_nickname: userNickname}).sort({
 			created_at : -1 //내림차순, Newest to Oldest
 		})

@@ -3,3 +3,5 @@ dist/*
 *.log
 *.pem
 ./config.js
+s3Account.json
+mongoAccount.json

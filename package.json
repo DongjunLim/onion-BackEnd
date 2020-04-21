@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/DongjunLim/onion-BackEnd#readme",
   "dependencies": {
+    "aws-sdk": "^2.659.0",
     "bcrypt-nodejs": "^0.0.3",
     "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.5",

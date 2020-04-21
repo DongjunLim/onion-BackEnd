@@ -14,8 +14,8 @@ const authMiddleware = (req, res, next) => {
         })
     }
 
-    req.userInfo = AuthManager.verify(token, secret);
-    if(req.userInfo){
+    req.userEmail = AuthManager.verify(token, secret);
+    if(req.userEmail){
         next();
     } else{
         return res.status(403).json({

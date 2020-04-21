@@ -182,14 +182,42 @@ class FeedManager{
 		return queryResult ? queryResult : false;
 	}
 	
-	static async updateFeed(password){
+	static async updateFeed(feedId, modifiedContent){
+		var feed_handler = new FEED_HANDLER();
 
+		await feed_handler.update({ _id: feedId }, { feed_content: modifiedContent })
+		.then().catch(function(err){
+			if(err){
+				console.log(err);
+				return false;
+			}
+			return true
+		})
 	}
-	static async removeFeed(password){
+	
+	static async removeFeed(feedId){
+		var feed_handler = new FEED_HANDLER();
 
+		await feed_handler.deleteOne({ _id: feedId })
+		.then().catch(function(err){
+			if(err){
+				console.log(err);
+				return false;
+			}
+			return true
+		})
 	}
-	static async removeReply(password){
 
+	static async removeReply(feedId, replyId){
+		var feed_handler = new FEED_HANDLER();
+		await feed_handler.deleteOne({$and:[{_id : feedId}, {feed_reply_list._id : replyId}]})
+		.then().catch(function(err){
+			if(err){
+				console.log(err);
+				return false;
+			}
+			return true
+		})
 	}
 }
 

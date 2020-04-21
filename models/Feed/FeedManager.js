@@ -111,12 +111,11 @@ class FeedManager{
 	static async getItemBasedFeedList(){
 
 	}
-<<<<<<< Updated upstream
 	static async getTimelineFeedList(){
-=======
 	//not completed
+	}
+
 	static async getTimelineFeedList(userNickname){
->>>>>>> Stashed changes
 		/*
 		토큰으로 닉네임 가져오기?
 
@@ -125,13 +124,10 @@ class FeedManager{
 		var followUserList = UserManager.getFollowUserList(userNickname);
 		*/
 	}
-
-<<<<<<< Updated upstream
 	static async getUserFeedList(){
-=======
 	//not completed
+	}
 	static async getUserFeedList(userNickname){
->>>>>>> Stashed changes
 		var feed_handler = new FEED_HANDLER();
 
 		var queryResult =  await feed_handler.find({feed_user_nickname: userNickname}).sort({

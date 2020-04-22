@@ -7,7 +7,7 @@ const crypto = require("crypto");
 class FeedManager{
 
 	//not completed
-	static async createFeed(uploadedPhoto, userNickname, feedContent, productTag, hashTag, category, height, gender, age){
+	static async createFeed(userNickname, uploadedPhoto, feedContent, productTag, hashTag, category, height, gender, age){
 		var feed_handler = new FEED_HANDLER();
 		var file_name = crypto.randomBytes(20).toString('hex');
 		var uploadedPhotoUrl = 'photo/' + file_name;
@@ -79,7 +79,7 @@ class FeedManager{
 		});
 	}
 
-	static async createReply(feedId, userNickname, replyContent){
+	static async createReply(userNickname, feedId, replyContent){
 		var feed_handler = new FEED_HANDLER();
 		var replyDocument = { 'userNickname': userNickname, 'replyContent': replyContent, 'created_at': Date.now };
 

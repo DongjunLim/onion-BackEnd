@@ -15,7 +15,7 @@ module.exports.feedController = {
 
         const { height, age, gender } = additionalInfo;
 
-        const output = await FeedManager.createFeed(uploadedPhoto, feedContent, productTag, hashTag, height, gender, age);
+        const output = await FeedManager.createFeed(req.userNickname, uploadedPhoto, feedContent, productTag, hashTag, height, gender, age);
 
         return output ? res.sendStatus(201) : res.sendStatus(204);
     },
@@ -33,7 +33,7 @@ module.exports.feedController = {
     like: async (req, res) => {
         const { feedId } = req.body;
         
-        const output = await UserManager.like(feedId,req.userNickname);
+        const output = await UserManager.like(req.userNickname,feedId);
 
         return output ? res.sendStatus(200) : res.sendStatus(202);  
     },
@@ -42,7 +42,7 @@ module.exports.feedController = {
     cancelLike: async (req, res) => {
         const { feedId } = req.body;
 
-        const output = await UserManager.deleteLike(feedId, req.userNickname);
+        const output = await UserManager.deleteLike(req.userNickname,feedId);
 
         return output ? res.sendStatus(200) : res.sendStatus(202);
     },
@@ -58,16 +58,16 @@ module.exports.feedController = {
     },
 
     //API9
-    createReply: (req, res) => {
+    createReply: async (req, res) => {
         const { feedId, replyContent } = req.body;
 
-        const output = await FeedManager.createReply(feedId,req.userNickname,replyContent);
+        const output = await FeedManager.createReply(req.userNickname,feedId,replyContent);
 
         return output ? res.sendStatus(201) : res.sendStatus(202);
     },
 
     //API10
-    deleteReply: (req, res) => {
+    deleteReply: async (req, res) => {
         const { feedId, replyId } = req.body;
 
         const output = await FeedManager.removeReply(feedId,replyId);
@@ -77,7 +77,7 @@ module.exports.feedController = {
     },
 
     //API11
-    getProductTagList: (req, res) => {
+    getProductTagList: async (req, res) => {
         const { feedId } = req.body;
         
         const output = await FeedManager.getProductTagList(feedId);

@@ -27,14 +27,14 @@ class FeedManager{
 
 
 		var paramForS3_photo = {
-			'Bucket':'onionphotostorage'
+			'Bucket':'onionphotostorage',
 			'Key' : uploadedPhotoUrl, // '저장될 경로/파일이름' ex. /image/logo -> image 폴더에 logo.png로 저장됨. 
 			'ACL':'public-read',
 			'Body': uploadedPhoto,
 			'ContentType':'image/png'
 		}
 		var paramForS3_thumbnail = {
-			'Bucket':'onionphotostorage'
+			'Bucket':'onionphotostorage',
 			'Key' : uploadedThumbnailUrl,
 			'ACL':'public-read',
 			'Body': uploadedPhoto,
@@ -208,17 +208,17 @@ class FeedManager{
 		})
 	}
 
-	static async removeReply(feedId, replyId){
-		var feed_handler = new FEED_HANDLER();
-		await feed_handler.deleteOne({$and:[{_id : feedId}, {feed_reply_list._id : replyId}]})
-		.then().catch(function(err){
-			if(err){
-				console.log(err);
-				return false;
-			}
-			return true
-		})
-	}
+	// static async removeReply(feedId, replyId){
+	// 	var feed_handler = new FEED_HANDLER();
+	// 	await feed_handler.deleteOne({$and:[{_id : feedId}, {feed_reply_list._id : replyId}]})
+	// 	.then().catch(function(err){
+	// 		if(err){
+	// 			console.log(err);
+	// 			return false;
+	// 		}
+	// 		return true
+	// 	})
+	// }
 }
 
 

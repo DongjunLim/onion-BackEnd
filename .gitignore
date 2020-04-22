@@ -5,3 +5,5 @@ dist/*
 ./config.js
 s3Account.json
 mongoAccount.json
+config.js
+mongoAccount.js

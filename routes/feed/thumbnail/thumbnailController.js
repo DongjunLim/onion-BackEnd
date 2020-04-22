@@ -11,21 +11,21 @@ module.exports.thumbnailController  = {
     },
 
     //API13
-    getTimelineThumbnail : (req, res) => {
+    getTimelineThumbnail : async (req, res) => {
         const timelineFeedThumbnailList = await FeedManager.getTimelineFeedList(req.userNickname);
 
         return res.send(timelineFeedThumbnailList);
     },
 
     //API14
-    getProfileThumbnail : (req, res) => {
+    getProfileThumbnail : async (req, res) => {
         const profileFeedThumbnailList = await FeedManager.getUserFeedList(req.userNickname);
 
         return res.send(profileFeedThumbnailList);
     },
 
     //API15
-    getRelativeThumbnail : (req, res) => {
+    getRelativeThumbnail : async (req, res) => {
         const { feedId } = req.body;
 
         const RelativeFeedThumbnailList = await FeedManager.getItemBasedFeedList(feedId);

@@ -13,7 +13,7 @@ module.exports.productController = {
     },
 
     //API19
-    getProductList: (req,res) => {
+    getProductList: async (req,res) => {
         const { brand , category } = req.body;
 
         const output = await ProductManager.getProductListByCategoryAndBrand(category, brand);
@@ -23,7 +23,7 @@ module.exports.productController = {
     },
 
     //API20
-    buyProduct: (req,res) => {
+    buyProduct: async (req,res) => {
         const { productId } = req.body;
 
         const output = await UserManager.buyProduct(req.userNickname, productId);

@@ -1,20 +1,30 @@
 const express = require('express');
-// const um = require('../models/UserManager');
 const router = express.Router();
+
+const accountRouter = require('./account');
+const feedRouter = require('./feed');
+const historyRouter = require('./history');
+const loginRouter = require('./login');
+const productRouter = require('./product');
+const userRouter = require('./user');
+
+
+
+router.use('/account',accountRouter);
+router.use('/feed',feedRouter);
+router.use('/history',historyRouter);
+router.use('/login',loginRouter);
+router.use('/procutRouter',productRouter);
+router.use('/userRouter',userRouter);
+
+
 
 router.get('/', async (req, res) => {
 
     const params = [req.query.name, req.query.id];
-    
-
     console.log(params);
     res.send("Hello World!");
 })
-
-
-
-
-
 
 
 module.exports = router;

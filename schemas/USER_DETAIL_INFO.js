@@ -25,4 +25,4 @@ var USER_DETAIL_INFO_Schema = new Schema(
 );
 
 //if collection name is not defined in new Schema(), then collection names is "default_collection"
-module.exports = mongoose.model("default_collection", USER_DETAIL_INFO_Schema);
+module.exports = mongoose.model("default_collection5", USER_DETAIL_INFO_Schema);

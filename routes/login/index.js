@@ -9,3 +9,5 @@ router.get('/', loginController.loginVerification);
 //API17
 //소셜로그인 요청을 처리하는 라우팅 경로
 router.get('/social', loginController.socialLoginVerification);
+
+module.exports = router;

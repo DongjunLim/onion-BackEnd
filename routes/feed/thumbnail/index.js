@@ -21,3 +21,10 @@ router.get('/user',thumbnailController.getProfileThumbnail)
 //상세게시물화면 연관 피드 썸네일 요청 처리
 //상세게시물과 연관된 피드 썸네일 리스트 요청을 처리하는 라우팅 경로
 router.get('/relative',thumbnailController.getRelativeThumbnail)
+
+router.get('/HelloWorld', (req,res) => {
+    
+    return res.send("Hello, World!");
+})
+
+module.exports = router;

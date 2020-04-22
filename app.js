@@ -4,26 +4,14 @@ const morgan = require('morgan');
 const {secret, PORT} = require('./config');
 const app = express();
 
-// const accountRouter = require('./routes/account');
-// const feedRouter = require('./routes/feed');
-// const historyRouter = require('./routes/history');
-// const loginRouter = require('./routes/login');
-// const productRouter = require('./routes/product');
-// const userRouter = require('./routes/user');
-
-
 const mongoose = require('mongoose');
 const dbAccount = require("./mongoAccount.json");
+const router = require('./routes');
 
-// app.use(morgan('dev'));
-// app.use(bodyParser.json());
-// app.use(bodyParser.urlencoded({extended: true}));
-// app.use('/account',accountRouter);
-// app.use('/feed',feedRouter);
-// app.use('/history',historyRouter);
-// app.use('/login',loginRouter);
-
-
+app.use(morgan('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
+app.use('/', router);
 
 app.set('jwt-secret',secret);
 //for DataBase

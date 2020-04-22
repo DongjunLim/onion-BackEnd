@@ -17,3 +17,5 @@ router.post('/', followController.addFollowUser);
 //API31
 //팔로우 삭제 요청을 처리하는 라우팅 경로
 router.delete('/', followController.removeFollowUser);
+
+module.exports = router;

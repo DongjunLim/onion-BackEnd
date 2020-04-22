@@ -13,3 +13,5 @@ router.post('/', bookmarkController.addBookmark);
 //API24
 //북마크 삭제 요청을 처리하는 라우팅 경로
 router.delete('/', bookmarkController.removeBookmark);
+
+module.exports = router;

@@ -13,3 +13,5 @@ router.put('/', profileController.updateProfileInfo);
 //API27
 //마이프로필 정보 요청을 처리하는 라우팅 경로
 router.get('/my-profile', profileController.getMyProfileInfo);
+
+module.exports = router;

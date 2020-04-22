@@ -13,3 +13,5 @@ router.post('/', bucketListController.addBucketList);
 //API34
 //사용자가 장바구니에서 상품을 삭제하는 요청을 처리하는 라우팅 경로
 router.delete('/', bucketListController.removeBucketList);
+
+module.exports = router;

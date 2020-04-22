@@ -20,7 +20,7 @@ module.exports.bookmarkController = {
     },
 
     //API24
-    removeBookmark : (req,res) => {
+    removeBookmark : async (req,res) => {
 
         const { feedId } = req.body;
 

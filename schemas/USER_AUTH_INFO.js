@@ -17,4 +17,4 @@ var USER_AUTH_INFO_Schema = new Schema(
 );
 
 //if collection name is not defined in new Schema(), then collection names is "default_collection"
-module.exports = mongoose.model("default_collection", USER_AUTH_INFO_Schema);
+module.exports = mongoose.model("default_collection4", USER_AUTH_INFO_Schema);

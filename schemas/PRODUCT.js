@@ -18,4 +18,4 @@ var PRODUCT_Schema = new Schema(
 );
 
 //if collection name is not defined in new Schema(), then collection names is "default_collection"
-module.exports = mongoose.model("default_collection", PRODUCT_Schema);
+module.exports = mongoose.model("default_collection3", PRODUCT_Schema);

@@ -3,7 +3,7 @@ const HistoryManager = require('../../models/History/HistoryManager');
 module.exports.historyController = {
 
     //API21
-    getHistoryList: (req,res) => {
+    getHistoryList: async (req,res) => {
 
         const output = await HistoryManager.getRecentlyHistoryList(req.userNickname);
 

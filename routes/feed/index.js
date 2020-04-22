@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const { feedController } = require('./feedController');
+const thumbnailRouter = require('./thumbnail');
+
+router.use('/thumbnail',thumbnailRouter);
 
 //API4
 //피드 업로드 요청
@@ -41,3 +44,5 @@ router.delete('/reply', feedController.deleteReply);
 //피드 상품태그 정보 요청
 //피드에 태그된 상품태그에 대한 정보 요청을 처리하는 라우팅 경로
 router.get('/product-tag', feedController.getProductTagList);
+
+module.exports = router;

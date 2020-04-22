@@ -5,7 +5,7 @@ module.exports.bucketListController = {
 
     //설계서에 메소드 누락.
     //API32
-    getBucketList : (req,res) => {
+    getBucketList : async (req,res) => {
 
     },
 

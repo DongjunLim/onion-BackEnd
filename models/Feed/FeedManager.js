@@ -42,11 +42,11 @@ class FeedManager{
 		}
 
 
-		s3.upload(paramForS3_photo, function(err, data){
+		await s3.upload(paramForS3_photo, function(err, data){
 			console.log(err);
 			console.log(data);
 		});
-		s3.upload(paramForS3_thumbnail, function(err, data){
+		await s3.upload(paramForS3_thumbnail, function(err, data){
 			console.log(err);
 			console.log(data);
 		});
@@ -70,7 +70,7 @@ class FeedManager{
 		feed_handler.author_height = height;
 		feed_handler.author_age = age;
 
-		await postModel.save(function(err){
+		await feed_handler.save(function(err){
 			if(err){
 				console.log(err);
 				return false;
@@ -79,13 +79,17 @@ class FeedManager{
 		});
 	}
 
+	//만약 전송받은 feedId가 ObjectId 객체가 아닌 String이라면 변환과정이 필요할 것.
 	static async createReply(userNickname, feedId, replyContent){
-		var feed_handler = new FEED_HANDLER();
+		//var feed_handler = new FEED_HANDLER();
+		//reply 스키마 만들것
 		var replyDocument = { 'userNickname': userNickname, 'replyContent': replyContent, 'created_at': Date.now };
 
-		await feed_handler.update(
-		    { _id: feedId }, 
-		    { $push: { feed_reply_list: replyDocument } },
+		console.log(feedId)
+
+		await FEED_HANDLER.updateOne(
+		    { '_id': feedId }, 
+		    { $push: { feed_reply_list: replyDocument }}
 		).then().catch(function(err){
 			if(err){
 				console.log(err);
@@ -96,9 +100,9 @@ class FeedManager{
 	}
 
 	static async getFeed(feedId){
-		var feed_handler = new FEED_HANDLER();
-
-		var queryResult = await feed_handler.findOne({
+		//var feed_handler = new FEED_HANDLER();
+		
+		var queryResult = await FEED_HANDLER.findOne({
 			_id: feedId
 		}).exec();
 

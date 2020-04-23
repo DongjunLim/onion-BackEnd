@@ -3,6 +3,7 @@ const UserManager = require("../User/UserManager");
 const AWS = require('aws-sdk');
 const s3Account = require("../../s3Account.json");
 const crypto = require("crypto");
+const mongoose = require("mongoose");
 
 class FeedManager{
 
@@ -86,15 +87,13 @@ class FeedManager{
 	//만약 전송받은 feedId가 ObjectId 객체가 아닌 String이라면 변환과정이 필요할 것.
 	static async createReply(userNickname, feedId, replyContent){
 		//var feed_handler = new FEED_HANDLER();
-		//reply 스키마 만들것
-		var replyDocument = { 'userNickname': userNickname, 'replyContent': replyContent, 'created_at': Date.now };
+		
+		var replyDocument = { 'userNickname': userNickname, 'replyContent': replyContent };
+		
+		var doc = await FEED_HANDLER.findOne({ '_id': feedId });
 
-		console.log(feedId)
-
-		await FEED_HANDLER.updateOne(
-		    { '_id': feedId }, 
-		    { $push: { feed_reply_list: replyDocument }}
-		).then().catch(function(err){
+		await doc.feed_reply_list.push(replyDocument)
+		await doc.save(function(err){
 			if(err){
 				console.log(err);
 				return false;
@@ -132,13 +131,9 @@ class FeedManager{
 		var followUserList = UserManager.getFollowUserList(userNickname);
 		*/
 	}
-	static async getUserFeedList(){
-	//not completed
-	}
-	static async getUserFeedList(userNickname){
-		var feed_handler = new FEED_HANDLER();
 
-		var queryResult =  await feed_handler.find({feed_user_nickname: userNickname}).sort({
+	static async getUserFeedList(userNickname){
+		var queryResult =  await FEED_HANDLER.find({feed_user_nickname: userNickname}).sort({
 			created_at : -1 //내림차순, Newest to Oldest
 		})
 
@@ -146,9 +141,7 @@ class FeedManager{
 	}
 
 	static async getReplyList(feedId){
-		var feed_handler = new FEED_HANDLER();
-
-		var queryResult =  await feed_handler.find({_id: feedId}).select('feed_reply_list -_id').sort({
+		var queryResult =  await FEED_HANDLER.find({_id: feedId}).select('feed_reply_list -_id').sort({
 			created_at : 1 //오름차순, Oldest to Newest
 		})
 
@@ -181,20 +174,13 @@ class FeedManager{
 	}
 
 	static async getProductTagList(feedId){
-		var feed_handler = new FEED_HANDLER();
-
-		var queryResult =  await feed_handler.find({_id: feedId}).select('feed_producttag_list -_id').sort({
-			created_at : 1 //오름차순, Oldest to Newest
-		})
+		var queryResult =  await FEED_HANDLER.find({_id: feedId}).select('feed_producttag_list -_id')
 
 		return queryResult ? queryResult : false;
 	}
 	
 	static async updateFeed(feedId, modifiedContent){
-		var feed_handler = new FEED_HANDLER();
-
-		await feed_handler.update({ _id: feedId }, { feed_content: modifiedContent })
-		.then().catch(function(err){
+		await FEED_HANDLER.updateOne({ _id: feedId }, { feed_content: modifiedContent, updated_at: Date.now() }, function(err){
 			if(err){
 				console.log(err);
 				return false;
@@ -204,10 +190,7 @@ class FeedManager{
 	}
 	
 	static async removeFeed(feedId){
-		var feed_handler = new FEED_HANDLER();
-
-		await feed_handler.deleteOne({ _id: feedId })
-		.then().catch(function(err){
+		await FEED_HANDLER.deleteOne({ _id: feedId }, function(err){
 			if(err){
 				console.log(err);
 				return false;

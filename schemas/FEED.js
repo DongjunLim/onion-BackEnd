@@ -1,6 +1,12 @@
 var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 
+var REPLY_Schema = new Schema({
+	userNickname: String,
+	replyContent: String,
+	created_at: { type: Date, default: Date.now }
+});
+
 var FEED_Schema = new Schema(
   {
   	feed_user_nickname: String,
@@ -9,7 +15,7 @@ var FEED_Schema = new Schema(
 	feed_hashtag: [String],
 	feed_content: String,
 	feed_like_list: { type: Array , default: [] },
-	feed_reply_list: { type: Array , default: [] },
+	feed_reply_list: [REPLY_Schema],
 	feed_producttag_list: { type: Array , default: [] },
 	feed_category_list: [String],
 	feed_feature_list: [String],

@@ -3,7 +3,6 @@ const bcrypt = require('bcrypt-nodejs');
 const USER_AUTH_INFO_HANDLER = require("../../schemas/USER_AUTH_INFO");
 
 class AuthManager{
-
     static async checkEmail(userEmail) {
         var user_auth_handler = new USER_AUTH_INFO_HANDLER();
 

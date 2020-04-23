@@ -8,8 +8,10 @@ const loginRouter = require('./login');
 const productRouter = require('./product');
 const userRouter = require('./user');
 
+//테스트용 코드. 테스트 이후 삭제
+const forMethodTestRouter = require('./forMethodTest');
 
-
+router.use('/forMethodTest', forMethodTestRouter)
 router.use('/account',accountRouter);
 router.use('/feed',feedRouter);
 router.use('/history',historyRouter);

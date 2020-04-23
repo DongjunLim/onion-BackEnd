@@ -43,11 +43,15 @@ class FeedManager{
 
 
 		await s3.upload(paramForS3_photo, function(err, data){
-			console.log(err);
+			if (err){
+				console.log(err);
+			}
 			console.log(data);
 		});
 		await s3.upload(paramForS3_thumbnail, function(err, data){
-			console.log(err);
+			if (err){
+				console.log(err);
+			}
 			console.log(data);
 		});
 		

@@ -1,6 +1,6 @@
 import requests
 
-URL = 'http://127.0.0.1:3000/' + '라우터 경로'
+URL = 'http://127.0.0.1:3000/' + 'feed/'
 
 
 def get(url,params):
@@ -12,3 +12,9 @@ def post(url,data):
     reponse = requests.post(url,data=data)
     print(reponse.status_code)
 
+
+feed = {}
+
+
+
+post('http://127.0.0.1:3000/forMethodTest', feed)

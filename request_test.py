@@ -9,7 +9,7 @@ def get(url,params):
     print(reponse.json())
 
 def post(url,data):
-    reponse = requests.post(url,data=data)
+    reponse = requests.post(url,json=data)
     print(reponse.status_code)
 
 
@@ -17,4 +17,4 @@ feed = {}
 
 
 
-post('http://127.0.0.1:3000/forMethodTest', feed)
+ post('http://127.0.0.1:3000/forMethodTest', feed)

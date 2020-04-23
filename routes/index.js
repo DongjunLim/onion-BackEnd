@@ -20,7 +20,6 @@ router.use('/procutRouter',productRouter);
 router.use('/userRouter',userRouter);
 
 
-
 router.get('/', async (req, res) => {
 
     const params = [req.query.name, req.query.id];

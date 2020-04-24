@@ -6,14 +6,14 @@ module.exports.accountController = {
 
     //API1
     checkEmail: (req, res) => {
-        const { userEmail } = req.body;
+        const { userEmail } = req.params;
 
         return AuthManager.checkEmail(userEmail) ? res.sendStatus(200) : res.sendStatus(202);
     },
 
     //API2
     checkNickname: (req, res) => {
-        const { userNickname } = req.body;
+        const { userNickname } = req.params;
 
         return AuthManager.checkNickname(userNickname) ? res.sendStatus(200) : res.sendStatus(202);
     },

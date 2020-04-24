@@ -26,7 +26,7 @@ module.exports.thumbnailController  = {
 
     //API15
     getRelativeThumbnail : async (req, res) => {
-        const { feedId } = req.body;
+        const { feedId } = req.params;
 
         const RelativeFeedThumbnailList = await FeedManager.getItemBasedFeedList(feedId);
 

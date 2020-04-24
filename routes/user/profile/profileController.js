@@ -5,8 +5,8 @@ module.exports.profileController = {
     
     //API25
     getProfileInfo: async (req,res) => {
-
-        const output = await ProfileManager.getProfileInfo(req.userNickname);
+        const { targetNickname } = req.params;
+        const output = await ProfileManager.getProfileInfo(targetNickname);
 
         return output ? res.send(output) : res.sendStatus(202);
     },

@@ -45,13 +45,31 @@ class AuthManager{
         return token;
     }
 
-    static async login(userEmail,userPassword,secretKey){
-        var user_auth_handler = new USER_AUTH_INFO_HANDLER();
-        
+    static async login(inputEmail,inputPassword,secretKey){
+        var token;
+        var userInfo = await USER_AUTH_INFO_HANDLER.findOne({
+            user_email: inputEmail
+        }).exec();
 
+        const { user_email, user_nickname,user_password} = userInfo;
 
+        await bcrypt.compare(inputPassword,user_password, async (err, res) => {
+            if (err) { throw err;}
+            if (res){
+                token = await this.sign(user_email,user_nickname,secretKey);
+            }
+        });
+
+        return token;
     }
 }
+
+// 테스트할때 필요한 토큰을 일시 발급하는 테스트코드
+// foo = async () => {
+//     const token = await AuthManager.sign("armada55","dongjun","secret");
+//     console.log(token);
+// }
+// foo();
 
 
 module.exports = AuthManager;

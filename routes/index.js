@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-
+const authMiddleware = require('../middlewares/auth');
 const accountRouter = require('./account');
 const feedRouter = require('./feed');
 const historyRouter = require('./history');
@@ -18,6 +18,16 @@ router.use('/history',historyRouter);
 router.use('/login',loginRouter);
 router.use('/procutRouter',productRouter);
 router.use('/userRouter',userRouter);
+
+router.use(authMiddleware);
+
+router.get('/temp', async(req,res) => {
+    console.log(req.userEmail);
+    console.log(req.userNickname);
+
+    res.send(req.userEmail);
+
+})
 
 
 router.get('/', async (req, res) => {

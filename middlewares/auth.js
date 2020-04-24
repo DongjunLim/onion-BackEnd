@@ -2,10 +2,11 @@ const jwt = require('jsonwebtoken');
 const AuthManager = require('../models/Auth/AuthManager');
 
 
-const authMiddleware = (req, res, next) => {
-    const token = req.headers['x-access-token'] || req.query.token;
-    const secret = req.app.get('jwt-secret');
-
+const authMiddleware = async (req, res, next) => {
+    // const secret = req.app.get('jwt-secret');
+    const secret = "secret";
+    const token = req.headers['x-access-token'];
+    console.log(token);
     // token does not exist
     if (!token) {
         return res.status(403).json({
@@ -14,7 +15,11 @@ const authMiddleware = (req, res, next) => {
         })
     }
 
-    req.userEmail = AuthManager.verify(token, secret);
+    const userInfo = await AuthManager.verify(token,secret);
+
+    req.userEmail = userInfo.userEmail;
+    req.userNickname = userInfo.userNickname;
+
     if(req.userEmail){
         next();
     } else{

@@ -5,7 +5,7 @@ module.exports.productController = {
 
     //API18
     getProduct: async (req, res) => {
-        const { productId } = req.body;
+        const { productId } = req.params;
 
         const output = await ProductManager.getProductById(productId);
 
@@ -14,7 +14,7 @@ module.exports.productController = {
 
     //API19
     getProductList: async (req,res) => {
-        const { brand , category } = req.body;
+        const { brand , category } = req.params;
 
         const output = await ProductManager.getProductListByCategoryAndBrand(category, brand);
 

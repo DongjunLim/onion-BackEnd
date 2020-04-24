@@ -49,7 +49,7 @@ module.exports.feedController = {
 
     //API8
     getReplyList: async (req, res) => {
-        const { feedId } = req.body;
+        const { feedId } = req.params;
 
         const output = await FeedManager.getReplyList(feedId);
 
@@ -78,7 +78,7 @@ module.exports.feedController = {
 
     //API11
     getProductTagList: async (req, res) => {
-        const { feedId } = req.body;
+        const { feedId } = req.params;
         
         const output = await FeedManager.getProductTagList(feedId);
 

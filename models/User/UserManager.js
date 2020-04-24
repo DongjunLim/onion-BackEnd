@@ -77,8 +77,8 @@ class UserManager{
             user_gender: userGender,
             user_height: userHeight,
             user_age: userAge,
-            user_address.address1: userAddress1,
-            user_address.address2: userAddress2,
+            // user_address.address1: userAddress1,
+            // user_address.address2: userAddress2,
             user_Instagram_url: userInstagramUrl,
             updated_at: Date.now()
         }, function(err){

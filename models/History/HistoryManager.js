@@ -1,16 +1,63 @@
-
+const USER_DETAIL_INFO = require('../../schemas/USER_DETAIL_INFO');
 
 class HistoryManager{
-    static async addFollowHistory(userNickname, followerNickname){
+    async addHistory(userNickname, historyObj){
+        const doc = await USER_DETAIL_INFO.findOne({_id:userNickname});
+        await doc.user_history_list.push(historyObj);
+        await doc.save((err)=>{
+            if(err){
+                console.log(err);
+                return false;
+            }
+            return true;
+        })
     }
 
-    static async addReplyHistory(userNickname, feedId, replierNickname, replyComment){
+    static async addFollowHistory(userNickname, followerNickname){
+        const historyDoc = {
+            'type': 'follow',
+            'follower' : followerNickname,
+            'created_at' : Date.now()
+        }
+
+        const result = await this.addHistory(userNickname,historyDoc);
+
+        return result ? true : false;
+    }
+
+    static async addReplyHistory(userNickname, feedId, writerNickname, comment){
+        const historyDoc = {
+            'type': 'reply',
+            'feedId':feedId,
+            'writer': writerNickname,
+            'comment':comment,
+            'created_at' : Date.now()
+        }
+
+        const result = await this.addHistory(userNickname,historyDoc);
+
+        return result ? true : false;
     }
 
     static async addLikeHistory(userNickname, feedId, likeCount){
+        const historyDoc = {
+            'type': 'like',
+            'feedId':feedId,
+            'likeCount': likeCount,
+            'created_at' : Date.now()
+        }
+
+        const result = await this.addHistory(userNickname,historyDoc);
+
+        return result ? true : false;
     }
 
     static async getRecentlyHistoryList(userNickname){
+        const historyList = await (await USER_DETAIL_INFO.findOne({user_nickname:userNickname})).select('user_history_list -user_nickname').sort({
+            created_at : 1
+        });
+
+        return historyList ? historyList : false;
     }
 }
 

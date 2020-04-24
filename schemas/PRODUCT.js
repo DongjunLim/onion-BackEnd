@@ -3,6 +3,7 @@ var Schema = mongoose.Schema;
 
 var PRODUCT_Schema = new Schema(
   {
+	product_name: String,
 	product_brand_idx: Number,
 	product_category: String,
 	product_color: String,

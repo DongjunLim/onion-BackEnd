@@ -4,20 +4,16 @@ const USER_AUTH_INFO_HANDLER = require("../../schemas/USER_AUTH_INFO");
 
 class AuthManager{
     static async checkEmail(userEmail) {
-        var user_auth_handler = new USER_AUTH_INFO_HANDLER();
-
         //return NULL or data
-        var queryResult = await user_auth_handler.findOne({
+        var queryResult = await USER_AUTH_INFO_HANDLER.findOne({
             user_email: userEmail
         }).exec();
         return queryResult ? true : false;
     }
 
     static async checkNickname(userNickname){
-        var user_auth_handler = new USER_AUTH_INFO_HANDLER();
-
         //return NULL or data
-        var queryResult = await user_auth_handler.findOne({
+        var queryResult = await USER_AUTH_INFO_HANDLER.findOne({
             user_nickname: userNickname
         }).exec();
         return queryResult ? true : false;

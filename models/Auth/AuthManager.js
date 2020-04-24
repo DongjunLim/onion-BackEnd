@@ -10,7 +10,6 @@ class AuthManager{
         var queryResult = await user_auth_handler.findOne({
             user_email: userEmail
         }).exec();
-
         return queryResult ? true : false;
     }
 
@@ -21,32 +20,40 @@ class AuthManager{
         var queryResult = await user_auth_handler.findOne({
             user_nickname: userNickname
         }).exec();
-
         return queryResult ? true : false;
     }
 
     static async encryptPassword(password){
-
+        let userPassword
+        await bcrypt.hash(password, null, null, (err, hash) => {
+            if (err) { throw err; }
+            userPassword = hash;
+        });
+        return userPassword;
     }
 
     static async verify(token, secret) {
         let userInfo;
-        const p = new Promise(
-            (resolve, reject) => {
-                jwt.verify(token, secret, (err, decoded) => {
-                    if (err) reject(err)
-                    resolve(decoded)
-                })
-            }
-        ).then((decoded) => {
-            userInfo = decoded;
-        }).catch(onError);
+        await jwt.verify(token, secret, (err, decoded) => {
+            if (err) { throw err; };  //에러 핸들링 로직 작성해야함
+            userInfo = {
+                userEmail: decoded.user_email,
+                userNickname: decoded.user_nickname
+            };
+        });
         return userInfo;
     }
 
-    static async sign(userEmail, secret) {
-        const token = await jwt.sign({ user_email: userEmail }, secret, { expiresIn: '14d' });
+    static async sign(userEmail, userNickname,secret) {
+        const token = await jwt.sign({ user_email: userEmail, user_nickname : userNickname }, secret, { expiresIn: '14d' });
         return token;
+    }
+
+    static async login(userEmail,userPassword,secretKey){
+        var user_auth_handler = new USER_AUTH_INFO_HANDLER();
+        
+
+
     }
 }
 

@@ -28,7 +28,7 @@ const DB_options = {
 mongoose.promise = global.Promise;
 
 mongoose.connect(
-    "mongodb://"+ dbAccount.mongooseID +":" + dbAccount.mongoosePW + "@127.0.0.1/onion_BackEnd?authSource=admin"
+    "mongodb://"+ dbAccount.mongooseID +":" + dbAccount.mongoosePW + "@ec2-15-164-210-220.ap-northeast-2.compute.amazonaws.com:27017/onion_BackEnd/onion_BackEnd?authSource=admin"
     , DB_options ).then(
     () => { console.log('Successfully connected to mongodb'); } ,
     err => { console.error.bind(console,'Check DB - Connection error : '); }

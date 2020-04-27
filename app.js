@@ -15,6 +15,10 @@ app.use('/', router);
 
 app.set('jwt-secret',secret);
 //for DataBase
+
+
+mongoose.promise = global.Promise;
+
 let db = mongoose.connection;
 const DB_options = {
     autoIndex: false, // Don't build indexes
@@ -25,16 +29,13 @@ const DB_options = {
     bufferMaxEntries: 0
 }
 
-mongoose.promise = global.Promise;
-
 mongoose.connect(
-    "mongodb://"+ dbAccount.mongooseID +":" + dbAccount.mongoosePW + "@127.0.0.1/onion_BackEnd?authSource=admin"
+    "mongodb://"+ dbAccount.mongooseID +":" + dbAccount.mongoosePW + "@127.0.0.1:27017/onion_BackEnd?authSource=admin"
     , DB_options ).then(
     () => { console.log('Successfully connected to mongodb'); } ,
     err => { console.error.bind(console,'Check DB - Connection error : '); }
 )
-//
-
+console.log(mongoose)
 
 app.listen(PORT, () => {
     

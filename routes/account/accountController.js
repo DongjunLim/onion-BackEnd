@@ -6,8 +6,7 @@ module.exports.accountController = {
 
     //API1
     checkEmail: (req, res) => {
-        const { userEmail } = req.params;
-        console.log("ROUTE");
+        const { userEmail } = req.query;
         return AuthManager.checkEmail(userEmail) ? res.sendStatus(200) : res.sendStatus(202);
     },
 

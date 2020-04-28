@@ -8,6 +8,7 @@ class AuthManager{
         var queryResult = await USER_AUTH_INFO_HANDLER.findOne({
             user_email: userEmail
         }).exec();
+        console.log(queryResult);
         return queryResult ? true : false;
     }
 

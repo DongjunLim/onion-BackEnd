@@ -10,13 +10,13 @@ class UserManager{
         var user_auth_info_handler = new USER_AUTH_INFO_HANDLER();
         var user_detail_info_handler = new USER_DETAIL_INFO_HANDLER();
 
-        var encryptedPassword = AuthManager.encryptedPassword(userPassword);
+        var encryptedPassword = await AuthManager.encryptPassword(userPassword);
 
         user_auth_info_handler.user_email = userEmail;
         user_auth_info_handler.user_nickname = userNickname;
         user_auth_info_handler.user_password = encryptedPassword;
 
-        user_detail_info_handler.user_nickname = user_nickname;
+        user_detail_info_handler.user_nickname = userNickname;
         user_detail_info_handler.user_gender = userGender;
         user_detail_info_handler.user_height = userHeight;
         user_detail_info_handler.user_age = userAge;

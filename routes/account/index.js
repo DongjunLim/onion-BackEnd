@@ -12,7 +12,7 @@ router.get('/check-nickname', accountController.checkNickname);
 
 //API3
 //회원가입 요청을 처리하고 DB에 회원정보를 등록하는 라우팅 경로
-router.get('/register', accountController.register);
+router.post('/register', accountController.register);
 
 
 

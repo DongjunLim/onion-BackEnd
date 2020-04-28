@@ -5,16 +5,17 @@ const UserManager = require('../../models/User/UserManager');
 module.exports.accountController = {
 
     //API1
-    checkEmail: (req, res) => {
+    checkEmail: async (req, res) => {
         const { userEmail } = req.query;
-        return AuthManager.checkEmail(userEmail) ? res.sendStatus(200) : res.sendStatus(202);
+
+        return await AuthManager.checkEmail(userEmail) ? res.sendStatus(200) : res.sendStatus(202);
     },
 
     //API2
-    checkNickname: (req, res) => {
-        const { userNickname } = req.params;
+    checkNickname: async (req, res) => {
+        const { userNickname } = req.query;
 
-        return AuthManager.checkNickname(userNickname) ? res.sendStatus(200) : res.sendStatus(202);
+        return await AuthManager.checkNickname(userNickname) ? res.sendStatus(200) : res.sendStatus(202);
     },
 
     //API3
@@ -30,8 +31,6 @@ module.exports.accountController = {
             userAddress2,
             userInstagramUrl
         } = req.body;
-
-        userPassword = await AuthManager.encryptPassword(userPassword);
 
         const result = await UserManager.createUser(
             userEmail,

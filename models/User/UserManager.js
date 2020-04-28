@@ -12,6 +12,8 @@ class UserManager{
 
         var encryptedPassword = await AuthManager.encryptPassword(userPassword);
 
+        var isCompleted = false;
+
         user_auth_info_handler.user_email = userEmail;
         user_auth_info_handler.user_nickname = userNickname;
         user_auth_info_handler.user_password = encryptedPassword;
@@ -33,10 +35,11 @@ class UserManager{
         await user_detail_info_handler.save(function(err){
             if(err){
                 console.log(err);
-                return false;
             }
-            return true
+            isCompleted = true;
         });
+
+        return isCompleted;
     }
 
     static async initUserObject(userNickname){

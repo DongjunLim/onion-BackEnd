@@ -3,6 +3,9 @@ const bcrypt = require('bcrypt-nodejs');
 const USER_AUTH_INFO_HANDLER = require("../../schemas/USER_AUTH_INFO");
 
 class AuthManager{
+    
+
+
     static async checkEmail(userEmail) {
         //return NULL or data
         var queryResult = await USER_AUTH_INFO_HANDLER.findOne({
@@ -46,11 +49,12 @@ class AuthManager{
         return token;
     }
 
-    static async login(inputEmail,inputPassword,secretKey){
-        var token;
+    static async login(inputEmail,inputPassword,secretKey,callback){
+        var token = null;
         var userInfo = await USER_AUTH_INFO_HANDLER.findOne({
             user_email: inputEmail
         }).exec();
+        console.log(userInfo);
 
         const { user_email, user_nickname,user_password} = userInfo;
 
@@ -58,10 +62,10 @@ class AuthManager{
             if (err) { throw err;}
             if (res){
                 token = await this.sign(user_email,user_nickname,secretKey);
+                callback(token);
             }
-        });
-
-        return token;
+        }); 
+        return token
     }
 }
 

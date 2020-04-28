@@ -5,12 +5,14 @@ module.exports.loginController = {
     //API16
     loginVerification: async (req, res) => {
         const secret = req.app.get('jwt-secret');
-        const inputEmail = req.headers['userEmail'];
-        const inputPassword = req.headers['userPassword'];
+        const inputEmail = req.headers['useremail'];
+        const inputPassword = req.headers['userpassword'];
 
-        const token = await AuthManager.login(inputEmail,inputPassword, secret);
+        const token = await AuthManager.login(inputEmail,inputPassword, secret, (token) => {
+            return token ? res.send(token) : res.sendStatus(202);
 
-        return token ? res.send(token) : res.sendStatus(202);
+        });
+        return;
     },
 
     //API17

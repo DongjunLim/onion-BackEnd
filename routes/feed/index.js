@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const { feedController } = require('./feedController');
 const thumbnailRouter = require('./thumbnail');
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/', limits: { fileSize: 5 * 1024 * 1024 } });
 
 router.use('/thumbnail',thumbnailRouter);
 
@@ -44,5 +46,11 @@ router.delete('/reply', feedController.deleteReply);
 //피드 상품태그 정보 요청
 //피드에 태그된 상품태그에 대한 정보 요청을 처리하는 라우팅 경로
 router.get('/product-tag', feedController.getProductTagList);
+
+router.post('/file',upload.single('img'),async (req,res) => {
+    console.log(req.file);
+    res.sendStatus(200);
+
+})
 
 module.exports = router;

@@ -47,9 +47,13 @@ router.delete('/reply', feedController.deleteReply);
 //피드에 태그된 상품태그에 대한 정보 요청을 처리하는 라우팅 경로
 router.get('/product-tag', feedController.getProductTagList);
 
-router.post('/file',upload.single('img'),async (req,res) => {
+router.post('/file',upload.single('happy'),async (req,res) => {
     console.log(req.file);
-    res.sendStatus(200);
+    console.log(req.body);
+    responseData = {filename: req.file.filename}
+
+    res.statusCode = 201
+    res.send(responseData)
 
 })
 

@@ -5,19 +5,22 @@ module.exports.feedController = {
 
     //API4
     createFeed: async (req, res) => {
-        const {
-            uploadedPhoto,
-            feedContent,
-            productTag,
-            hashTag,
-            additionalInfo
-        } = req.body.feed;
+        // const {
+        //     uploadedPhoto,
+        //     feedContent,
+        //     productTag,
+        //     hashTag,
+        //     additionalInfo
+        // } = req.body.feed;
+        console.log(req.body);
+        return res.sendStatus(201)
 
-        const { height, age, gender } = additionalInfo;
 
-        const output = await FeedManager.createFeed(req.userNickname, uploadedPhoto, feedContent, productTag, hashTag, height, gender, age);
+        // const { height, age, gender } = additionalInfo;
 
-        return output ? res.sendStatus(201) : res.sendStatus(204);
+        // const output = await FeedManager.createFeed(req.userNickname, uploadedPhoto, feedContent, productTag, hashTag, height, gender, age);
+
+        // return output ? res.sendStatus(201) : res.sendStatus(204);
     },
 
     //API5

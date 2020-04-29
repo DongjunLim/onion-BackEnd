@@ -20,6 +20,7 @@ module.exports.accountController = {
 
     //API3
     register: async (req, res) => {
+        const secret = req.app.get('jwt-secret');
         const {
             userEmail,
             userNickname,
@@ -31,19 +32,29 @@ module.exports.accountController = {
             userAddress2,
             userInstagramUrl
         } = req.body;
+        
+        var encryptedPassword = await AuthManager.encryptPassword(userPassword);
 
-        const result = await UserManager.createUser(
+        await UserManager.createUser(
             userEmail,
             userNickname,
-            userPassword,
+            encryptedPassword,
             userGender,
             userAge,
             userHeight,
             userAddress1,
             userAddress2,
-            userInstagramUrl
+            userInstagramUrl, secret, async (result) => {
+                if (result){
+                    const token = await AuthManager.sign(userEmail,userNickname,encryptedPassword);
+                    const jsonBody = { token: token}
+                    res.statusCode = 201;
+                    return res.send(jsonBody);
+                } else
+                    res.sendStatus(204);
+                
+            }
         );
 
-        return result ? res.sendStatus(201) : res.sendStatus(204);
     }
 }

@@ -8,9 +8,10 @@ module.exports.loginController = {
         const inputEmail = req.headers['useremail'];
         const inputPassword = req.headers['userpassword'];
 
-        const token = await AuthManager.login(inputEmail,inputPassword, secret, (token) => {
-            return token ? res.send(token) : res.sendStatus(202);
 
+        const token = await AuthManager.login(inputEmail,inputPassword, secret, (token) => {
+            const body = { token:token }
+            return token ? res.send(body) : res.sendStatus(202);
         });
         return;
     },

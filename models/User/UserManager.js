@@ -6,17 +6,13 @@ const s3Account = require("../../s3Account.json");
 const crypto = require("crypto");
 
 class UserManager{
-    static async createUser(userEmail, userNickname, userPassword, userGender, userAge, userHeight, userAddress1, userAddress2, userInstagramIUrl){
+    static async createUser(userEmail, userNickname, userPassword, userGender, userAge, userHeight, userAddress1, userAddress2, userInstagramIUrl ,secret,callback){
         var user_auth_info_handler = new USER_AUTH_INFO_HANDLER();
         var user_detail_info_handler = new USER_DETAIL_INFO_HANDLER();
 
-        var encryptedPassword = await AuthManager.encryptPassword(userPassword);
-
-        var isCompleted = false;
-
         user_auth_info_handler.user_email = userEmail;
         user_auth_info_handler.user_nickname = userNickname;
-        user_auth_info_handler.user_password = encryptedPassword;
+        user_auth_info_handler.user_password = userPassword;
 
         user_detail_info_handler.user_nickname = userNickname;
         user_detail_info_handler.user_gender = userGender;
@@ -29,17 +25,20 @@ class UserManager{
         await user_auth_info_handler.save(function(err){
             if(err){
                 console.log(err);
+                callback(false);
             }
         });
 
-        await user_detail_info_handler.save(function(err){
+        await user_detail_info_handler.save( async (err) => {
             if(err){
                 console.log(err);
+                callback(false)
             }
-            isCompleted = true;
+            else{
+                callback(true);
+            }
         });
-
-        return isCompleted;
+        return;
     }
 
     static async initUserObject(userNickname){

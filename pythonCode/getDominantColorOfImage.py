@@ -61,12 +61,14 @@ def getDominantColorInPicture(filename, numOfClusters):
 		for color_name, color_value in Color_Range_Table.items():
 			dict_[color_name] = euclidean_distance(color, color_value)
 
-		result.add(max(dict_, key=dict_.get))
+		result.add(min(dict_, key=dict_.get))
 
+	colorListToStr = '['
+	for c_ in result:
+		colorListToStr +='\"' +c_ + '\", '
 
-
-
-	colorListToStr = '[' + ','.join(list(result)) + ']'
+	colorListToStr = colorListToStr[:-2] + ']'
+	#colorListToStr = '[' + ','.join(list(result)) + ']'
 
 	return colorListToStr
 

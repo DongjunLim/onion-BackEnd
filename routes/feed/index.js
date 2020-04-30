@@ -3,7 +3,8 @@ const router = express.Router();
 const { feedController } = require('./feedController');
 const thumbnailRouter = require('./thumbnail');
 const multer = require('multer');
-const upload = multer({ dest: 'uploads/', limits: { fileSize: 5 * 1024 * 1024 } });
+const upload = multer({ dest: 'uploads/', limits: { fileSize: 10 * 1024 * 1024 } });
+const pythonCode = require('../../pythonCode/Servicer');
 
 router.use('/thumbnail',thumbnailRouter);
 
@@ -47,13 +48,25 @@ router.delete('/reply', feedController.deleteReply);
 //피드에 태그된 상품태그에 대한 정보 요청을 처리하는 라우팅 경로
 router.get('/product-tag', feedController.getProductTagList);
 
-router.post('/file',upload.single('happy'),async (req,res) => {
+router.post('/file', upload.single('file'), async (req,res) => {
     console.log(req.file);
     console.log(req.body);
     responseData = {filename: req.file.filename}
-
+    //python test code
+    console.log(1);
+    await pythonCode.getCroppedPeople(req.file.filename);
+    console.log(2);
+    var DominantColor = await pythonCode.getDominantColorOfImage(req.file.filename);
+    console.log(3);
+    await console.log(DominantColor);
+    console.log(4);
+    //var fashionClass = await pythonCode.fashionClassification(req.file.filename)
+    console.log(5);
+    //await console.log(fashionClass);
+    console.log(6);
+    //
     res.statusCode = 201
-    res.send(responseData)
+    await res.send(responseData)
 
 })
 

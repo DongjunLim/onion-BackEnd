@@ -1,6 +1,12 @@
 from sklearn.cluster import KMeans
 import numpy as np
 import cv2
+import sys
+
+filename = 'cropped/' + sys.argv[1]
+
+'''
+Visualization Code
 
 def centroid_histogram(clt):
 	numLabels = np.arange(0, len(np.unique(clt.labels_)) + 1)
@@ -18,9 +24,10 @@ def plot_colors(hist, centroids):
 			color.astype("uint8").tolist(), -1)
 		startX = endX
 	return bar
+'''
 
-def getDominantColorInPicture(img, numOfClusters):
-	image = img
+def getDominantColorInPicture(filename, numOfClusters):
+	image = cv2.imread(filename)
 	image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
 	image = image.reshape((image.shape[0] * image.shape[1], 3))
@@ -28,7 +35,9 @@ def getDominantColorInPicture(img, numOfClusters):
 	clt = KMeans(n_clusters = numOfClusters)
 	clt.fit(image)
 
-	hist = centroid_histogram(clt)
-	bar = plot_colors(hist, clt.cluster_centers_)
+	#hist = centroid_histogram(clt)
+	#bar = plot_colors(hist, clt.cluster_centers_)
 
 	return clt.cluster_centers_
+
+print(getDominantColorInPicture(filename, 5))

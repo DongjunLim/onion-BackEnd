@@ -4,7 +4,7 @@ const { feedController } = require('./feedController');
 const thumbnailRouter = require('./thumbnail');
 const multer = require('multer');
 const upload = multer({ dest: 'uploads/', limits: { fileSize: 10 * 1024 * 1024 } });
-const pythonCode = require('../../pythonCode/Servicer');
+const pythonModule = require('../../pythonCode/Servicer');
 
 router.use('/thumbnail',thumbnailRouter);
 
@@ -52,19 +52,17 @@ router.post('/file', upload.single('file'), async (req,res) => {
     console.log(req.file);
     console.log(req.body);
     responseData = {filename: req.file.filename}
+
+    
     //python test code
-    console.log(1);
-    await pythonCode.getCroppedPeople(req.file.filename);
-    console.log(2);
-    var DominantColor = await pythonCode.getDominantColorOfImage(req.file.filename);
-    console.log(3);
+    await pythonModule.getCroppedPeople(req.file.filename);
+    var DominantColor = await pythonModule.getDominantColorOfImage(req.file.filename);
     await console.log(DominantColor);
-    console.log(4);
-    //var fashionClass = await pythonCode.fashionClassification(req.file.filename)
-    console.log(5);
-    //await console.log(fashionClass);
-    console.log(6);
-    //
+    var fashionClass = await pythonModule.fashionClassification(req.file.filename)
+    await console.log(fashionClass);
+    //python code done
+
+
     res.statusCode = 201
     await res.send(responseData)
 

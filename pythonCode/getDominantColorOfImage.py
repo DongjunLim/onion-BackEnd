@@ -3,7 +3,7 @@ import numpy as np
 import cv2
 import sys
 
-filename = 'cropped/' + sys.argv[1]
+filename = 'cropped/' + sys.argv[1] +'.jpg'
 
 '''
 Visualization Code
@@ -38,6 +38,12 @@ def getDominantColorInPicture(filename, numOfClusters):
 	#hist = centroid_histogram(clt)
 	#bar = plot_colors(hist, clt.cluster_centers_)
 
-	return clt.cluster_centers_
+	colorList = np.array(clt.cluster_centers_, dtype=np.uint8)
+
+	string = ['[' + ','.join(list(map(str, color))) + ']' for color in colorList ]
+
+	colorListToStr = '[' +','.join(list(map(str, string))) +']'
+
+	return colorListToStr
 
 print(getDominantColorInPicture(filename, 5))

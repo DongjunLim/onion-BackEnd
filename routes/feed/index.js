@@ -50,11 +50,34 @@ router.get('/product-tag', feedController.getProductTagList);
 router.post('/file',upload.single('happy'),async (req,res) => {
     console.log(req.file);
     console.log(req.body);
-    responseData = {filename: req.file.filename}
-
+    
+    
+    responseData = {filename: req.file.filename }
     res.statusCode = 201
     res.send(responseData)
 
+})
+
+router.get('/test', async (req, res) => {
+    Info = {
+        feedId: "fhuf3f3",
+        hashTag: [ "tag1", "tag2", "tag3"],
+        profileUrl : "PROFILEURL",
+        profilePhotoUrl: "PROFILEPHOTOURL",
+        authorNickname: "username",
+        content: "Main Content",
+        likeCount: 4,
+        isLike: false,
+        isFollow: true
+    }
+    const feed = {
+        feedList: [
+            Info,Info
+        ]
+    }
+    
+    res.send(feed);
+    return;
 })
 
 module.exports = router;

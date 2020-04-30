@@ -1,10 +1,13 @@
 import numpy as np
 import cv2
+import sys
+
+filename = sys.argv[1]
 
 # if people are in one picture, then return cropped picture based on the biggest person's coordinate.
 def getCroppedPeople(filename):
-	net = cv2.dnn.readNet("yolo/yolov3.weights", "yolo/yolov3.cfg")
-	with open("yolo/coco.names", "r") as f:
+	net = cv2.dnn.readNet("pythonCode/yolo/yolov3.weights", "pythonCode/yolo/yolov3.cfg")
+	with open("pythonCode/yolo/coco.names", "r") as f:
 		classes = [line.strip() for line in f.readlines()]
 
 	img = cv2.imread(filename)
@@ -50,43 +53,6 @@ def getCroppedPeople(filename):
 
 	cropped_img = img[y:y+h, x:x+w]
 
-	cv2.imshow("Image", cropped_img)
-	cv2.waitKey(0)
-	cv2.destroyAllWindows()
-
 	return cropped_img
 
-def centroid_histogram(clt):
-	numLabels = np.arange(0, len(np.unique(clt.labels_)) + 1)
-	(hist, _) = np.histogram(clt.labels_, bins = numLabels)
-	hist = hist.astype("float")
-	hist /= hist.sum()
-	return hist
-
-def plot_colors(hist, centroids):
-	bar = np.zeros((50, 300, 3), dtype = "uint8")
-	startX = 0
-	for (percent, color) in zip(hist, centroids):
-		endX = startX + (percent * 300)
-		cv2.rectangle(bar, (int(startX), 0), (int(endX), 50),
-			color.astype("uint8").tolist(), -1)
-		startX = endX
-	return bar
-
-def getDominantColorInPicture(img, numOfClusters):
-	image = img
-	image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-
-	image = image.reshape((image.shape[0] * image.shape[1], 3))
-
-	clt = KMeans(n_clusters = numOfClusters)
-	clt.fit(image)
-
-	hist = centroid_histogram(clt)
-	bar = plot_colors(hist, clt.cluster_centers_)
-
-	plt.bar(bar)
-	plt.show()
-
-	return clt.cluster_centers_
-
+cv2.imwrite('cropped/' + filename + '.jpg', getCroppedPeople('uploads/' + filename))

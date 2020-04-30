@@ -9,8 +9,8 @@ const dbAccount = require("./mongoAccount.json");
 const router = require('./routes');
 
 app.use(morgan('dev'));
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({limit:"50mb", extended: false}));
+app.use(bodyParser.json({ limit:"50mb" }));
 app.use('/', router);
 
 app.set('jwt-secret',secret);

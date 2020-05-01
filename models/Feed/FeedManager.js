@@ -4,17 +4,25 @@ const AWS = require('aws-sdk');
 const s3Account = require("../../s3Account.json");
 const crypto = require("crypto");
 const mongoose = require("mongoose");
+const pythonModule = require('../../pythonCode/Servicer');
 
 class FeedManager{
+	static async analyzePhoto(filename){
+		await pythonModule.resizeImage(filename);
+		await pythonModule.getCroppedPeople(filename);
+
+		var DominantColor = await pythonModule.getDominantColorOfImage(filename);
+		var fashionClass = await pythonModule.fashionClassification(filename);
+
+		return {'DominantColor': DominantColor, 'fashionClass': fashionClass};
+	}
 
 	//not completed
-	static async createFeed(userNickname, uploadedPhoto, feedContent, productTag, hashTag, category, height, gender, age){
+	static async createFeed(userNickname, uploadedPhoto, feedContent, productTag, hashTag, category, height, gender, age, DominantColor, fashionClass){
 		var feed_handler = new FEED_HANDLER();
 		var file_name = crypto.randomBytes(20).toString('hex');
 		var uploadedPhotoUrl = 'photo/' + file_name;
 		var uploadedThumbnailUrl = 'thumbnail/' + file_name;
-	
-
 
 		var s3 = new AWS.S3({
 			accessKeyId: s3Account.AWS_ACCESS_KEY,
@@ -22,23 +30,19 @@ class FeedManager{
 			region : 'ap-northeast-2'
 		})
 
-		/*
-			리사이즈 프로세스 필요 (썸네일)
-		*/
-
-
 		var paramForS3_photo = {
 			'Bucket':'onionphotostorage',
 			'Key' : uploadedPhotoUrl, // '저장될 경로/파일이름' ex. /image/logo -> image 폴더에 logo.png로 저장됨. 
 			'ACL':'public-read',
-			'Body': uploadedPhoto,
+			//클라이언트에서 이미지 받을 때, 자동적으로 multer에서 확장자 .jpg로 받아야 할듯 -> 그럼 파이썬 코드도 바꿔야됨.
+			'Body': 'uploads/' + uploadedPhoto,
 			'ContentType':'image/png'
 		}
 		var paramForS3_thumbnail = {
 			'Bucket':'onionphotostorage',
 			'Key' : uploadedThumbnailUrl,
 			'ACL':'public-read',
-			'Body': uploadedPhoto,
+			'Body': 'thumbnail/' + uploadedPhoto + '.jpg',
 			'ContentType':'image/png'
 		}
 
@@ -65,12 +69,10 @@ class FeedManager{
 		feed_handler.feed_category_list = category;
 
 		/*
-		분류기 관련
-
 		feed_handler.feed_feature_list: [String],
 		feed_handler.feed_style_list: [String],
 		*/
-
+		
 		feed_handler.author_gender = gender;
 		feed_handler.author_height = height;
 		feed_handler.author_age = age;
@@ -86,8 +88,6 @@ class FeedManager{
 
 	//만약 전송받은 feedId가 ObjectId 객체가 아닌 String이라면 변환과정이 필요할 것.
 	static async createReply(userNickname, feedId, replyContent){
-		//var feed_handler = new FEED_HANDLER();
-		
 		var replyDocument = { 'userNickname': userNickname, 'replyContent': replyContent };
 		
 		var doc = await FEED_HANDLER.findOne({ '_id': feedId });
@@ -103,8 +103,6 @@ class FeedManager{
 	}
 
 	static async getFeed(feedId){
-		//var feed_handler = new FEED_HANDLER();
-		
 		var queryResult = await FEED_HANDLER.findOne({
 			_id: feedId
 		}).exec();

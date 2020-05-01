@@ -6,7 +6,7 @@ const s3Account = require("../../s3Account.json");
 const crypto = require("crypto");
 
 class UserManager{
-    static async createUser(userEmail, userNickname, userPassword, userGender, userAge, userHeight, userAddress1, userAddress2, userInstagramIUrl ,secret,callback){
+    static async createUser(userEmail, userNickname, userPassword, userGender, userAge, userHeight, userAddress1, userAddress2, userInstagramIUrl, secret){
         var user_auth_info_handler = new USER_AUTH_INFO_HANDLER();
         var user_detail_info_handler = new USER_DETAIL_INFO_HANDLER();
 
@@ -22,49 +22,83 @@ class UserManager{
         user_detail_info_handler.user_address.address2 = userAddress2;
         user_detail_info_handler.user_Instagram_url = userInstagramIUrl;
 
-        await user_auth_info_handler.save(function(err){
-            if(err){
-                console.log(err);
-                callback(false);
-            }
+        var check1 = await user_auth_info_handler.save().then()
+        .catch(function(error){
+            console.log(error);
+            return false;
         });
 
-        await user_detail_info_handler.save( async (err) => {
-            if(err){
-                console.log(err);
-                callback(false)
-            }
-            else{
-                callback(true);
-            }
+        var check2 = await user_detail_info_handler.save().then()
+        .catch(function(error){
+            console.log(error);
+            return false;
         });
-        return;
+
+        return check1 && check2;
     }
 
     static async initUserObject(userNickname){
     }
 
     static async deleteUser(userNickname){
-        await USER_AUTH_INFO_HANDLER.deleteOne({ 'user_nickname': userNickname }, function(err){
-            if(err){
-                console.log(err);
+        //deleteOne 결과양식 : { n: 0, ok: 1, deletedCount: 0 }
+        var check1 = await USER_AUTH_INFO_HANDLER.deleteOne({ user_nickname: userNickname })
+        .then(function(result) {
+            if (result['deletedCount'] != 0){
+                return true;
             }
+            return false;
+        }).catch(function(error){
+            console.log(error);
+            return false;
         })
 
-        await USER_DETAIL_INFO_HANDLER.deleteOne({ 'user_nickname': userNickname }, function(err){
-            if(err){
-                console.log(err);
-                return false;
+        var check2 = await USER_DETAIL_INFO_HANDLER.deleteOne({ user_nickname: userNickname })
+        .then(function(result) {
+            if (result['deletedCount'] != 0){
+                return true;
             }
-            return true
+            return false;
+        }).catch(function(error){
+            console.log(error);
+            return false;
         })
+
+        return check1 && check2;
+    }
+
+    static async getUserThumbnailUrl(userNickname){
+        
+        var queryResult =  await USER_DETAIL_INFO_HANDLER.find({'user_nickname': userNickname}).select('user_profilephoto_url -_id')
+        .then(function(result) {
+            return result['user_profilephoto_url'];
+        }).catch(function(error){
+            console.log(error);
+            return false;
+        })
+
+        return queryResult;
     }
 
     static async getFollowUserList(userNickname){
         //팔로우 유저 썸네일 url도 같이 리턴할 방안 구상하기
-        var queryResult =  await USER_DETAIL_INFO_HANDLER.find({'user_nickname': userNickname}).select('user_follow_list -_id')
+        //결과 양식 : [ { user_follow_list: [] } ]
+        var returnResult = {}
+        
+        returnResult['user_follow_list'] = await USER_DETAIL_INFO_HANDLER.find({'user_nickname': userNickname}).select('user_follow_list -_id')
+        .then(function(result) {
+            return result['user_follow_list'];
+        }).catch(function(error){
+            console.log(error);
+            return false;
+        })
 
-        return queryResult ? queryResult : false;
+        returnResult['user_profilephoto_url'] = []
+        await returnResult['user_follow_list'].forEach(function(element){
+            returnResult['user_profilephoto_url'].push(getUserThumbnailUrl(element));
+        })
+
+        return returnResult;
     }
 
     static async getFollowerList(userNickname){

@@ -7,11 +7,19 @@ const userManager = require('../../models/User/UserManager');
 
 
 router.post('/', async (req, res) => {
-	var userNickname = 'dongjunn';
-	var result = await userManager.getFollowUserList(userNickname);
+	var userNickname = 'dfsjfslkdjfdslk';
+	var userGender = 'M';
+	var userAge = 30;
+	var userHeight = 177.4;
+	var userAddress1 = 'Incheon';
+	var userAddress2 = 'yeonsu';
+	var userInstagramUrl ='inst.pinterest/abc'
+
+	var result = await userManager.updateProfile(userNickname, userGender, userHeight, 
+		userAge, userAddress1, userAddress2, userInstagramUrl);
 
 	console.log(result);
-	
+
 	res.statusCode = 201
 	res.send()
 });
@@ -29,15 +37,18 @@ module.exports = router;
 	var userAddress1 = 'Seoul';
 	var userAddress2 = 'Gangnam';
 	var userInstagramIUrl ='inst.gram/abc'
-	var secret = ?;
-	var callback = ?;
+	var secret = 'none';
 
-	await userManager.createUser(userEmail, userNickname, userPassword, userGender, userAge, userHeight, \
-		userAddress1, userAddress2, userInstagramIUrl ,secret,callback);
+	await userManager.createUser(userEmail, userNickname, userPassword, userGender, userAge, userHeight, 
+		userAddress1, userAddress2, userInstagramUrl ,secret);
 */
 /* deleteUser 메소드
 	var userNickname = 'test0501';
 	var result = await userManager.deleteUser(userNickname);
+*/
+/* getFollowUser, getFollowerUser 메소드
+	var result = await userManager.getFollowUserList('test0510');
+	console.log(result);
 */
 
 

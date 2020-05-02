@@ -3,6 +3,8 @@ dist/*
 *.log
 *.pem
 ./config.js
+pythonCode/models
+pythonCode/yolo
 s3Account.json
 mongoAccount.json
 config.js

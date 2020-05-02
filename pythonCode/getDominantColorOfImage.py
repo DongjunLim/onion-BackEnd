@@ -3,12 +3,13 @@ import numpy as np
 import cv2
 import sys
 import colorsys
+import matplotlib.pyplot as plt
 
 filename = 'cropped/' + sys.argv[1] +'.jpg'
 
-'''
-Visualization Code
 
+#Visualization Code
+'''
 def centroid_histogram(clt):
 	numLabels = np.arange(0, len(np.unique(clt.labels_)) + 1)
 	(hist, _) = np.histogram(clt.labels_, bins = numLabels)
@@ -26,6 +27,7 @@ def plot_colors(hist, centroids):
 		startX = endX
 	return bar
 '''
+
 Color_Range_Table = {'Black' : [0, 0, 0], 'White' : [0, 0, 100], 'Red' : [0, 100, 100], \
 'Lime' : [120, 100, 100], 'Blue' : [240,100, 100], 'Yellow' : [60, 100, 100], 'Cyan' : [180, 100, 100], \
 'Magenta' : [300, 100, 100], 'Silver' : [0, 0, 75], 'Gray' : [0,0, 50], 'Maroon' : [0, 100, 50], 'Olive' : [60, 100, 50], \
@@ -45,8 +47,8 @@ def getDominantColorInPicture(filename, numOfClusters):
 	clt = KMeans(n_clusters = numOfClusters)
 	clt.fit(image)
 
-	#hist = centroid_histogram(clt)
-	#bar = plot_colors(hist, clt.cluster_centers_)
+	# hist = centroid_histogram(clt)
+	# bar = plot_colors(hist, clt.cluster_centers_)
 
 	#rgb to hsv
 	colorList = np.array(clt.cluster_centers_) / 255

@@ -215,6 +215,16 @@ class UserManager{
 
     static async buyProductInBucketList(productId){
     }
+    //test code
+    static async test(){
+        //결과 양식 : string
+        var queryResult =  await USER_AUTH_INFO_HANDLER.find({'user_nickname': 'lacuna'})
+        console.log(queryResult);
+        var queryResult =  await USER_DETAIL_INFO_HANDLER.find({'user_nickname': 'lacuna'})
+        console.log(queryResult);
+        
+        return queryResult;
+    }
 }
 
 module.exports = UserManager;

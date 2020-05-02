@@ -7,18 +7,19 @@ const userManager = require('../../models/User/UserManager');
 
 
 router.post('/', async (req, res) => {
-	var userNickname = 'dfsjfslkdjfdslk';
-	var userGender = 'M';
-	var userAge = 30;
-	var userHeight = 177.4;
-	var userAddress1 = 'Incheon';
-	var userAddress2 = 'yeonsu';
-	var userInstagramUrl ='inst.pinterest/abc'
+	await userManager.test();
+	// var userNickname = 'dfsjfslkdjfdslk';
+	// var userGender = 'M';
+	// var userAge = 30;
+	// var userHeight = 177.4;
+	// var userAddress1 = 'Incheon';
+	// var userAddress2 = 'yeonsu';
+	// var userInstagramUrl ='inst.pinterest/abc'
 
-	var result = await userManager.updateProfile(userNickname, userGender, userHeight, 
-		userAge, userAddress1, userAddress2, userInstagramUrl);
+	// var result = await userManager.updateProfile(userNickname, userGender, userHeight, 
+	// 	userAge, userAddress1, userAddress2, userInstagramUrl);
 
-	console.log(result);
+	// console.log(result);
 
 	res.statusCode = 201
 	res.send()

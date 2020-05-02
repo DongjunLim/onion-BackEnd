@@ -73,7 +73,7 @@
 
 * Image Tagging
   * 서버에 업로드 되는 사진은 다음의 분류 절차를 거친다.
-  > 1. yolov3를 통한 object detection<br><br>
+  > 1. yolov3 object detection을 통한 input data preprocessing<br><br>
   <img width="587" alt="스크린샷 2020-05-02 오후 9 30 33" src="https://user-images.githubusercontent.com/40556417/80864213-350ce800-8cbc-11ea-8dfd-71f79cfb1830.png">
 
   > 2. object detection을 통해 크롭한 사진을 분류기에 넣어 카테고리 추출<br><br>

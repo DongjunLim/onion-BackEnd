@@ -96,8 +96,6 @@
 
 * 연관피드 추천
   * 클릭한 게시글과 유사한 사진들을 연관 게시글로 추천해준다.<br><br><br><br>
-  <img src="https://user-images.githubusercontent.com/40556417/80864556-68e90d00-8cbe-11ea-8f25-4d2cacf76602.PNG" width="40%">
-  <br><br><br><br>
-  <img src="https://user-images.githubusercontent.com/40556417/80864558-6b4b6700-8cbe-11ea-9e90-b5e9b7eb92fe.PNG" width="40%">
+  <img src="https://user-images.githubusercontent.com/40556417/80864556-68e90d00-8cbe-11ea-8f25-4d2cacf76602.PNG" width="40%">        <img src="https://user-images.githubusercontent.com/40556417/80864558-6b4b6700-8cbe-11ea-9e90-b5e9b7eb92fe.PNG" width="40%">
 
 ***

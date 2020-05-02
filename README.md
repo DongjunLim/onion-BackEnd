@@ -1,19 +1,20 @@
 # Onion
 
 ### 개인화서비스를 재공하는 패션 SNS
+딥러닝을 활용한 사용자 주도 패션 E-커머스 플랫폼
 
 한국산업기술대학교 컴퓨터 공학부 졸업작품
 
-:man: ​Professor : 배유석
+:man: ​Professor : 배유석, 최종필
 
-:boy: Student : 임동준, 정동진
+:boy: Student : 임동준[(dongjun)](https://github.com/DongjunLim), 정동진[(jdjin3000)](https://github.com/jdjin3000)
 
 ***
 
 ## 1. 개요
 
-* 딥러닝을 통한 이미지 태깅과 UBCF(user based collaborative filtering)를 활용해 사용자 맞춤 패션 서비스 제공
-* IBCF(**Item**-**based** collaborative filtering)을 활용한 연관 피드 추천 서비스 제공
+* 딥러닝을 통한 **이미지 태깅**과 UBCF(user based collaborative filtering)를 활용해 **사용자 맞춤 패션 서비스** 제공
+* IBCF(Item-based collaborative filtering)을 활용한 **연관 피드 추천 서비스** 제공
 
 ***
 

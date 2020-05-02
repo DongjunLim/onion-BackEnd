@@ -7,7 +7,7 @@ var USER_DETAIL_INFO_Schema = new Schema(
 	user_gender: { type: String, enum: ['M', 'W', 'None'], default: 'None'},
 	user_height: Number,
 	user_age: Number,
-	user_address: [{address1: String, address1: String}],
+	user_address: [String],
 	user_Instagram_url: String,
 	user_profilephoto_url: String,
 	user_feed_list: [String],

@@ -15,7 +15,7 @@ app.use('/', router);
 
 app.set('jwt-secret',secret);
 //for DataBase
-let db = mongoose.connection;
+//let db = mongoose.connection;
 const DB_options = {
     autoIndex: false, // Don't build indexes
     reconnectTries: Number.MAX_VALUE, // Never stop trying to reconnect
@@ -33,8 +33,6 @@ mongoose.connect(
     () => { console.log('Successfully connected to mongodb'); } ,
     err => { console.error.bind(console,'Check DB - Connection error : '); }
 )
-//
-
 
 app.listen(PORT, () => {
     

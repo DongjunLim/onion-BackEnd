@@ -2,6 +2,26 @@ var {PythonShell} = require('python-shell');
 const util = require('util');
 
 class pythonModule {
+	static async resizeImage (filename){
+		var options = {
+			mode: 'text',
+			encoding: 'utf8',
+			pythonOptions: ['-u'],
+			scriptPath: '',
+			args: [filename],
+			pythonPath: 'python'
+		};
+		const pythonRunner = util.promisify(PythonShell.run);
+
+		await pythonRunner('pythonCode/resizeImage.py', options);
+
+		console.log(filename + " is resized Successfully!");
+		return true;
+	} catch (err) {
+		console.log(err);
+		return false;
+    }
+
 	static async getCroppedPeople (filename){
 		var options = {
 			mode: 'text',
@@ -42,7 +62,7 @@ class pythonModule {
 		const pythonRunner = util.promisify(PythonShell.run);
 
 		var DominantColorList = await pythonRunner('pythonCode/getDominantColorOfImage.py', options);
-		console.log(DominantColorList);
+
 		DominantColorList = await JSON.parse(DominantColorList);
 
 		// await PythonShell.run('pythonCode/getDominantColorOfImage.py', options, function (err, result) {

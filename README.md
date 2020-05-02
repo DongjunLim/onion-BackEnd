@@ -81,6 +81,8 @@
 
   > 3. 카테고리 추출을 완료하면 이미지 색상분석 후 database에 각각의 정보 저장<br><br>
    <img src="https://user-images.githubusercontent.com/40556417/80864353-080d0500-8cbd-11ea-861e-53b8b90d2036.png" width="80%"><br><br>
+   
+***
  
 
 * 개인화 서비스
@@ -90,8 +92,12 @@
   > 2. 사용자 B의 앱 홈 화면<br><br>
   <img src="https://user-images.githubusercontent.com/40556417/80864421-78b42180-8cbd-11ea-9344-84f998f63243.PNG" width="40%"><br><br><br><br>
 
+***
+
 * 연관피드 추천
   * 클릭한 게시글과 유사한 사진들을 연관 게시글로 추천해준다.<br><br><br><br>
   <img src="https://user-images.githubusercontent.com/40556417/80864556-68e90d00-8cbe-11ea-8f25-4d2cacf76602.PNG" width="40%">
   <br><br><br><br>
   <img src="https://user-images.githubusercontent.com/40556417/80864558-6b4b6700-8cbe-11ea-9e90-b5e9b7eb92fe.PNG" width="40%">
+
+***

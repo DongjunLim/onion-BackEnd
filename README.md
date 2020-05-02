@@ -74,36 +74,24 @@
 * Image Tagging
   * 서버에 업로드 되는 사진은 다음의 분류 절차를 거친다.
   > 1. yolov3를 통한 object detection<br><br>
-  <img width="787" alt="스크린샷 2020-05-02 오후 9 30 33" src="https://user-images.githubusercontent.com/40556417/80864213-350ce800-8cbc-11ea-8dfd-71f79cfb1830.png">
+  <img width="587" alt="스크린샷 2020-05-02 오후 9 30 33" src="https://user-images.githubusercontent.com/40556417/80864213-350ce800-8cbc-11ea-8dfd-71f79cfb1830.png">
 
   > 2. object detection을 통해 크롭한 사진을 분류기에 넣어 카테고리 추출<br><br>
-![KakaoTalk_Photo_2020-05-02-14-37-10](https://user-images.githubusercontent.com/40556417/80864294-b5334d80-8cbc-11ea-86b4-6ae9482ec269.png)
+  <img src="https://user-images.githubusercontent.com/40556417/80864294-b5334d80-8cbc-11ea-86b4-6ae9482ec269.png" width="80%">
 
   > 3. 카테고리 추출을 완료하면 이미지 색상분석 후 database에 각각의 정보 저장<br><br>
- ![사진크롭및색상추출](https://user-images.githubusercontent.com/40556417/80864353-080d0500-8cbd-11ea-861e-53b8b90d2036.png)<br><br>
+   <img src="https://user-images.githubusercontent.com/40556417/80864353-080d0500-8cbd-11ea-861e-53b8b90d2036.png" width="80%"><br><br>
  
 
 * 개인화 서비스
   * 사용자의 컨텐츠 이용 로그기록을 통해 사용자 맞춤 홈화면을 제공한다.<br><br>
   > 1. 사용자 A의 앱 홈 화면<br><br>
-  ![IMG_7108](https://user-images.githubusercontent.com/40556417/80864420-72be4080-8cbd-11ea-864f-4f9e363b16b9.PNG) <br><br><br>
+  <img src="https://user-images.githubusercontent.com/40556417/80864420-72be4080-8cbd-11ea-864f-4f9e363b16b9.PNG" width="40%"><br><br><br>
   > 2. 사용자 B의 앱 홈 화면<br><br>
-  ![IMG_7110](https://user-images.githubusercontent.com/40556417/80864421-78b42180-8cbd-11ea-9344-84f998f63243.PNG)<br><br><br><br>
+  <img src="https://user-images.githubusercontent.com/40556417/80864421-78b42180-8cbd-11ea-9344-84f998f63243.PNG" width="40%"><br><br><br><br>
 
 * 연관피드 추천
   * 클릭한 게시글과 유사한 사진들을 연관 게시글로 추천해준다.<br><br><br><br>
-  ![IMG_7122](https://user-images.githubusercontent.com/40556417/80864556-68e90d00-8cbe-11ea-8f25-4d2cacf76602.PNG)
+  <img src="https://user-images.githubusercontent.com/40556417/80864556-68e90d00-8cbe-11ea-8f25-4d2cacf76602.PNG" width="40%">
   <br><br><br><br>
-  ![IMG_7123](https://user-images.githubusercontent.com/40556417/80864558-6b4b6700-8cbe-11ea-9e90-b5e9b7eb92fe.PNG)
-
-  
-
-
-
-
-
-
- 
-
-
-
+  <img src="https://user-images.githubusercontent.com/40556417/80864558-6b4b6700-8cbe-11ea-9e90-b5e9b7eb92fe.PNG" width="40%">

@@ -4,7 +4,7 @@ const { feedController } = require('./feedController');
 const thumbnailRouter = require('./thumbnail');
 const multer = require('multer');
 const upload = multer({ dest: 'uploads/', limits: { fileSize: 10 * 1024 * 1024 } });
-const pythonModule = require('../../pythonCode/Servicer');
+// const pythonModule = require('../../pythonCode/Servicer');
 
 router.use('/thumbnail',thumbnailRouter);
 
@@ -62,10 +62,8 @@ router.post('/file', upload.single('file'), async (req,res) => {
     await console.log(fashionClass);
     //python code done
 
-
     res.statusCode = 201
     await res.send(responseData)
-
 })
 
 router.get('/test', async (req, res) => {
@@ -80,9 +78,139 @@ router.get('/test', async (req, res) => {
         isLike: false,
         isFollow: true
     }
+
     const feed = {
         feedList: [
-            Info,Info
+            {
+                feedId: "fhuf3f3",
+                feedThumbnailUrl:"https://onionphotostorage.s3.ap-northeast-2.amazonaws.com/thumbnail/1.jpg",
+                photoUrl: "https://onionphotostorage.s3.ap-northeast-2.amazonaws.com/thumbnail/1.jpg",
+                hashTag: [ "tag1", "tag2", "tag3"],
+                profileUrl : "PROFILEURL",
+                profilePhotoUrl: "PROFILEPHOTOURL",
+                authorNickname: "username",
+                content: "Main Content2",
+                likeCount: 4,
+                isLike: false,
+                isFollow: true
+            },
+            {
+                feedId: "fhuf3f3",
+                feedThumbnailUrl:"https://onionphotostorage.s3.ap-northeast-2.amazonaws.com/thumbnail/2.jpg",
+                photoUrl: "https://onionphotostorage.s3.ap-northeast-2.amazonaws.com/thumbnail/2.jpg",
+                hashTag: [ "tag1", "tag2", "tag3"],
+                profileUrl : "PROFILEURL",
+                profilePhotoUrl: "PROFILEPHOTOURL",
+                authorNickname: "username1121",
+                content: "Main Content1",
+                likeCount: 4,
+                isLike: false,
+                isFollow: true
+            },
+            {
+                feedId: "fhuf3f3",
+                feedThumbnailUrl:"https://onionphotostorage.s3.ap-northeast-2.amazonaws.com/thumbnail/3.jpg",
+                photoUrl: "https://onionphotostorage.s3.ap-northeast-2.amazonaws.com/thumbnail/3.jpg",
+                hashTag: [ "tag1", "tag2", "tag3"],
+                profileUrl : "PROFILEURL",
+                profilePhotoUrl: "PROFILEPHOTOURL",
+                authorNickname: "username123123",
+                content: "Main Content3",
+                likeCount: 4,
+                isLike: false,
+                isFollow: true
+            },
+            {
+                feedId: "fhuf3f3",
+                feedThumbnailUrl:"https://onionphotostorage.s3.ap-northeast-2.amazonaws.com/thumbnail/4.jpg",
+                photoUrl: "https://onionphotostorage.s3.ap-northeast-2.amazonaws.com/thumbnail/4.jpg",
+                hashTag: [ "tag1", "tag2", "tag3"],
+                profileUrl : "PROFILEURL",
+                profilePhotoUrl: "PROFILEPHOTOURL",
+                authorNickname: "username23213",
+                content: "Main Content4",
+                likeCount: 4,
+                isLike: false,
+                isFollow: true
+            },
+            {
+                feedId: "fhuf3f3",
+                feedThumbnailUrl:"https://onionphotostorage.s3.ap-northeast-2.amazonaws.com/thumbnail/5.jpg",
+                photoUrl: "https://onionphotostorage.s3.ap-northeast-2.amazonaws.com/thumbnail/5.jpg",
+                hashTag: [ "tag1", "tag2", "tag3"],
+                profileUrl : "PROFILEURL",
+                profilePhotoUrl: "PROFILEPHOTOURL",
+                authorNickname: "username",
+                content: "Main Content",
+                likeCount: 4,
+                isLike: false,
+                isFollow: true
+            },
+            {
+                feedId: "fhuf3f3",
+                feedThumbnailUrl:"https://onionphotostorage.s3.ap-northeast-2.amazonaws.com/thumbnail/6.jpg",
+                photoUrl: "https://onionphotostorage.s3.ap-northeast-2.amazonaws.com/thumbnail/6.jpg",
+                hashTag: [ "tag1", "tag2", "tag3"],
+                profileUrl : "PROFILEURL",
+                profilePhotoUrl: "PROFILEPHOTOURL",
+                authorNickname: "username",
+                content: "Main Content",
+                likeCount: 4,
+                isLike: false,
+                isFollow: true
+            },
+            {
+                feedId: "fhuf3f3",
+                feedThumbnailUrl:"https://onionphotostorage.s3.ap-northeast-2.amazonaws.com/thumbnail/7.jpg",
+                photoUrl: "https://onionphotostorage.s3.ap-northeast-2.amazonaws.com/thumbnail/7.jpg",
+                hashTag: [ "tag1", "tag2", "tag3"],
+                profileUrl : "PROFILEURL",
+                profilePhotoUrl: "PROFILEPHOTOURL",
+                authorNickname: "username",
+                content: "Main Content",
+                likeCount: 4,
+                isLike: false,
+                isFollow: true
+            },
+            {
+                feedId: "fhuf3f3",
+                feedThumbnailUrl:"https://onionphotostorage.s3.ap-northeast-2.amazonaws.com/thumbnail/8.jpg",
+                photoUrl: "https://onionphotostorage.s3.ap-northeast-2.amazonaws.com/thumbnail/8.jpg",
+                hashTag: [ "tag1", "tag2", "tag3"],
+                profileUrl : "PROFILEURL",
+                profilePhotoUrl: "PROFILEPHOTOURL",
+                authorNickname: "username",
+                content: "Main Content",
+                likeCount: 4,
+                isLike: false,
+                isFollow: true
+            },
+            {
+                feedId: "fhuf3f3",
+                feedThumbnailUrl:"https://onionphotostorage.s3.ap-northeast-2.amazonaws.com/thumbnail/9.jpg",
+                photoUrl: "https://onionphotostorage.s3.ap-northeast-2.amazonaws.com/thumbnail/9.jpg",
+                hashTag: [ "tag1", "tag2", "tag3"],
+                profileUrl : "PROFILEURL",
+                profilePhotoUrl: "PROFILEPHOTOURL",
+                authorNickname: "username",
+                content: "Main Content",
+                likeCount: 4,
+                isLike: false,
+                isFollow: true
+            },
+            {
+                feedId: "fhuf3f3",
+                feedThumbnailUrl:"https://onionphotostorage.s3.ap-northeast-2.amazonaws.com/thumbnail/10.jpg",
+                photoUrl: "https://onionphotostorage.s3.ap-northeast-2.amazonaws.com/thumbnail/10.jpg",
+                hashTag: [ "tag1", "tag2", "tag3"],
+                profileUrl : "PROFILEURL",
+                profilePhotoUrl: "PROFILEPHOTOURL",
+                authorNickname: "username",
+                content: "Main Content",
+                likeCount: 4,
+                isLike: false,
+                isFollow: true
+            }
         ]
     }
     

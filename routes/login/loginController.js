@@ -11,6 +11,7 @@ module.exports.loginController = {
 
         const token = await AuthManager.login(inputEmail,inputPassword, secret, (token) => {
             const body = { token:token }
+            console.log("토큰: ", token);
             return token ? res.send(body) : res.sendStatus(202);
         });
         return;

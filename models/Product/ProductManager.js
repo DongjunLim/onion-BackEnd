@@ -20,10 +20,10 @@ class ProductManager{
 		return returnResult;
 	}
 
-	static async getProductListByCategoryAndBrand(category, brandIdx){
+	static async getProductListByCategoryAndBrand(category, brandName){
 		const queryResult = await PRODUCT_HANDLER.find({
 			product_category: category,
-			product_brand_idx: brandIdx
+			product_brand: brandName
 		});
 
 		return queryResult ? queryResult : false;
@@ -63,7 +63,6 @@ class ProductManager{
 		return check;
 	}
 
-	//update product stock으로 합쳐도 될 것 같아서 구현 보류함
 	static async increaseProductStock(productId, stockData){
 	}
 
@@ -99,16 +98,15 @@ class ProductManager{
 		return check;
 	}
 
-	static async updateProduct(productId, brandId, productName, productCategory, productSize, productColor, productPrice, productStock, productThumbnailUrl, productPageUrl){
-		var checkc = await PRODUCT_HANDLER.updateOne({_id: productId}, {
+	static async updateProduct(productId, brandName, productName, productCategory, productColor, productPrice, productStock, productThumbnailUrl, productPageUrl){
+		var check = await PRODUCT_HANDLER.updateOne({_id: productId}, {
 			product_name:productName,
-			product_brand_idx:brandId,
+			product_brand: brandName,
 			product_category:productCategory,
 			product_color:productColor,
 			product_price:productPrice,
 			product_thumbnail_url:productThumbnailUrl,
 			product_stock:productStock,
-			product_size: productSize,
 			product_page_url:productPageUrl,
 			updated_at:Date.now()
 		})

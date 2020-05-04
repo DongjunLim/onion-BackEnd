@@ -3,24 +3,25 @@ const router = express.Router();
 const fs = require('fs');
 const feedManager = require('../../models/Feed/FeedManager');
 const userManager = require('../../models/User/UserManager');
+const profileManager = require('../../models/Profile/ProfileManager');
+const productManager = require('../../models/Product/ProductManager');
 
 
 
 router.post('/', async (req, res) => {
-	await userManager.test();
-	// var userNickname = 'dfsjfslkdjfdslk';
-	// var userGender = 'M';
-	// var userAge = 30;
-	// var userHeight = 177.4;
-	// var userAddress1 = 'Incheon';
-	// var userAddress2 = 'yeonsu';
-	// var userInstagramUrl ='inst.pinterest/abc'
+	var productId = '5eaff91dba74661fa4a9f4e0'
+	var brandName ='sdfjlkasfd'
+	var productName ='dsfsffsdf'
+	var productCategory='sdfsdf'
+	var productColor=['white']
+	var productPrice=123124
+	var productStock=[{'sdf': 1}]
+	var productThumbnailUrl='sdfsfdd'
+	var productPageUrl='asdfasdfsdf'
 
-	// var result = await userManager.updateProfile(userNickname, userGender, userHeight, 
-	// 	userAge, userAddress1, userAddress2, userInstagramUrl);
+	var result = await productManager.updateProduct(productId, brandName, productName, productCategory, productColor, productPrice, productStock, productThumbnailUrl, productPageUrl);
 
-	// console.log(result);
-
+	console.log(result);
 	res.statusCode = 201
 	res.send()
 });
@@ -51,8 +52,22 @@ module.exports = router;
 	var result = await userManager.getFollowUserList('test0510');
 	console.log(result);
 */
+/*uploadProfilePhoto 메소드
+	var userNickname = 'addresTest'
 
-
+	await userManager.uploadProfilePhoto(userNickname, 'test.jpg');
+*/
+/* follow 메소드
+	var userNickname = 'addresTest';
+	var followedUserNickname = 'timcook';
+	var result = await userManager.follow(userNickname, followedUserNickname);
+*/
+/* unFollow 메소드
+	var userNickname = 'addresTest';
+	var followedUserNickname = 'timcook';
+	var result = await userManager.unFollow(userNickname, followedUserNickname);
+	await console.log(result);
+*/
 
 // <FeedManager>
 /*	createFeed 메소드

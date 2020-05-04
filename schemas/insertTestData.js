@@ -55,7 +55,7 @@ for (var i = 0; i < 10; i++){
 	var user_auth_info_handler = new USER_AUTH_INFO_HANDLER();
 	var user_detail_info_handler = new USER_DETAIL_INFO_HANDLER();
 
-	user_auth_info_handler.user_email = "user" + String(i); + "@email.com";
+	user_auth_info_handler.user_email = "user" + String(i) + "@email.com";
 	user_auth_info_handler.user_nickname = "userNickname" + String(i);
 	user_auth_info_handler.user_password = "userPassword" + String(i);
 

@@ -30,6 +30,8 @@ class FeedManager{
 			region : 'ap-northeast-2'
 		})
 
+		var analyzed = await FeedManager.analyzePhoto(uploadedPhoto);
+
 		var paramForS3_photo = {
 			'Bucket':'onionphotostorage',
 			'Key' : uploadedPhotoUrl, // '저장될 경로/파일이름' ex. /image/logo -> image 폴더에 logo.png로 저장됨. 
@@ -68,10 +70,8 @@ class FeedManager{
 		feed_handler.feed_producttag_list = productTag;
 		feed_handler.feed_category_list = category;
 
-		/*
-		feed_handler.feed_feature_list: [String],
-		feed_handler.feed_style_list: [String],
-		*/
+		feed_handler.feed_DominantColor_list = analyzed['DominantColor'];
+		feed_handler.feed_fashionClass_list = analyzed['fashionClass'];
 		
 		feed_handler.author_gender = gender;
 		feed_handler.author_height = height;

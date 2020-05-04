@@ -77,7 +77,7 @@ class UserManager{
             return result[0]['user_profilephoto_url'];
         }).catch(function(error){
             console.log(error);
-            return false;
+            return undefined;
         })
 
         return queryResult;
@@ -274,6 +274,18 @@ class UserManager{
         return check;
     }
 
+    static async getBookmarkList(userNickname){
+        var queryResult =  await USER_DETAIL_INFO_HANDLER.find({'user_nickname': userNickname}).select('user_bookmark_list -_id')
+        .then(function(result) {
+            return result[0]['user_bookmark_list'];
+        }).catch(function(error){
+            console.log(error);
+            return false;
+        })
+ 
+        return queryResult;
+    }
+
     static async like(feedId){
     }
 
@@ -294,6 +306,19 @@ class UserManager{
 
         return check;
     }
+
+    static async getBucketList(userNickname){
+        var queryResult =  await USER_DETAIL_INFO_HANDLER.find({'user_nickname': userNickname}).select('user_bucket_list -_id')
+        .then(function(result) {
+            return result[0]['user_bucket_list'];
+        }).catch(function(error){
+            console.log(error);
+            return false;
+        })
+
+        return queryResult;
+    }
+
 
     static async buyProduct(productId){
 

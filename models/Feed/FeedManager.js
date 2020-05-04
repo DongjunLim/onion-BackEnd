@@ -77,13 +77,15 @@ class FeedManager{
 		feed_handler.author_height = height;
 		feed_handler.author_age = age;
 
-		await feed_handler.save(function(err){
-			if(err){
-				console.log(err);
-				return false;
-			}
-			return true
+		var check = await feed_handler.save()
+		.then(function(result) {
+		    return true;
+		}).catch(function(error){
+		    console.log(error);
+		    return false;
 		});
+
+		return check;
 	}
 
 	//만약 전송받은 feedId가 ObjectId 객체가 아닌 String이라면 변환과정이 필요할 것.
@@ -93,13 +95,15 @@ class FeedManager{
 		var doc = await FEED_HANDLER.findOne({ '_id': feedId });
 
 		await doc.feed_reply_list.push(replyDocument)
-		await doc.save(function(err){
-			if(err){
-				console.log(err);
-				return false;
-			}
-			return true
-		})
+		var check = await doc.save()
+		.then(function(result) {
+		    return true;
+		}).catch(function(error){
+		    console.log(error);
+		    return false;
+		});
+
+		return check;
 	}
 
 	static async getFeed(feedId){
@@ -108,6 +112,17 @@ class FeedManager{
 		}).exec();
 
 		return queryResult ? queryResult : false;
+	}
+
+	static async getFeedByIndexList(feedIdList){
+		var returnResult = []
+
+		for (const element of feedIdList){
+		    var temp = await FeedManager.getFeed(element);
+		    returnResult.push(temp);
+		}
+
+		return returnResult;
 	}
 
 	static async getPersonalRelatedList(){
@@ -178,23 +193,27 @@ class FeedManager{
 	}
 	
 	static async updateFeed(feedId, modifiedContent){
-		await FEED_HANDLER.updateOne({ _id: feedId }, { feed_content: modifiedContent, updated_at: Date.now() }, function(err){
-			if(err){
-				console.log(err);
-				return false;
-			}
-			return true
-		})
+		var check = await FEED_HANDLER.updateOne({ _id: feedId }, { feed_content: modifiedContent, updated_at: Date.now() })
+		.then(function(result) {
+		    return true;
+		}).catch(function(error){
+		    console.log(error);
+		    return false;
+		});
+
+		return check;
 	}
 	
 	static async removeFeed(feedId){
-		await FEED_HANDLER.deleteOne({ _id: feedId }, function(err){
-			if(err){
-				console.log(err);
-				return false;
-			}
-			return true
-		})
+		var check = await FEED_HANDLER.deleteOne({ _id: feedId })
+		.then(function(result) {
+		    return true;
+		}).catch(function(error){
+		    console.log(error);
+		    return false;
+		});
+
+		return check;
 	}
 
 	// static async removeReply(feedId, replyId){

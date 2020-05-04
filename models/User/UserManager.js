@@ -176,29 +176,102 @@ class UserManager{
             console.log(data);
         });
 
-        await USER_DETAIL_INFO_HANDLER.updateOne({ 'user_nickname': userNickname }, { 
+        var check = await USER_DETAIL_INFO_HANDLER.updateOne({ 'user_nickname': userNickname }, { 
             user_profilephoto_url: uploadedProfileUrl,
             updated_at: Date.now()
-        }, function(err){
-            if(err){
-                console.log(err);
-                return false;
+        }).then(function(result) {
+            if(result['nModified'] !=0){
+                return true;
             }
-            return true
-        })
+            return false;
+        }).catch(function(error){
+            console.log(error);
+            return false;
+        });
+
+        return check;
     }
 
     static async follow(userNickname, followedUserNickname){
-        
+        var check1 = await USER_DETAIL_INFO_HANDLER.updateOne({ 'user_nickname': userNickname }, { $push: { user_follow_list : followedUserNickname } })
+        .then(function(result) {
+            if(result['nModified'] !=0){
+                return true;
+            }
+            return false;
+        }).catch(function(error){
+            console.log(error);
+            return false;
+        });
+
+        var check2 = await USER_DETAIL_INFO_HANDLER.updateOne({ 'user_nickname': followedUserNickname }, { $push: { user_follower_list : userNickname } })
+        .then(function(result) {
+            if(result['nModified'] !=0){
+                return true;
+            }
+            return false;
+        }).catch(function(error){
+            console.log(error);
+            return false;
+        });
+
+        return check1 && check2;
     }
 
     static async unFollow(userNickname, unfollowedUserNickname){
+        var check1 = await USER_DETAIL_INFO_HANDLER.updateOne({ 'user_nickname': userNickname }, { $pull: { user_follow_list : unfollowedUserNickname } })
+        .then(function(result) {
+            if(result['nModified'] !=0){
+                return true;
+            }
+            return false;
+        }).catch(function(error){
+            console.log(error);
+            return false;
+        });
+
+        var check2 = await USER_DETAIL_INFO_HANDLER.updateOne({ 'user_nickname': unfollowedUserNickname }, { $pull: { user_follower_list : userNickname } })
+        .then(function(result) {
+            if(result['nModified'] !=0){
+                return true;
+            }
+            return false;
+        }).catch(function(error){
+            console.log(error);
+            return false;
+        });
+
+        return check1 && check2;
     }
 
     static async addBookmark(feedId){
+        var check = await USER_DETAIL_INFO_HANDLER.updateOne({ 'user_nickname': userNickname }, { $push: { user_bookmark_list : feedId } })
+        .then(function(result) {
+            if(result['nModified'] !=0){
+                return true;
+            }
+            return false;
+        }).catch(function(error){
+            console.log(error);
+            return false;
+        });
+
+        return check;
     }
 
     static async removeBookmark(feedId){
+        var check = await USER_DETAIL_INFO_HANDLER.updateOne({ 'user_nickname': userNickname }, { $pull: { user_bookmark_list : feedId } })
+        .then(function(result) {
+            if(result['nModified'] !=0){
+                return true;
+            }
+            return false;
+        }).catch(function(error){
+            console.log(error);
+            return false;
+        });
+
+        return check;
     }
 
     static async like(feedId){
@@ -208,22 +281,37 @@ class UserManager{
     }
 
     static async addToBucketList(productId){
+        var check = await USER_DETAIL_INFO_HANDLER.updateOne({ 'user_nickname': userNickname }, { $push: { user_bucket_list : productId } })
+        .then(function(result) {
+            if(result['nModified'] !=0){
+                return true;
+            }
+            return false;
+        }).catch(function(error){
+            console.log(error);
+            return false;
+        });
+
+        return check;
     }
 
     static async buyProduct(productId){
+
     }
 
     static async buyProductInBucketList(productId){
-    }
-    //test code
-    static async test(){
-        //결과 양식 : string
-        var queryResult =  await USER_AUTH_INFO_HANDLER.find({'user_nickname': 'lacuna'})
-        console.log(queryResult);
-        var queryResult =  await USER_DETAIL_INFO_HANDLER.find({'user_nickname': 'lacuna'})
-        console.log(queryResult);
-        
-        return queryResult;
+        var check = await USER_DETAIL_INFO_HANDLER.updateOne({ 'user_nickname': userNickname }, { $pull: { user_bucket_list : productId } })
+        .then(function(result) {
+            if(result['nModified'] !=0){
+                return true;
+            }
+            return false;
+        }).catch(function(error){
+            console.log(error);
+            return false;
+        });
+
+        return check;
     }
 }
 

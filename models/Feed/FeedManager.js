@@ -131,18 +131,20 @@ class FeedManager{
 	static async getItemBasedFeedList(){
 
 	}
-	static async getTimelineFeedList(){
-	//not completed
-	}
 
 	static async getTimelineFeedList(userNickname){
-		/*
-		토큰으로 닉네임 가져오기?
+		var queryCondition = [];
+		var followUserList = await UserManager.getFollowUserList(userNickname);
+		
+		await followUserList.forEach(function(element){
+			queryCondition.push({'feed_user_nickname': element});
+		})
 
-		가져온 팔로우 리스트로 타임라인 데이터 조합 및 전송
+		var queryResult = await FEED_HANDLER.find({ $or:queryCondition }).sort({
+			created_at : -1 //내림차순, Newest to Oldest
+		})
 
-		var followUserList = UserManager.getFollowUserList(userNickname);
-		*/
+		return queryResult ? queryResult : false;
 	}
 
 	static async getUserFeedList(userNickname){

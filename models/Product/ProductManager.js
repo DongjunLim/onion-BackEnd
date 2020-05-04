@@ -32,7 +32,7 @@ class ProductManager{
 	static async addProduct(productName, productBrand, productCategory, productColor, productPrice, productStock, productThumbnailUrl, productPageUrl){
 		var product_handler = new PRODUCT_HANDLER();
 		product_handler.product_name = productName;
-		product_handler.product_brand_idx = productBrand;
+		product_handler.product_brand = productBrand;
 		product_handler.product_category = productCategory;
 		product_handler.product_color = productColor;
 		product_handler.product_stock = productStock;

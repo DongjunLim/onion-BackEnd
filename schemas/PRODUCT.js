@@ -4,9 +4,9 @@ var Schema = mongoose.Schema;
 var PRODUCT_Schema = new Schema(
   {
 	product_name: String,
-	product_brand_idx: Number,
+	product_brand: String,
 	product_category: String,
-	product_color: String,
+	product_color: [String],
 	product_price: Number,
 	product_stock: { type: Array , default: [] },
 	product_thumbnail_url: String,

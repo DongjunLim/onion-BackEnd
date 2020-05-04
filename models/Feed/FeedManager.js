@@ -30,6 +30,8 @@ class FeedManager{
 			region : 'ap-northeast-2'
 		})
 
+		var analyzed = await FeedManager.analyzePhoto(uploadedPhoto);
+
 		var paramForS3_photo = {
 			'Bucket':'onionphotostorage',
 			'Key' : uploadedPhotoUrl, // '저장될 경로/파일이름' ex. /image/logo -> image 폴더에 logo.png로 저장됨. 
@@ -68,22 +70,22 @@ class FeedManager{
 		feed_handler.feed_producttag_list = productTag;
 		feed_handler.feed_category_list = category;
 
-		/*
-		feed_handler.feed_feature_list: [String],
-		feed_handler.feed_style_list: [String],
-		*/
+		feed_handler.feed_DominantColor_list = analyzed['DominantColor'];
+		feed_handler.feed_fashionClass_list = analyzed['fashionClass'];
 		
 		feed_handler.author_gender = gender;
 		feed_handler.author_height = height;
 		feed_handler.author_age = age;
 
-		await feed_handler.save(function(err){
-			if(err){
-				console.log(err);
-				return false;
-			}
-			return true
+		var check = await feed_handler.save()
+		.then(function(result) {
+		    return true;
+		}).catch(function(error){
+		    console.log(error);
+		    return false;
 		});
+
+		return check;
 	}
 
 	//만약 전송받은 feedId가 ObjectId 객체가 아닌 String이라면 변환과정이 필요할 것.
@@ -93,13 +95,15 @@ class FeedManager{
 		var doc = await FEED_HANDLER.findOne({ '_id': feedId });
 
 		await doc.feed_reply_list.push(replyDocument)
-		await doc.save(function(err){
-			if(err){
-				console.log(err);
-				return false;
-			}
-			return true
-		})
+		var check = await doc.save()
+		.then(function(result) {
+		    return true;
+		}).catch(function(error){
+		    console.log(error);
+		    return false;
+		});
+
+		return check;
 	}
 
 	static async getFeed(feedId){
@@ -110,24 +114,37 @@ class FeedManager{
 		return queryResult ? queryResult : false;
 	}
 
+	static async getFeedByIndexList(feedIdList){
+		var returnResult = []
+
+		for (const element of feedIdList){
+		    var temp = await FeedManager.getFeed(element);
+		    returnResult.push(temp);
+		}
+
+		return returnResult;
+	}
+
 	static async getPersonalRelatedList(){
 
 	}
 	static async getItemBasedFeedList(){
 
 	}
-	static async getTimelineFeedList(){
-	//not completed
-	}
 
 	static async getTimelineFeedList(userNickname){
-		/*
-		토큰으로 닉네임 가져오기?
+		var queryCondition = [];
+		var followUserList = await UserManager.getFollowUserList(userNickname);
+		
+		await followUserList.forEach(function(element){
+			queryCondition.push({'feed_user_nickname': element});
+		})
 
-		가져온 팔로우 리스트로 타임라인 데이터 조합 및 전송
+		var queryResult = await FEED_HANDLER.find({ $or:queryCondition }).sort({
+			created_at : -1 //내림차순, Newest to Oldest
+		})
 
-		var followUserList = UserManager.getFollowUserList(userNickname);
-		*/
+		return queryResult ? queryResult : false;
 	}
 
 	static async getUserFeedList(userNickname){
@@ -178,23 +195,27 @@ class FeedManager{
 	}
 	
 	static async updateFeed(feedId, modifiedContent){
-		await FEED_HANDLER.updateOne({ _id: feedId }, { feed_content: modifiedContent, updated_at: Date.now() }, function(err){
-			if(err){
-				console.log(err);
-				return false;
-			}
-			return true
-		})
+		var check = await FEED_HANDLER.updateOne({ _id: feedId }, { feed_content: modifiedContent, updated_at: Date.now() })
+		.then(function(result) {
+		    return true;
+		}).catch(function(error){
+		    console.log(error);
+		    return false;
+		});
+
+		return check;
 	}
 	
 	static async removeFeed(feedId){
-		await FEED_HANDLER.deleteOne({ _id: feedId }, function(err){
-			if(err){
-				console.log(err);
-				return false;
-			}
-			return true
-		})
+		var check = await FEED_HANDLER.deleteOne({ _id: feedId })
+		.then(function(result) {
+		    return true;
+		}).catch(function(error){
+		    console.log(error);
+		    return false;
+		});
+
+		return check;
 	}
 
 	// static async removeReply(feedId, replyId){

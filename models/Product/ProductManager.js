@@ -9,10 +9,21 @@ class ProductManager{
 		return queryResult ? queryResult : false;
 	}
 
-	static async getProductListByCategoryAndBrand(category, brandIdx){
+	static async getProductByIndexList(productIdIndex){
+		var returnResult = []
+
+		for (const element of productIdIndex){
+		    var temp = await ProductManager.getProductById(element);
+		    returnResult.push(temp);
+		}
+
+		return returnResult;
+	}
+
+	static async getProductListByCategoryAndBrand(category, brandName){
 		const queryResult = await PRODUCT_HANDLER.find({
 			product_category: category,
-			product_brand_idx: brandIdx
+			product_brand: brandName
 		});
 
 		return queryResult ? queryResult : false;
@@ -21,7 +32,7 @@ class ProductManager{
 	static async addProduct(productName, productBrand, productCategory, productColor, productPrice, productStock, productThumbnailUrl, productPageUrl){
 		var product_handler = new PRODUCT_HANDLER();
 		product_handler.product_name = productName;
-		product_handler.product_brand_idx = productBrand;
+		product_handler.product_brand = productBrand;
 		product_handler.product_category = productCategory;
 		product_handler.product_color = productColor;
 		product_handler.product_stock = productStock;
@@ -29,26 +40,29 @@ class ProductManager{
 		product_handler.product_thumbnail_url = productThumbnailUrl;
 		product_handler.product_page_url = productPageUrl;
 
-		await product_handler.save((err) => {
-			if (err){ 
-				console.log(err);
-				return false;
-			 }
-			return true;
-		})
+		var check = await product_handler.save()
+		.then(function(result) {
+            return true;
+        }).catch(function(error){
+            console.log(error);
+            return false;
+        });
+
+        return check;
 	}
 
 	static async removeProduct(productId){
-		await PRODUCT_HANDLER.deleteOne({_id: productId}, (err) => {
-			if(err){
-				console.log(err);
-				return false;
-			}
-			return true
+		var check = await PRODUCT_HANDLER.deleteOne({_id: productId})
+		.then(function(result) {
+		    return true;
+		}).catch(function(error){
+		    console.log(error);
+		    return false;
 		})
+
+		return check;
 	}
 
-	//update product stock으로 합쳐도 될 것 같아서 구현 보류함
 	static async increaseProductStock(productId, stockData){
 	}
 
@@ -56,13 +70,15 @@ class ProductManager{
 	}
 
 	static async updateProductPrice(productId, productPrice){
-		await PRODUCT_HANDLER.updateOne({_id: productId},{product_price: productPrice, updated_at: Date.now()},(err)=>{
-			if(err){
-				console.log(err);
-				return false;
-			}
-			return true
-		});
+		var check = await PRODUCT_HANDLER.updateOne({_id: productId},{product_price: productPrice, updated_at: Date.now()})
+		.then(function(result) {
+		    return true;
+		}).catch(function(error){
+		    console.log(error);
+		    return false;
+		})
+
+		return check;
 	}
 
 	static async updateDiscountRate(productId, productDiscountRate){
@@ -71,34 +87,37 @@ class ProductManager{
 		}).exec();
 		const discountPrice = queryResult.product_price * productDiscountRate;
 
-		await PRODUCT_HANDLER.updateOne({_id: productId},{product_price: discountPrice, updated_at: Date.now()},(err)=>{
-			if(err){
-				console.log(err);
-				return false;
-			}
-			return true
-		});
+		var check = await PRODUCT_HANDLER.updateOne({_id: productId},{product_price: discountPrice, updated_at: Date.now()})
+		.then(function(result) {
+		    return true;
+		}).catch(function(error){
+		    console.log(error);
+		    return false;
+		})
+
+		return check;
 	}
 
-	static async updateProduct(productId, brandId, productName, productCategory, productSize, productColor, productPrice, productStock, productThumbnailUrl, productPageUrl){
-		await PRODUCT_HANDLER.updateOne({_id: productId}, {
+	static async updateProduct(productId, brandName, productName, productCategory, productColor, productPrice, productStock, productThumbnailUrl, productPageUrl){
+		var check = await PRODUCT_HANDLER.updateOne({_id: productId}, {
 			product_name:productName,
-			product_brand_idx:brandId,
+			product_brand: brandName,
 			product_category:productCategory,
 			product_color:productColor,
 			product_price:productPrice,
 			product_thumbnail_url:productThumbnailUrl,
 			product_stock:productStock,
-			product_size: productSize,
 			product_page_url:productPageUrl,
 			updated_at:Date.now()
-		}, (err)=>{
-			if(err){
-				console.log(err)
-				return false;
-			}
-			return true;
 		})
+		.then(function(result) {
+		    return true;
+		}).catch(function(error){
+		    console.log(error);
+		    return false;
+		})
+
+		return check;
 	}
 }
 

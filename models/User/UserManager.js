@@ -19,7 +19,7 @@ class UserManager{
         user_detail_info_handler.user_height = userHeight;
         user_detail_info_handler.user_age = userAge;
         user_detail_info_handler.user_address = [userAddress1, userAddress2];
-        user_detail_info_handler.user_Instagram_url = userInstagramIUrl;
+        user_detail_info_handler.user_Instagram_url = userInstagramUrl;
 
         var check1 = await user_auth_info_handler.save().then(function(result){
             if (result){

@@ -6,15 +6,20 @@ const crypto = require("crypto");
 const mongoose = require("mongoose");
 const pythonModule = require('../../pythonCode/Servicer');
 
+//for Test
+const { lstatSync, readdirSync } = require('fs')
+const { join } = require('path')
+
 class FeedManager{
 	static async analyzePhoto(filename){
-		await pythonModule.resizeImage(filename);
-		await pythonModule.getCroppedPeople(filename);
+		//반드시 주석 풀어주기!!!
+		// await pythonModule.resizeImage(filename);
+		// await pythonModule.getCroppedPeople(filename);
 
 		var DominantColor = await pythonModule.getDominantColorOfImage(filename);
 		var fashionClass = await pythonModule.fashionClassification(filename);
 
-		return {'DominantColor': DominantColor, 'fashionClass': fashionClass};
+		return {'fileName': filename, 'dominantColor': DominantColor, 'fashionClass': fashionClass};
 	}
 
 	//not completed
@@ -29,8 +34,6 @@ class FeedManager{
 			secretAccessKey: s3Account.AWS_SECRET_ACCESS_KEY,
 			region : 'ap-northeast-2'
 		})
-
-		var analyzed = await FeedManager.analyzePhoto(uploadedPhoto);
 
 		var paramForS3_photo = {
 			'Bucket':'onionphotostorage',
@@ -70,13 +73,13 @@ class FeedManager{
 		feed_handler.feed_producttag_list = productTag;
 		feed_handler.feed_category_list = category;
 
-		feed_handler.feed_DominantColor_list = analyzed['DominantColor'];
-		feed_handler.feed_fashionClass_list = analyzed['fashionClass'];
+		feed_handler.feed_DominantColor_list = DominantColor;
+		feed_handler.feed_fashionClass_list = fashionClass;
 		
 		feed_handler.author_gender = gender;
 		feed_handler.author_height = height;
 		feed_handler.author_age = age;
-
+		feed_handler.author_profile_photo = 'profile/' + userNickname;
 		var check = await feed_handler.save()
 		.then(function(result) {
 		    return true;
@@ -229,6 +232,33 @@ class FeedManager{
 	// 		return true
 	// 	})
 	// }
+
+	static async testDataMaker(){
+		const isDirectory = source => lstatSync(source).isDirectory()
+		const getDirectories = source =>
+		  readdirSync(source).map(name => join(source, name)).filter(isDirectory)
+
+		var subdirectories = getDirectories('cropped/feedTestData')
+		console.log(subdirectories);
+
+		for (const element of subdirectories) {
+			for (var i = 0; i < 30; i++) {
+				var category = element.split('\\')[2];
+
+				var pictureName = 'feedTestData/'+category+'/img_'+String(i);
+				console.log(pictureName)
+				var analyzedData = await FeedManager.analyzePhoto(pictureName);
+
+				console.log(analyzedData);
+
+				var userNicknameList = ['Red','Blue','Orange','Green','Black', 'James', 'Lion', 'Rachel', 'Stone', 'Jack', 'John', 'Michael', 'Philipe', 'Minji', 'Dongjin', 'Cheolsoo', 'Jaemin', 'Jihyeon']
+
+				await FeedManager.createFeed(userNicknameList[i% userNicknameList.length], 
+					pictureName, 'feedContent'+String(i), [{"productId": "5eb24aa8153b7b34d82121b0", "x":40, "y": 40}], 
+					["This","Is","Hashtag"], category, 1234, 'M', 23, analyzedData['dominantColor'], analyzedData['fashionClass']);
+			}
+		}
+	}
 }
 
 

@@ -9,3 +9,5 @@ s3Account.json
 mongoAccount.json
 config.js
 mongoAccount.js
+models/Feed/feedTestData
+cropped/feedTestData

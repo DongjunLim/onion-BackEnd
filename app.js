@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const {secret, PORT} = require('./config');
 const app = express();
-
+const UserManager = require('./models/User/UserManager');
 const mongoose = require('mongoose');
 const dbAccount = require("./mongoAccount.json");
 const router = require('./routes');
@@ -33,6 +33,9 @@ mongoose.connect(
     () => { console.log('Successfully connected to mongodb'); } ,
     err => { console.error.bind(console,'Check DB - Connection error : '); }
 )
+
+
+console.log(UserManager.getUser("Red"));
 
 app.listen(PORT, () => {
     

@@ -18,8 +18,9 @@ router.use('/history',historyRouter);
 router.use('/login',loginRouter);
 router.use('/procutRouter',productRouter);
 router.use('/userRouter',userRouter);
+router.use('/user',userRouter);
 
-router.use(authMiddleware);
+router.use('/',authMiddleware);
 
 router.get('/temp', async(req,res) => {
     console.log(req.userEmail);
@@ -36,6 +37,8 @@ router.get('/', async (req, res) => {
     console.log(params);
     res.send("Hello World!");
 })
+
+
 
 
 module.exports = router;

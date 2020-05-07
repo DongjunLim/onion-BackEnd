@@ -4,10 +4,8 @@ const AuthManager = require('../models/Auth/AuthManager');
 
 const authMiddleware = async (req, res, next) => {
     // const secret = req.app.get('jwt-secret');
-    const secret = "onionJWTsEcRITKEYforHaSHing";
+    const secret = req.app.get('jwt-secret');
     const token = req.headers['authorization'];
-    console.log(req);
-    console.log(token);
     // token does not exist
     if (!token) {
         return res.status(403).json({

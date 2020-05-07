@@ -338,6 +338,20 @@ class UserManager{
 
         return check;
     }
+
+    static async getUser(userNickname){
+        var userInfo;
+        await USER_DETAIL_INFO_HANDLER.findOne({user_nickname: userNickname})
+        .then((result) => {
+            userInfo = result;
+        }).catch((error) => {
+            console.log(error);
+            return false;
+        })
+
+        return userInfo;
+    }
 }
+
 
 module.exports = UserManager;

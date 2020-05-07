@@ -86,8 +86,8 @@ router.get('/test', async (req, res) => {
         feedList: [
             {
                 feedId: "fhuf3f3",
-                feedThumbnailUrl:"https://onionphotostorage.s3.ap-northeast-2.amazonaws.com/thumbnail/1.jpg",
-                photoUrl: "https://onionphotostorage.s3.ap-northeast-2.amazonaws.com/thumbnail/1.jpg",
+                feedThumbnailUrl:"https://onionphotostorage.s3.ap-northeast-2.amazonaws.com/photo/1581d0c663e8ed5d6dec564307bc2db41927b7a8",
+                photoUrl: "https://onionphotostorage.s3.ap-northeast-2.amazonaws.com/photo/1581d0c663e8ed5d6dec564307bc2db41927b7a8",
                 hashTag: [ "tag1", "tag2", "tag3"],
                 profileUrl : "PROFILEURL",
                 profilePhotoUrl: "PROFILEPHOTOURL",

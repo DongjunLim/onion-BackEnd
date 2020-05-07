@@ -9,18 +9,12 @@ const productManager = require('../../models/Product/ProductManager');
 
 
 router.post('/', async (req, res) => {
-	var productId = '5eaff91dba74661fa4a9f4e0'
-	var brandName ='sdfjlkasfd'
-	var productName ='dsfsffsdf'
-	var productCategory='sdfsdf'
-	var productColor=['white']
-	var productPrice=123124
-	var productStock=[{'sdf': 1}]
-	var productThumbnailUrl='sdfsfdd'
-	var productPageUrl='asdfasdfsdf'
+	var userNickname = 'Red';
+	var followedUserNickname = 'Blue';
 
-	var result = await productManager.updateProduct(productId, brandName, productName, productCategory, productColor, productPrice, productStock, productThumbnailUrl, productPageUrl);
+	//await userManager.follow(userNickname, followedUserNickname)
 
+	var result = await feedManager.getTimelineFeedList(userNickname);
 	console.log(result);
 	res.statusCode = 201
 	res.send()

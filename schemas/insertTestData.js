@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const dbAccount = require("../mongoAccount.json");
-
+const AuthManager = require("../models/Auth/AuthManager");
 const DB_options = {
     autoIndex: false, // Don't build indexes
     reconnectTries: Number.MAX_VALUE, // Never stop trying to reconnect
@@ -51,24 +51,34 @@ for (var i = 0; i < 40; i++){
 	product_handler.save()
 }
 
-for (var i = 0; i < 10; i++){
-	var user_auth_info_handler = new USER_AUTH_INFO_HANDLER();
-	var user_detail_info_handler = new USER_DETAIL_INFO_HANDLER();
+ foo = async () =>{
+	var userNicknameList = ['Red','Blue','Orange','Green','Black', 'James', 'Lion', 'Rachel', 'Stone', 'Jack', 'John', 'Michael', 'Philipe', 'Minji', 'Dongjin', 'Cheolsoo', 'Jaemin', 'Jihyeon']
+	var pass = await AuthManager.encryptPassword("userPassword123!");
 
-	user_auth_info_handler.user_email = "user" + String(i) + "@email.com";
-	user_auth_info_handler.user_nickname = "userNickname" + String(i);
-	user_auth_info_handler.user_password = "userPassword" + String(i);
 
-	user_detail_info_handler.user_nickname = "userNickname" + String(i);
-	user_detail_info_handler.user_height = 180.8;
-	user_detail_info_handler.user_age = 23;
-	user_detail_info_handler.user_address = ["userAddress1", "userAddress2"];
-	user_detail_info_handler.user_Instagram_url = "Insta.url/" + String(i);
-	user_detail_info_handler.user_profilephoto_url = "profileUrl." + String(i);
+	for (var i = 0; i < userNicknameList.length ; i++){
+		var user_auth_info_handler = new USER_AUTH_INFO_HANDLER();
+		var user_detail_info_handler = new USER_DETAIL_INFO_HANDLER();
 
-	user_auth_info_handler.save()
-	user_detail_info_handler.save()
+		user_auth_info_handler.user_email = userNicknameList[i] + "@gmail.com";
+		user_auth_info_handler.user_nickname = userNicknameList[i];
+		
+		user_auth_info_handler.user_password = pass;
+
+		user_detail_info_handler.user_nickname = userNicknameList[i];
+		user_detail_info_handler.user_height = 180.8;
+		user_detail_info_handler.user_age = 23;
+		user_detail_info_handler.user_address = ["userAddress1", "userAddress2"];
+		user_detail_info_handler.user_Instagram_url = "Insta.url/" + String(i);
+		user_detail_info_handler.user_profilephoto_url = "profileUrl." + String(i);
+
+		await user_auth_info_handler.save()
+		await user_detail_info_handler.save()
+	}
 }
+
+foo();
+
 /*
 for (var i = 0; i <; i++){
   	feed_handler.feed_user_nickname: String,

@@ -23,6 +23,7 @@ var FEED_Schema = new Schema(
 	author_gender: { type: String, enum: ['M', 'W', 'None'], default: 'None'},
 	author_height: Number,
 	author_age: Number,
+	author_profile_photo: String,
 	created_at: { type: Date, default: Date.now },
 	updated_at: { type: Date, default: Date.now },
 	deleted_at: Date

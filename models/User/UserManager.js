@@ -152,8 +152,7 @@ class UserManager{
     }
 
     static async uploadProfilePhoto(userNickname, userProfilePhoto){
-        var file_name = crypto.randomBytes(20).toString('hex');
-        var uploadedProfileUrl = 'profile/' + file_name;
+        var uploadedProfileUrl = 'profile/' + userNickname;
 
         var s3 = new AWS.S3({
             accessKeyId: s3Account.AWS_ACCESS_KEY,

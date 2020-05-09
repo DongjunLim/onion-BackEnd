@@ -83,6 +83,22 @@ class UserManager{
         return queryResult;
     }
 
+    static async getUserActivityList(userNickname){
+        //팔로우 유저 썸네일 url도 같이 리턴
+        //결과 양식 : {user_follow_list: ["test0509","test0511"], user_profilephoto_url: [ '0909inst.gram/abc', '11inst.gram/abc' ]}
+        var returnResult = {}
+        
+        returnResult['user_activity_list'] = await USER_DETAIL_INFO_HANDLER.find({'user_nickname': userNickname}).select('user_activity_list -_id')
+        .then(function(result) {
+            return result[0]['user_activity_list'];
+        }).catch(function(error){
+            console.log(error);
+            return false;
+        });
+
+        return returnResult['user_activity_list'];
+    }
+
     static async getFollowUserList(userNickname){
         //팔로우 유저 썸네일 url도 같이 리턴
         //결과 양식 : {user_follow_list: ["test0509","test0511"], user_profilephoto_url: [ '0909inst.gram/abc', '11inst.gram/abc' ]}

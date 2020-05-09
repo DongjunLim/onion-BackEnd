@@ -1,4 +1,5 @@
 const FEED_HANDLER = require("../../schemas/FEED");
+const USER_DETAIL_INFO_HANDLER = require("../../schemas/USER_DETAIL_INFO");
 const UserManager = require("../User/UserManager");
 const AWS = require('aws-sdk');
 const s3Account = require("../../s3Account.json");
@@ -9,6 +10,7 @@ const pythonModule = require('../../pythonCode/Servicer');
 //for Test
 const { lstatSync, readdirSync } = require('fs')
 const { join } = require('path')
+
 
 class FeedManager{
 	static async analyzePhoto(filename){
@@ -128,8 +130,34 @@ class FeedManager{
 		return returnResult;
 	}
 
-	static async getPersonalRelatedList(){
+	static async getPersonalRelatedList(userNickname){
+		var userActivityList = await UserManager.getUserActivityList(userNickname);
+		var UBCF_List = await USER_DETAIL_INFO_HANDLER.find({
+			user_activity_list:{$in: userActivityList}
+		}).select('user_activity_list -_id')
+		.sort({
+			user_activity_list : -1
+		})
+		var feedIdList = new Set();
 
+		//활동 기록이 70% 이상은 겹쳐야 추천대상이 됨.
+		for (const list of UBCF_List) {
+			var temp = list['user_activity_list'].filter(value => userActivityList.includes(value));
+			console.log(temp)
+			if (temp.length / userActivityList.length >= 0.7){
+				for (const element of list['user_activity_list']) {
+					if (!userActivityList.includes(element)){
+						feedIdList.add(element)
+					}
+				}
+			}
+		}
+
+		feedIdList = [...feedIdList];
+
+		var returnResult = await FeedManager.getFeedByIndexList(feedIdList);
+
+		return returnResult
 	}
 	static async getItemBasedFeedList(){
 

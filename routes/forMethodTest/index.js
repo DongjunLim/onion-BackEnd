@@ -11,7 +11,7 @@ const productManager = require('../../models/Product/ProductManager');
 router.post('/', async (req, res) => {
 	//await userManager.follow(userNickname, followedUserNickname)
 
-	await feedManager.getPersonalRelatedList('Red');
+	await feedManager.setPropensity();
 	res.statusCode = 201
 	res.send()
 });

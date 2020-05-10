@@ -283,11 +283,14 @@ class FeedManager{
 	static async updateFeed(feedId, modifiedContent){
 		var check = await FEED_HANDLER.updateOne({ _id: feedId }, { feed_content: modifiedContent, updated_at: Date.now() })
 		.then(function(result) {
-		    return true;
-		}).catch(function(error){
-		    console.log(error);
-		    return false;
-		});
+            if(result['nModified'] !=0){
+                return true;
+            }
+            return false;
+        }).catch(function(error){
+            console.log(error);
+            return false;
+        });
 
 		return check;
 	}
@@ -341,6 +344,57 @@ class FeedManager{
 					["This","Is","Hashtag"], category, 1234, 'M', 23, analyzedData['dominantColor'], analyzedData['fashionClass']);
 			}
 		}
+	}
+
+	static async setPropensity(){
+		const isDirectory = source => lstatSync(source).isDirectory()
+		const getDirectories = source =>
+		  readdirSync(source).map(name => join(source, name)).filter(isDirectory)
+		function getRandomArbitrary(min, max) {
+		  return Math.random() * (max - min) + min;
+		}
+
+
+		var subdirectories = getDirectories('cropped/feedTestData')
+		for (var i = 0; i < subdirectories.length - 1; i++) {
+			var category = subdirectories[i].split('\\')[2];
+			var subCategory = subdirectories[i+1].split('\\')[2];
+
+			var userNicknameList = ['Red','Blue','Orange','Green','Black', 'James', 'Lion', 'Rachel', 'Stone', 'Jack', 'John', 'Michael', 'Philipe', 'Minji', 'Dongjin', 'Cheolsoo', 'Jaemin', 'Jihyeon']
+
+			var tempList = await FEED_HANDLER.find({
+				feed_category_list:{$in: [category]}
+			}).select('feed_category_list')
+			.limit(10);
+
+			var tempList2 = await FEED_HANDLER.find({
+				feed_category_list:{$in: [subCategory]}
+			}).select('feed_category_list')
+			.limit(getRandomArbitrary(2, 6));
+
+			var propensityList = []
+
+			for (const list of tempList) {
+				propensityList.push(list['_id']);
+			}
+			for (const list of tempList2) {
+				propensityList.push(list['_id']);
+			}
+
+			var check = await USER_DETAIL_INFO_HANDLER.updateOne({user_nickname: userNicknameList[i]}, {
+				user_activity_list: propensityList
+			}).then(function(result) {
+            	if(result['nModified'] !=0){
+                return true;
+            	}
+            	return false;
+        	}).catch(function(error){
+            	console.log(error);
+            	return false;
+        	});
+		}
+
+		return check;
 	}
 }
 

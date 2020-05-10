@@ -131,6 +131,9 @@ class FeedManager{
 	}
 
 	static async getPersonalRelatedList(userNickname){
+		const ONE_PAGE_DATA_NUM = 30;
+
+
 		var userActivityList = await UserManager.getUserActivityList(userNickname);
 		var UBCF_List = await USER_DETAIL_INFO_HANDLER.find({
 			user_activity_list:{$in: userActivityList}
@@ -143,7 +146,7 @@ class FeedManager{
 		//활동 기록이 70% 이상은 겹쳐야 추천대상이 됨.
 		for (const list of UBCF_List) {
 			var temp = list['user_activity_list'].filter(value => userActivityList.includes(value));
-			console.log(temp)
+
 			if (temp.length / userActivityList.length >= 0.7){
 				for (const element of list['user_activity_list']) {
 					if (!userActivityList.includes(element)){
@@ -154,6 +157,32 @@ class FeedManager{
 		}
 
 		feedIdList = [...feedIdList];
+
+		if (feedIdList.length > ONE_PAGE_DATA_NUM / 2){
+			var queryResult = await FEED_HANDLER.find().select('_id').sort({
+				created_at : -1 //내림차순, Newest to Oldest
+			}).limit(ONE_PAGE_DATA_NUM - (~~(ONE_PAGE_DATA_NUM / 2)))
+
+			var recentFeedIdList = []
+
+			for (const list of queryResult) {
+				recentFeedIdList.push(list['_id']);
+			}
+
+			feedIdList = [...feedIdList.slice(0, ~~(ONE_PAGE_DATA_NUM / 2)), ...recentFeedIdList]
+		} else if (feedIdList.length <= ONE_PAGE_DATA_NUM / 2){
+			var queryResult = await FEED_HANDLER.find().select('_id').sort({
+				created_at : -1 //내림차순, Newest to Oldest
+			}).limit(ONE_PAGE_DATA_NUM - feedIdList.length)
+
+			var recentFeedIdList = []
+
+			for (const list of queryResult) {
+				recentFeedIdList.push(list['_id']);
+			}
+
+			feedIdList = [...feedIdList, ...recentFeedIdList]
+		}
 
 		var returnResult = await FeedManager.getFeedByIndexList(feedIdList);
 
@@ -186,7 +215,10 @@ class FeedManager{
 		return queryResult ? queryResult : false;
 	}
 
-	static async getReplyList(feedId){
+	//getReplyList를 원한다는 것은 FeedDetail로 들어갔다는 것.
+	static async getReplyList(userNickname, feedId){
+		await UserManager.addActivity(userNickname, feedId);
+		
 		var queryResult =  await FEED_HANDLER.find({_id: feedId}).select('feed_reply_list -_id').sort({
 			created_at : 1 //오름차순, Oldest to Newest
 		})

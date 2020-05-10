@@ -83,9 +83,36 @@ class UserManager{
         return queryResult;
     }
 
+    static async addActivity(userNickname, feedId){
+        var returnResult = {}
+        
+        returnResult['user_activity_list'] = await USER_DETAIL_INFO_HANDLER.find({'user_nickname': userNickname}).select('user_activity_list -_id')
+        .then(function(result) {
+            var activityList = result[0]['user_activity_list'];
+            activityList.push(feedId);
+            return activityList;
+        }).catch(function(error){
+            console.log(error);
+            return false;
+        });
+
+        var check = await USER_DETAIL_INFO_HANDLER.updateOne({ 'user_nickname': userNickname }, { 
+            user_activity_list: returnResult['user_activity_list'],
+            updated_at: Date.now()
+        }).then(function(result) {
+            if(result['nModified'] !=0){
+                return true;
+            }
+            return false;
+        }).catch(function(error){
+            console.log(error);
+            return false;
+        });
+
+        return check;
+    }
+
     static async getUserActivityList(userNickname){
-        //팔로우 유저 썸네일 url도 같이 리턴
-        //결과 양식 : {user_follow_list: ["test0509","test0511"], user_profilephoto_url: [ '0909inst.gram/abc', '11inst.gram/abc' ]}
         var returnResult = {}
         
         returnResult['user_activity_list'] = await USER_DETAIL_INFO_HANDLER.find({'user_nickname': userNickname}).select('user_activity_list -_id')

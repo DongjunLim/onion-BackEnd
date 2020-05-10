@@ -188,8 +188,31 @@ class FeedManager{
 
 		return returnResult
 	}
-	static async getItemBasedFeedList(){
 
+	static async getItemBasedFeedList(feedId){
+		var feedCategory = await FEED_HANDLER.findOne({_id: feedId})
+		.then(function(result){
+			return result[0]['feed_category_list'];
+		})
+
+		var queryResult = await FEED_HANDLER.find({
+			feed_category_list:{$in: feedCategory}
+		}).select('feed_category_list').sort({created_at : -1});
+
+		var IBCF_List = [];
+
+		//카테고리가 70% 이상의 유사도를 보이면 유사 게시글로서 등장.
+		for (const list of queryResult) {
+			var temp = list['feed_category_list'].filter(value => feedCategory.includes(value));
+
+			if (temp.length / feedCategory.length >= 0.7){
+				IBCF_List.push(list['_id'])
+			}
+		}
+
+		var returnResult = await FeedManager.getFeedByIndexList(IBCF_List);
+
+		return returnResult;
 	}
 
 	static async getTimelineFeedList(userNickname){

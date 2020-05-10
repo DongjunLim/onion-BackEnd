@@ -42,6 +42,7 @@ def getCroppedPeople(filename):
 
 	personList = []
 	pictureOwner = []
+	
 	for i in range(len(class_ids)):
 		if str(classes[class_ids[i]]) == 'person':
 			x, y, w, h = boxes[i]

@@ -13,14 +13,21 @@ class pythonModule {
 		};
 		const pythonRunner = util.promisify(PythonShell.run);
 
-		await pythonRunner('pythonCode/resizeImage.py', options);
+		var check = await pythonRunner('pythonCode/resizeImage.py', options)
+		.then((result)=>{
+			return true;
+		})
+		.catch((err)=> {
+			console.log(err);
+			return false;
+    	});
 
-		console.log(filename + " is resized Successfully!");
-		return true;
-	} catch (err) {
-		console.log(err);
-		return false;
-    }
+		if(check){
+			console.log(filename + " is resized Successfully!");
+		}
+
+		return check;
+	}
 
 	static async getCroppedPeople (filename){
 		var options = {
@@ -33,7 +40,14 @@ class pythonModule {
 		};
 		const pythonRunner = util.promisify(PythonShell.run);
 
-		await pythonRunner('pythonCode/getCroppedPeople.py', options);
+		var check = await pythonRunner('pythonCode/getCroppedPeople.py', options)
+		.then((result)=>{
+			return true;
+		})
+		.catch((err)=> {
+			console.log(err);
+			return false;
+    	});
 
 		// await PythonShell.run('pythonCode/getCroppedPeople.py', options, function (err) {
 		// 	if (err) 
@@ -41,13 +55,11 @@ class pythonModule {
 		// 	else
 		// 		console.log(filename + " is Cropped Successfully!");
 		// });
-
-		console.log(filename + " is Cropped Successfully!");
-		return true;
-	} catch (err) {
-		console.log(err);
-		return false;
-    }
+		if(check){
+			console.log(filename + " is Cropped Successfully!");
+		}
+		return check;
+	}
 
 	static async getDominantColorOfImage (filename){
 		var options = {
@@ -74,10 +86,7 @@ class pythonModule {
 		// });
 
 		return DominantColorList;
-	} catch (err) {
-		console.log(err);
-		return false;
-    }
+	}
 
 	static async fashionClassification (filename){
 		var options = {
@@ -102,10 +111,7 @@ class pythonModule {
 		// 		JSON.parse(result);
 		// });
 		return fashionClass;
-	} catch (err) {
-		console.log(err);
-		return false;
-    }
+	}
 }
 
 module.exports = pythonModule;

@@ -14,14 +14,25 @@ const { join } = require('path')
 
 class FeedManager{
 	static async analyzePhoto(filename){
-		//반드시 주석 풀어주기!!!
-		// await pythonModule.resizeImage(filename);
-		// await pythonModule.getCroppedPeople(filename);
+		var check1 = await pythonModule.resizeImage(filename);
+		var check2 = await pythonModule.getCroppedPeople(filename);
+		console.log(check1)
+		console.log(check2);
+		if (check1 && check2){
+			var DominantColor = await pythonModule.getDominantColorOfImage(filename);
+			var fashionClass = await pythonModule.fashionClassification(filename);
+			var fashionClassList = []
 
-		var DominantColor = await pythonModule.getDominantColorOfImage(filename);
-		var fashionClass = await pythonModule.fashionClassification(filename);
+			for (const element of Object.keys(fashionClass)){
+			    var temp = {'class':element, 'percentage':fashionClass[element]};
 
-		return {'fileName': filename, 'dominantColor': DominantColor, 'fashionClass': fashionClass};
+			    fashionClassList.push(temp);
+			}
+
+			return {'fileName': filename, 'dominantColor': DominantColor, 'fashionClass': fashionClassList};
+		} else {
+			return false;
+		}
 	}
 
 	//not completed

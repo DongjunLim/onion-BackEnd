@@ -1,6 +1,7 @@
 const FEED_HANDLER = require("../../schemas/FEED");
 const USER_DETAIL_INFO_HANDLER = require("../../schemas/USER_DETAIL_INFO");
 const UserManager = require("../User/UserManager");
+const ProductManager = require("../Product/ProductManager");
 const AWS = require('aws-sdk');
 const s3Account = require("../../s3Account.json");
 const crypto = require("crypto");
@@ -16,8 +17,7 @@ class FeedManager{
 	static async analyzePhoto(filename){
 		var check1 = await pythonModule.resizeImage(filename);
 		var check2 = await pythonModule.getCroppedPeople(filename);
-		console.log(check1)
-		console.log(check2);
+
 		if (check1 && check2){
 			var DominantColor = await pythonModule.getDominantColorOfImage(filename);
 			var fashionClass = await pythonModule.fashionClassification(filename);
@@ -227,14 +227,10 @@ class FeedManager{
 	}
 
 	static async getTimelineFeedList(userNickname){
-		var queryCondition = [];
 		var followUserList = await UserManager.getFollowUserList(userNickname);
-		
-		await followUserList.forEach(function(element){
-			queryCondition.push({'feed_user_nickname': element});
-		})
-
-		var queryResult = await FEED_HANDLER.find({ $or:queryCondition }).sort({
+		var queryCondition = followUserList['user_follow_list'];
+		console.log(queryCondition)
+		var queryResult = await FEED_HANDLER.find({feed_user_nickname: {$in: queryCondition }}).sort({
 			created_at : -1 //내림차순, Newest to Oldest
 		})
 
@@ -264,29 +260,21 @@ class FeedManager{
 		var feed_handler = new FEED_HANDLER();
 		//var product_handler = new PRODUCT_HANDLER();
 
-		var productIdList = new Array();
-		var productList = new Array();
-
 		//productTag 내부 도큐먼트 마다 product_id를 가지고 있다.
-		var productTagList =  getProductTagList(feedId)
+		var productTagList = await FeedManager.getProductTagList(feedId);
+		var productIdList = [];
 
-		await productTagList.forEach(function(element){
-			productIdList.push(element.product_id);
-		})
+		for (const doc of productTagList['feed_producttag_list']) {
+			productIdList.push(doc['productId']);
+		}
 
-		/*
-		추출해낸 productId를 ProductManager 내부의 getProductById를 사용하여 제품정보를 조합하여 전송
+		var queryResult = await ProductManager.getProductByIndexList(productIdList);
 
-		await productIdList.forEach(function(element){
-			productList.push(product_handler.getProductById(element));
-		})
-		*/
-
-		return productList ? productList : false;
+		return queryResult ? queryResult : false;
 	}
 
 	static async getProductTagList(feedId){
-		var queryResult =  await FEED_HANDLER.find({_id: feedId}).select('feed_producttag_list -_id')
+		var queryResult =  await FEED_HANDLER.findOne({_id: feedId}).select('feed_producttag_list -_id')
 
 		return queryResult ? queryResult : false;
 	}

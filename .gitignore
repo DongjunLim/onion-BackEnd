@@ -11,3 +11,5 @@ config.js
 mongoAccount.js
 models/Feed/feedTestData
 cropped/feedTestData
+models/MU/
+pythonCode/yolo/

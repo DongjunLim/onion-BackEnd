@@ -13,3 +13,6 @@ models/Feed/feedTestData
 cropped/feedTestData
 models/MU/
 pythonCode/yolo/
+cropped/
+thumbnail/
+uploads/

@@ -24,7 +24,7 @@ class FeedManager{
 			var fashionClassList = []
 
 			for (const element of Object.keys(fashionClass)){
-			    var temp = {'class':element, 'percentage':fashionClass[element]};
+			    var temp = {'category':element, 'percentage':fashionClass[element]};
 
 			    fashionClassList.push(temp);
 			}
@@ -319,55 +319,70 @@ class FeedManager{
 	// }
 
 	static async testDataMaker(){
-		const isDirectory = source => lstatSync(source).isDirectory()
+		var categories = new Set();
+		var filelists = [];
+
+
 		const getDirectories = source =>
-		  readdirSync(source).map(name => join(source, name)).filter(isDirectory)
+		  readdirSync(source)
 
-		var subdirectories = getDirectories('cropped/feedTestData')
-		console.log(subdirectories);
+		filelists = getDirectories('./uploads/');
 
-		for (const element of subdirectories) {
-			for (var i = 0; i < 30; i++) {
-				var category = element.split('\\')[2];
+		for (const element of filelists) {
+			categories.add(element.split('_')[0]);
+		}
 
-				var pictureName = 'feedTestData/'+category+'/img_'+String(i);
-				console.log(pictureName)
-				var analyzedData = await FeedManager.analyzePhoto(pictureName);
+		var indexList = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28 ,29];
+
+		//for (const element of filelists) {
+		filelists.forEach(async element=>{
+			//for (var i = 0; i < 30; i++) {
+			for (const i of indexList.keys()) {
+				var category = element.split('_')[0];
+
+				var analyzedData = await FeedManager.analyzePhoto(element);
 
 				console.log(analyzedData);
 
 				var userNicknameList = ['Red','Blue','Orange','Green','Black', 'James', 'Lion', 'Rachel', 'Stone', 'Jack', 'John', 'Michael', 'Philipe', 'Minji', 'Dongjin', 'Cheolsoo', 'Jaemin', 'Jihyeon']
 
 				await FeedManager.createFeed(userNicknameList[i% userNicknameList.length], 
-					pictureName, 'feedContent'+String(i), [{"productId": "5eb24aa8153b7b34d82121b0", "x":40, "y": 40}], 
+					element, 'feedContent'+String(i), [{"productId": "5eb8dca01e12780fb866f8d2", "x":40, "y": 40}], 
 					["This","Is","Hashtag"], category, 1234, 'M', 23, analyzedData['dominantColor'], analyzedData['fashionClass']);
 			}
-		}
+		});
 	}
 
 	static async setPropensity(){
-		const isDirectory = source => lstatSync(source).isDirectory()
-		const getDirectories = source =>
-		  readdirSync(source).map(name => join(source, name)).filter(isDirectory)
 		function getRandomArbitrary(min, max) {
 		  return Math.random() * (max - min) + min;
 		}
 
+		var categories = new Set();
+		var filelists = [];
 
-		var subdirectories = getDirectories('cropped/feedTestData')
-		for (var i = 0; i < subdirectories.length - 1; i++) {
-			var category = subdirectories[i].split('\\')[2];
-			var subCategory = subdirectories[i+1].split('\\')[2];
 
+		const getDirectories = source =>
+		  readdirSync(source)
+
+		filelists = getDirectories('./uploads/');
+
+		for (const element of filelists) {
+			categories.add(element.split('_')[0]);
+		}
+
+		categories = [...categories];
+
+		for (var i = 0; i < categories.length - 1; i++) {
 			var userNicknameList = ['Red','Blue','Orange','Green','Black', 'James', 'Lion', 'Rachel', 'Stone', 'Jack', 'John', 'Michael', 'Philipe', 'Minji', 'Dongjin', 'Cheolsoo', 'Jaemin', 'Jihyeon']
 
 			var tempList = await FEED_HANDLER.find({
-				feed_category_list:{$in: [category]}
+				feed_category_list:{$in: [categories[i]]}
 			}).select('feed_category_list')
-			.limit(10);
+			.limit(15);
 
 			var tempList2 = await FEED_HANDLER.find({
-				feed_category_list:{$in: [subCategory]}
+				feed_category_list:{$in: [categories[i+1]]}
 			}).select('feed_category_list')
 			.limit(getRandomArbitrary(2, 6));
 

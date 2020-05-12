@@ -9,6 +9,7 @@ const mongoose = require("mongoose");
 const pythonModule = require('../../pythonCode/Servicer');
 
 //for Test
+const fs = require('fs');
 const { lstatSync, readdirSync } = require('fs')
 const { join } = require('path')
 
@@ -48,19 +49,22 @@ class FeedManager{
 			region : 'ap-northeast-2'
 		})
 
+		var photoContent = await fs.readFileSync('uploads/' + uploadedPhoto);
+		var thumbnailContent = await fs.readFileSync('thumbnail/' + uploadedPhoto + '.jpg');
+
 		var paramForS3_photo = {
 			'Bucket':'onionphotostorage',
 			'Key' : uploadedPhotoUrl, // '저장될 경로/파일이름' ex. /image/logo -> image 폴더에 logo.png로 저장됨. 
 			'ACL':'public-read',
 			//클라이언트에서 이미지 받을 때, 자동적으로 multer에서 확장자 .jpg로 받아야 할듯 -> 그럼 파이썬 코드도 바꿔야됨.
-			'Body': 'uploads/' + uploadedPhoto,
+			'Body': photoContent,
 			'ContentType':'image/png'
 		}
 		var paramForS3_thumbnail = {
 			'Bucket':'onionphotostorage',
 			'Key' : uploadedThumbnailUrl,
 			'ACL':'public-read',
-			'Body': 'thumbnail/' + uploadedPhoto + '.jpg',
+			'Body': thumbnailContent,
 			'ContentType':'image/png'
 		}
 
@@ -332,25 +336,37 @@ class FeedManager{
 			categories.add(element.split('_')[0]);
 		}
 
-		var indexList = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28 ,29];
+		//var indexList = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28 ,29];
+		var indexList = [0, 1]
 
-		//for (const element of filelists) {
-		filelists.forEach(async element=>{
-			//for (var i = 0; i < 30; i++) {
-			for (const i of indexList.keys()) {
+		var userNicknameList = ['Red','Blue','Orange','Green','Black', 'James', 'Lion', 'Rachel', 'Stone', 'Jack', 'John', 'Michael', 'Philipe', 'Minji', 'Dongjin', 'Cheolsoo', 'Jaemin', 'Jihyeon']
+		for (const element of filelists) {
 				var category = element.split('_')[0];
-
+				var num = element.split('_')[2];
 				var analyzedData = await FeedManager.analyzePhoto(element);
 
 				console.log(analyzedData);
-
-				var userNicknameList = ['Red','Blue','Orange','Green','Black', 'James', 'Lion', 'Rachel', 'Stone', 'Jack', 'John', 'Michael', 'Philipe', 'Minji', 'Dongjin', 'Cheolsoo', 'Jaemin', 'Jihyeon']
-
-				await FeedManager.createFeed(userNicknameList[i% userNicknameList.length], 
-					element, 'feedContent'+String(i), [{"productId": "5eb8dca01e12780fb866f8d2", "x":40, "y": 40}], 
+				
+				await FeedManager.createFeed(userNicknameList[num % userNicknameList.length], 
+					element, 'feedContent'+element, [{"productId": "5eb8dca01e12780fb866f8d2", "x":40, "y": 40}], 
 					["This","Is","Hashtag"], category, 1234, 'M', 23, analyzedData['dominantColor'], analyzedData['fashionClass']);
-			}
-		});
+		}
+
+		// filelists.forEach(async element=>{
+		// 	for (const i of indexList.keys()) {
+		// 		var category = element.split('_')[0];
+
+		// 		var analyzedData = await FeedManager.analyzePhoto(element);
+
+		// 		console.log(analyzedData);
+
+		// 		var userNicknameList = ['Red','Blue','Orange','Green','Black', 'James', 'Lion', 'Rachel', 'Stone', 'Jack', 'John', 'Michael', 'Philipe', 'Minji', 'Dongjin', 'Cheolsoo', 'Jaemin', 'Jihyeon']
+
+		// 		await FeedManager.createFeed(userNicknameList[i% userNicknameList.length], 
+		// 			element, 'feedContent'+String(i), [{"productId": "5eb8dca01e12780fb866f8d2", "x":40, "y": 40}], 
+		// 			["This","Is","Hashtag"], category, 1234, 'M', 23, analyzedData['dominantColor'], analyzedData['fashionClass']);
+		// 	}
+		// });
 	}
 
 	static async setPropensity(){

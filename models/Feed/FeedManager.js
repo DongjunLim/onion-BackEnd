@@ -9,6 +9,8 @@ const mongoose = require("mongoose");
 const pythonModule = require('../../pythonCode/Servicer');
 
 //for Test
+const request = require('request');
+const util = require('util');
 const fs = require('fs');
 const { lstatSync, readdirSync } = require('fs')
 const { join } = require('path')
@@ -16,21 +18,30 @@ const { join } = require('path')
 
 class FeedManager{
 	static async analyzePhoto(filename){
+		const requestPromise = util.promisify(request.post);
+
+		// const async getAPIRequestData = filename => {
+		// 	await request.post({
+		// 		url: 'http://127.0.0.1:5000/classify',
+		// 		body: {'filename': filename},
+		// 		json: true
+		// 	})
+		// }
+
 		var check1 = await pythonModule.resizeImage(filename);
 		var check2 = await pythonModule.getCroppedPeople(filename);
 
 		if (check1 && check2){
 			var DominantColor = await pythonModule.getDominantColorOfImage(filename);
-			var fashionClass = await pythonModule.fashionClassification(filename);
-			var fashionClassList = []
+			//var fashionClass = await pythonModule.fashionClassification(filename);
+			var fashionClass = await requestPromise({
+				url: 'http://127.0.0.1:5000/classify',
+				body: {'filename': filename},
+				json: true
+			})
+			fashionClass = fashionClass.body;
 
-			for (const element of Object.keys(fashionClass)){
-			    var temp = {'category':element, 'percentage':fashionClass[element]};
-
-			    fashionClassList.push(temp);
-			}
-
-			return {'fileName': filename, 'dominantColor': DominantColor, 'fashionClass': fashionClassList};
+			return {'fileName': filename, 'dominantColor': DominantColor, 'fashionClass': fashionClass};
 		} else {
 			return false;
 		}

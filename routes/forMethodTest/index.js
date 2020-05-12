@@ -9,10 +9,7 @@ const productManager = require('../../models/Product/ProductManager');
 
 
 router.post('/', async (req, res) => {
-	//await userManager.follow(userNickname, followedUserNickname)
-
-	var result = await feedManager.testDataMaker();
-	res.statusCode = 201
+	res.statusCode = 111
 	res.send()
 });
 

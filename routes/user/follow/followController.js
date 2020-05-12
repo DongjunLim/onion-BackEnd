@@ -1,4 +1,4 @@
-const UserManager = require('../../../models/Profile/ProfileManager');
+const UserManager = require('../../../models/User/UserManager');
 
 
 module.exports.followController = {
@@ -22,15 +22,19 @@ module.exports.followController = {
     //API30
     addFollowUser: async (req, res) => {
         const { targetNickname } = req.body;
+        console.log(targetNickname)
+        console.log(req.userNickname)
 
-        const output = await UserManager.follow(req.userNickname,targetNickname);
+        const output = await UserManager.follow(req.userNickname,targetNickname)
 
         return output ? res.sendStatus(201) : res.sendStatus(202);
     },
 
     //API31
     removeFollowUser: async (req, res) => {
-        const { targetNickname } = req.body;
+        const { targetNickname } = req.query;
+        console.log(targetNickname)
+        console.log(req.userNickname)
 
         const output = await UserManager.unFollow(req.userNickname, targetNickname);
 

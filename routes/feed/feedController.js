@@ -57,7 +57,7 @@ module.exports.feedController = {
     getReplyList: async (req, res) => {
         const { feedId } = req.params;
 
-        const output = await FeedManager.getReplyList(feedId);
+        const output = await FeedManager.getReplyList(req.userNickname, feedId);
 
         return output? res.send(output) : res.sendStatus(202);
 

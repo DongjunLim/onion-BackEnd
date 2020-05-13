@@ -356,7 +356,7 @@ class FeedManager{
 				var num = element.split('_')[2];
 				var analyzedData = await FeedManager.analyzePhoto(element);
 
-				if(analyzedData)
+				if(!analyzedData)
 					continue;
 
 				console.log(analyzedData);

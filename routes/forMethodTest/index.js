@@ -9,8 +9,9 @@ const productManager = require('../../models/Product/ProductManager');
 
 
 router.post('/', async (req, res) => {
+	await feedManager.testDataMaker();
 	res.statusCode = 111
-	res.send()
+	res.send();
 });
 
 module.exports = router;

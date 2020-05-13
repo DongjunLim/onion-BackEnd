@@ -60,5 +60,5 @@ def getCroppedPeople(filename):
 		return False
 
 data = getCroppedPeople('uploads/' + filename)
-if data:
+if data is not False:
 	cv2.imwrite('cropped/' + filename + '.jpg', data)

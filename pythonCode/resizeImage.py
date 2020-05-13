@@ -16,5 +16,5 @@ def resizeImg(filename):
 
 data = resizeImg('uploads/' + filename)
 
-if data:
+if data is not False:
 	cv2.imwrite('thumbnail/' + filename + '.jpg', data)

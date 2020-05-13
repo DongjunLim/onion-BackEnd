@@ -65,7 +65,6 @@ def getDominantColorInPicture(filename, numOfClusters):
 		colorList[i] = np.array(colorsys.rgb_to_hsv(*colorList[i]))
 
 	#find most similiar color
-	print(colorList[np.argmax(hist)])
 	h, s, v = colorList[np.argmax(hist)]
 	s = int(s*100 // 34)
 	v = int(v*100 // 34)

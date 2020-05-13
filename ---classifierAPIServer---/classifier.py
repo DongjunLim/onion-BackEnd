@@ -24,7 +24,7 @@ def classify():
     WL_pred = WL_model.predict(image)[0]
 
     WU_top_values_index = sorted(WU_pred)[-5:]
-    WL_top_values_index = sorted(WL_pred)[-5:]
+    WL_top_values_index = sorted(WL_pred)[-3:]
 
     result = []
     for i in range(len(WU_pred)):
@@ -34,8 +34,6 @@ def classify():
     for i in range(len(WL_pred)):
         if WL_pred[i] in WL_top_values_index:
             result.append({'fashionClass': WL_classDict[i], 'percentage': round(float(WL_pred[i]), 2)})
-
-    result = sorted(result, key=lambda x:x['percentage'])
 
     return jsonify(result[-5:])
 

@@ -11,6 +11,7 @@ def resizeImg(filename):
 
 		return img
 	except Exception as e:
+		print("false")
 		return False
 
 
@@ -18,3 +19,4 @@ data = resizeImg('uploads/' + filename)
 
 if data is not False:
 	cv2.imwrite('thumbnail/' + filename + '.jpg', data)
+	print("true")

@@ -15,12 +15,10 @@ class pythonModule {
 
 		var check = await pythonRunner('pythonCode/resizeImage.py', options)
 		.then((result)=>{
-			console.log('result log')
-			console.log(result)
-			if (result == false)
-				return false;
-			else
+			if(result[0] == 'true')
 				return true;
+			else
+				return false;
 		})
 		.catch((err)=> {
 			console.log(err);
@@ -47,12 +45,10 @@ class pythonModule {
 
 		var check = await pythonRunner('pythonCode/getCroppedPeople.py', options)
 		.then((result)=>{
-			console.log('result log')
-			console.log(result)
-			if (result == false)
-				return false;
-			else
+			if(result[0] == 'true')
 				return true;
+			else
+				return false;
 		})
 		.catch((err)=> {
 			console.log(err);

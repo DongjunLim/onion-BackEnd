@@ -57,8 +57,10 @@ def getCroppedPeople(filename):
 
 		return cropped_img
 	except Exception as e:
+		print("false")
 		return False
 
 data = getCroppedPeople('uploads/' + filename)
 if data is not False:
 	cv2.imwrite('cropped/' + filename + '.jpg', data)
+	print("true")

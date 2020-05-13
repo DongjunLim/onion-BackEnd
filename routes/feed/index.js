@@ -54,19 +54,10 @@ router.get('/product-tag', feedController.getProductTagList);
 router.post('/file', upload.single('file'), async (req,res) => {
     console.log(req.file);
     console.log(req.body);
-    responseData = {filename: req.file.filename}
-
     
-    //python test code
-    await pythonModule.getCroppedPeople(req.file.filename);
-    var DominantColor = await pythonModule.getDominantColorOfImage(req.file.filename);
-    await console.log(DominantColor);
-    var fashionClass = await pythonModule.fashionClassification(req.file.filename)
-    await console.log(fashionClass);
-    //python code done
+    var responseData = await FeedManager.analyzePhoto(req.file.filename);
 
-    res.statusCode = 201
-    await res.send(responseData)
+    return responseData ? res.send(responseData) : res.sendStatus(202);
 })
 
 router.get('/test', async (req, res) => {

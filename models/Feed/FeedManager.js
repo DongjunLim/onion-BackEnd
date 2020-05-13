@@ -240,12 +240,12 @@ class FeedManager{
 		if (feedCategory['feed_DominantColor_list'].get('v') == 0){//black
 			var colorQueryResult = await FEED_HANDLER.find({'feed_DominantColor_list.v' : 0})
 			.sort({created_at : -1});
-		}else if (feedCategory['feed_DominantColor_list'].get('v') == 1 && feedCategory['feed_DominantColor_list'].get('s') == 0){//gray
-			var colorQueryResult = await FEED_HANDLER.find({'feed_DominantColor_list.v' : 1, 'feed_DominantColor_list.s': 0})
-			.sort({created_at : -1});
-		}else if (feedCategory['feed_DominantColor_list'].get('v') == 2 && feedCategory['feed_DominantColor_list'].get('s') == 0){//white
-			var colorQueryResult = await FEED_HANDLER.find({'feed_DominantColor_list.v' : 2, 'feed_DominantColor_list.s': 0})
-			.sort({created_at : -1});
+		// }else if (feedCategory['feed_DominantColor_list'].get('v') == 1 && feedCategory['feed_DominantColor_list'].get('s') == 0){//gray
+		// 	var colorQueryResult = await FEED_HANDLER.find({'feed_DominantColor_list.v' : 1, 'feed_DominantColor_list.s': 0})
+		// 	.sort({created_at : -1});
+		// }else if (feedCategory['feed_DominantColor_list'].get('v') == 2 && feedCategory['feed_DominantColor_list'].get('s') == 0){//white
+		// 	var colorQueryResult = await FEED_HANDLER.find({'feed_DominantColor_list.v' : 2, 'feed_DominantColor_list.s': 0})
+		// 	.sort({created_at : -1});
 		}else{
 			var h_boundary = [feedCategory['feed_DominantColor_list'].get('h')-1, feedCategory['feed_DominantColor_list'].get('h'), feedCategory['feed_DominantColor_list'].get('h')+1]
 			var s_boundary = [1, 2]

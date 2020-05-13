@@ -66,7 +66,14 @@ def getDominantColorInPicture(filename, numOfClusters):
 
 	#find most similiar color
 	h, s, v = colorList[np.argmax(hist)]
-	s = int(s*100 // 34)
+	s = int(s*100)
+	if s < 15:
+		s = 0
+	elif s <66:
+		s = 1
+	else:
+		s = 2
+
 	v = int(v*100 // 34)
 	#빨강 340~15, 주황 16 ~ 50, 노란색 51~ 75, 연두 76 ~ 140, 하늘형광 141~180, 파랑 181~260, 보라 261~300, 핑크 301~339
 	#빨강 0, 주황 1, 노란색 2, 연두 3, 하늘형광 4, 파랑 5, 보라 6, 핑크 7

@@ -18,7 +18,7 @@ var FEED_Schema = new Schema(
 	feed_reply_list: [REPLY_Schema],
 	feed_producttag_list: { type: Array , default: [] },
 	feed_category_list: [String],
-	feed_DominantColor_list: [String],
+	feed_DominantColor_list: { type: Map , of: Number },
 	feed_fashionClass_list: { type: Array , default: [] },
 	author_gender: { type: String, enum: ['M', 'W', 'None'], default: 'None'},
 	author_height: Number,

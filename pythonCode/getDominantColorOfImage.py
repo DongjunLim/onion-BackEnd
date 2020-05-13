@@ -5,7 +5,7 @@ import sys
 import colorsys
 import matplotlib.pyplot as plt
 
-filename = '../cropped/' + sys.argv[1] +'.jpg'
+filename = 'cropped/' + sys.argv[1] +'.jpg'
 
 
 #Visualization Code
@@ -74,6 +74,6 @@ def getDominantColorInPicture(filename, numOfClusters):
 
 	#colorListToStr = '[' + ','.join(list(result)) + ']'
 
-	return {'h':h, 's':s, 'v': v}
+	return '{\"h\":'+str(h)+', \"s\":'+str(s)+', \"v\": '+str(v)+'}'
 
 print(getDominantColorInPicture(filename, 5))

@@ -80,8 +80,7 @@ class pythonModule {
 		const pythonRunner = util.promisify(PythonShell.run);
 
 		var DominantColorList = await pythonRunner('pythonCode/getDominantColorOfImage.py', options);
-
-		DominantColorList = await JSON.parse(DominantColorList);
+		DominantColorList = await JSON.parse(DominantColorList[0]);
 
 		// await PythonShell.run('pythonCode/getDominantColorOfImage.py', options, function (err, result) {
 		// 	if (err) 

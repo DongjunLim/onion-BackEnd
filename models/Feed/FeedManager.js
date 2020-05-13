@@ -218,7 +218,7 @@ class FeedManager{
 	static async getItemBasedFeedList(feedId){
 		var feedCategory = await FEED_HANDLER.findOne({_id: feedId})
 		.then(function(result){
-			return result[0]['feed_category_list'];
+			return result['feed_category_list'];
 		})
 
 		var queryResult = await FEED_HANDLER.find({

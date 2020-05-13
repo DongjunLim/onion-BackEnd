@@ -5,9 +5,13 @@ import sys
 filename = sys.argv[1]
 
 def resizeImg(filename):
-	img = cv2.imread(filename)
-	img = cv2.resize(img, (130, 185))
+	try:
+		img = cv2.imread(filename)
+		img = cv2.resize(img, (130, 185))
 
-	return img
+		return img
+	except Exception as e:
+		return False
+
 
 cv2.imwrite('thumbnail/' + filename + '.jpg', resizeImg('uploads/' + filename))

@@ -14,4 +14,7 @@ def resizeImg(filename):
 		return False
 
 
-cv2.imwrite('thumbnail/' + filename + '.jpg', resizeImg('uploads/' + filename))
+data = resizeImg('uploads/' + filename)
+
+if data:
+	cv2.imwrite('thumbnail/' + filename + '.jpg', data)

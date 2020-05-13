@@ -217,7 +217,7 @@ class FeedManager{
 
 	static async getItemBasedFeedList(feedId){
 		var feedCategory = await FEED_HANDLER.findOne({_id: feedId})
-		.select('feed_category_list feed_DominantColor_list - _id')
+		.select('feed_category_list feed_DominantColor_list')
 		.then(function(result){
 			return result;
 		})
@@ -237,19 +237,19 @@ class FeedManager{
 			}
 		}
 
-		if (feedCategory['feed_DominantColor_list']['v'] == 0){//black
+		if (feedCategory['feed_DominantColor_list'].get('v') == 0){//black
 			var colorQueryResult = await FEED_HANDLER.find({'feed_DominantColor_list.v' : 0})
 			.sort({created_at : -1});
-		}else if (feedCategory['feed_DominantColor_list']['v'] == 1 && feedCategory['feed_DominantColor_list']['s'] == 0){//gray
+		}else if (feedCategory['feed_DominantColor_list'].get('v') == 1 && feedCategory['feed_DominantColor_list'].get('s') == 0){//gray
 			var colorQueryResult = await FEED_HANDLER.find({'feed_DominantColor_list.v' : 1, 'feed_DominantColor_list.s': 0})
 			.sort({created_at : -1});
-		}else if (feedCategory['feed_DominantColor_list']['v'] == 2 && feedCategory['feed_DominantColor_list']['s'] == 0){//white
+		}else if (feedCategory['feed_DominantColor_list'].get('v') == 2 && feedCategory['feed_DominantColor_list'].get('s') == 0){//white
 			var colorQueryResult = await FEED_HANDLER.find({'feed_DominantColor_list.v' : 2, 'feed_DominantColor_list.s': 0})
 			.sort({created_at : -1});
 		}else{
-			h_boundary = [feedCategory['feed_DominantColor_list']['v']-1, feedCategory['feed_DominantColor_list']['v'], feedCategory['feed_DominantColor_list']['h']+1]
-			s_boundary = [1, 2]
-			v_boundary = [1, 2]
+			var h_boundary = [feedCategory['feed_DominantColor_list'].get('h')-1, feedCategory['feed_DominantColor_list'].get('h'), feedCategory['feed_DominantColor_list'].get('h')+1]
+			var s_boundary = [1, 2]
+			var v_boundary = [1, 2]
 
 			var colorQueryResult = await FEED_HANDLER.find({
 				'feed_DominantColor_list.h' : {$in: h_boundary}, 

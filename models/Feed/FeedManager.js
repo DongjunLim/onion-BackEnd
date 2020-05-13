@@ -33,7 +33,10 @@ class FeedManager{
 
 		if (check1 && check2){
 			var DominantColor = await pythonModule.getDominantColorOfImage(filename);
-			//var fashionClass = await pythonModule.fashionClassification(filename);
+			if (DominantColor == false){
+				return false;
+			}
+
 			var fashionClass = await requestPromise({
 				url: 'http://127.0.0.1:5000/classify',
 				body: {'filename': filename},

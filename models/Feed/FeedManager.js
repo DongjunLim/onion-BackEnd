@@ -356,6 +356,9 @@ class FeedManager{
 				var num = element.split('_')[2];
 				var analyzedData = await FeedManager.analyzePhoto(element);
 
+				if(analyzedData)
+					continue;
+
 				console.log(analyzedData);
 				
 				await FeedManager.createFeed(userNicknameList[num % userNicknameList.length], 

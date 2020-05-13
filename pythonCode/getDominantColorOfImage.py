@@ -62,15 +62,16 @@ def getDominantColorInPicture(filename, numOfClusters):
 	#rgb to hsv
 	colorList = np.array(clt.cluster_centers_) / 255
 	for i in range(len(colorList)):
-		colorList[i] = np.array(colorsys.rgb_to_hsv(*colorList[i])) * 255
+		colorList[i] = np.array(colorsys.rgb_to_hsv(*colorList[i]))
 
 	#find most similiar color
+	print(colorList[np.argmax(hist)])
 	h, s, v = colorList[np.argmax(hist)]
-	s = int(s // 34)
-	v = int(v // 34)
+	s = int(s*100 // 34)
+	v = int(v*100 // 34)
 	#빨강 340~15, 주황 16 ~ 50, 노란색 51~ 75, 연두 76 ~ 140, 하늘형광 141~180, 파랑 181~260, 보라 261~300, 핑크 301~339
 	#빨강 0, 주황 1, 노란색 2, 연두 3, 하늘형광 4, 파랑 5, 보라 6, 핑크 7
-	h = setColor(h % 340)
+	h = setColor(h*360 % 340)
 
 	#colorListToStr = '[' + ','.join(list(result)) + ']'
 

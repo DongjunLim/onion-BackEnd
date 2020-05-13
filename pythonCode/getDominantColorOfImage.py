@@ -67,7 +67,7 @@ def getDominantColorInPicture(filename, numOfClusters):
 	#find most similiar color
 	h, s, v = colorList[np.argmax(hist)]
 	s = int(s*100)
-	if s < 15:
+	if s < 7:
 		s = 0
 	elif s <66:
 		s = 1

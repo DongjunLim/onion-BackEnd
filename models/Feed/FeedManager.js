@@ -233,7 +233,7 @@ class FeedManager{
 			var temp = list['feed_category_list'].filter(value => feedCategory['feed_category_list'].includes(value));
 
 			if (temp.length / feedCategory['feed_category_list'].length >= 0.7){
-				IBCF_List.push(list['_id'])
+				IBCF_List.push(String(list['_id']))
 			}
 		}
 
@@ -260,7 +260,7 @@ class FeedManager{
 		var colorFeedIdList = []
 
 		for (const list of colorQueryResult) {
-			colorFeedIdList.push(list['_id'])
+			colorFeedIdList.push(String(list['_id']))
 		}
 
 		var IBCF_List = IBCF_List.filter(value => colorFeedIdList.includes(value));

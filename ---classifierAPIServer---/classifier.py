@@ -29,11 +29,11 @@ def classify():
     result = []
     for i in range(len(WU_pred)):
         if WU_pred[i] in WU_top_values_index:
-            result.append({'fashionClass': WU_classDict[i], 'percentage': round(float(WU_pred[i]), 2)})
+            result.append({'category': WU_classDict[i], 'percentage': round(float(WU_pred[i]), 2)})
 
     for i in range(len(WL_pred)):
         if WL_pred[i] in WL_top_values_index:
-            result.append({'fashionClass': WL_classDict[i], 'percentage': round(float(WL_pred[i]), 2)})
+            result.append({'category': WL_classDict[i], 'percentage': round(float(WL_pred[i]), 2)})
 
     return jsonify(result)
 

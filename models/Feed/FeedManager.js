@@ -187,10 +187,10 @@ class FeedManager{
 
 		feedIdList = [...feedIdList];
 
-		if (feedIdList.length > 20){
+		if (feedIdList.length > 25){
 			var queryResult = await FEED_HANDLER.find().select('_id').sort({
 				created_at : -1 //내림차순, Newest to Oldest
-			}).limit(ONE_PAGE_DATA_NUM - 20)
+			}).limit(ONE_PAGE_DATA_NUM - 25)
 
 			var recentFeedIdList = []
 
@@ -198,8 +198,8 @@ class FeedManager{
 				recentFeedIdList.push(list['_id']);
 			}
 
-			feedIdList = [...feedIdList.slice(0, 20), ...recentFeedIdList]
-		} else if (feedIdList.length <= 20){
+			feedIdList = [...feedIdList.slice(0, 25), ...recentFeedIdList]
+		} else if (feedIdList.length <= 25){
 			var queryResult = await FEED_HANDLER.find().select('_id').sort({
 				created_at : -1 //내림차순, Newest to Oldest
 			}).limit(ONE_PAGE_DATA_NUM - feedIdList.length)
@@ -425,7 +425,7 @@ class FeedManager{
 		var C_list = [];
 		var D_list = [];
 
-		var categoryList = await FEED_HANDLER.find({feed_category_list: ['Blazer']}).select('feed_category_list')
+		var categoryList = await FEED_HANDLER.find({feed_category_list: ['Hoodie']}).select('feed_category_list')
 		.then(function(result) {
 		    return result
 		}).catch(function(error){
@@ -439,12 +439,13 @@ class FeedManager{
 		for (var i = 0; i < 20; i++) {
 			var item = temp[Math.floor(Math.random() * temp.length)];
 			A_list.push(item);
+		}
+		for (var i=0; i<50; i++){
 			var item = temp[Math.floor(Math.random() * temp.length)];
-			C_list.push(item);
+			B_list.push(item);
 		}
 
-
-		categoryList = await FEED_HANDLER.find({feed_category_list: ['Coat']}).select('feed_category_list')
+		categoryList = await FEED_HANDLER.find({feed_category_list: ['Culottes']}).select('feed_category_list')
 		.then(function(result) {
 		    return result
 		}).catch(function(error){
@@ -458,11 +459,9 @@ class FeedManager{
 		for (var i = 0; i < 20; i++) {
 			var item = temp[Math.floor(Math.random() * temp.length)];
 			A_list.push(item);
-			var item = temp[Math.floor(Math.random() * temp.length)];
-			C_list.push(item);
 		}
 
-		categoryList = await FEED_HANDLER.find({feed_category_list: ['Shirts']}).select('feed_category_list')
+		categoryList = await FEED_HANDLER.find({feed_category_list: ['Cutoffs']}).select('feed_category_list')
 		.then(function(result) {
 		    return result
 		}).catch(function(error){
@@ -479,9 +478,9 @@ class FeedManager{
 			A_list.push(item);
 		}
 		
-		await USER_DETAIL_INFO_HANDLER.updateOne({user_nickname:'Red'}, {user_activity_list: A_list});
+		await USER_DETAIL_INFO_HANDLER.updateOne({user_nickname:'Black'}, {user_activity_list: A_list});
 
-		var userNicknameList = ['Blue','Orange','Green','Black', 'James', 'Lion', 'Rachel', 'Stone', 'Jack', 'John', 'Michael', 'Philipe', 'Minji', 'Dongjin', 'Cheolsoo', 'Jaemin', 'Jihyeon']
+		var userNicknameList = ['Black', 'James', 'Lion', 'Rachel', 'Stone', 'Jack', 'John', 'Michael', 'Philipe', 'Minji', 'Dongjin', 'Cheolsoo', 'Jaemin', 'Jihyeon']
 		var dp = new Array(50);
 		var idx = 0
 		var randIdx = 0
@@ -493,7 +492,7 @@ class FeedManager{
 				idx = idx + 1;
 			}
 		}
-		categoryList = await FEED_HANDLER.find({feed_category_list: ['Jacket']}).select('feed_category_list')
+		categoryList = await FEED_HANDLER.find({feed_category_list: ['Sweater']}).select('feed_category_list')
 		.then(function(result) {
 		    return result
 		}).catch(function(error){
@@ -504,9 +503,9 @@ class FeedManager{
 		for (const element of categoryList) {
 			temp.push(element['_id']);
 		}
-		for (var i = 0; i < 5; i++) {
+		for (var i = 0; i < 30; i++) {
 			var item = temp[Math.floor(Math.random() * temp.length)];
-			B_list.push(item);
+			C_list.push(item);
 		}
 
 		dp = new Array(50);
@@ -532,7 +531,7 @@ class FeedManager{
 				idx = idx + 1;
 			}
 		}
-		categoryList = await FEED_HANDLER.find({feed_category_list: ['Dress']}).select('feed_category_list')
+		categoryList = await FEED_HANDLER.find({feed_category_list: ['Blouse']}).select('feed_category_list')
 		.then(function(result) {
 		    return result
 		}).catch(function(error){
@@ -543,14 +542,14 @@ class FeedManager{
 		for (const element of categoryList) {
 			temp.push(element['_id']);
 		}
-		for (var i = 0; i < 5; i++) {
+		for (var i = 0; i < 30; i++) {
 			var item = temp[Math.floor(Math.random() * temp.length)];
 			D_list.push(item);
 		}
 		console.log(B_list);
-		await USER_DETAIL_INFO_HANDLER.updateOne({user_nickname:'Blue'}, {user_activity_list: B_list});
-		await USER_DETAIL_INFO_HANDLER.updateOne({user_nickname:'Orange'}, {user_activity_list: C_list});
-		await USER_DETAIL_INFO_HANDLER.updateOne({user_nickname:'Green'}, {user_activity_list: D_list});
+		await USER_DETAIL_INFO_HANDLER.updateOne({user_nickname:'James'}, {user_activity_list: B_list});
+		await USER_DETAIL_INFO_HANDLER.updateOne({user_nickname:'Lion'}, {user_activity_list: C_list});
+		await USER_DETAIL_INFO_HANDLER.updateOne({user_nickname:'Rachel'}, {user_activity_list: D_list});
 
 
 		return;

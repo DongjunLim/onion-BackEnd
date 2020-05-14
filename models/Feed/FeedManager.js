@@ -420,55 +420,137 @@ class FeedManager{
 		  return Math.random() * (max - min) + min;
 		}
 
-		var categories = new Set();
-		var filelists = [];
+		var A_list = [];
+		var B_list = [];
+		var C_list = [];
+		var D_list = [];
 
-
-		const getDirectories = source =>
-		  readdirSync(source)
-
-		filelists = getDirectories('./uploads/');
-
-		for (const element of filelists) {
-			categories.add(element.split('_')[0]);
+		var categoryList = await FEED_HANDLER.find({feed_category_list: ['Blazer']}).select('feed_category_list')
+		.then(function(result) {
+		    return result
+		}).catch(function(error){
+		    console.log(error);
+		    return false;
+		});
+		var temp = []
+		for (const element of categoryList) {
+			temp.add(element['feed_category_list'][0]);
+		}
+		for (var i = 0; i < 20; i++) {
+			var item = temp[Math.floor(Math.random() * temp.length)];
+			A_list.push(item);
+			var item = temp[Math.floor(Math.random() * temp.length)];
+			C_list.push(item);
 		}
 
-		categories = [...categories];
 
-		for (var i = 0; i < categories.length - 1; i++) {
-			var userNicknameList = ['Red','Blue','Orange','Green','Black', 'James', 'Lion', 'Rachel', 'Stone', 'Jack', 'John', 'Michael', 'Philipe', 'Minji', 'Dongjin', 'Cheolsoo', 'Jaemin', 'Jihyeon']
-
-			var tempList = await FEED_HANDLER.find({
-				feed_category_list:{$in: [categories[i]]}
-			}).select('feed_category_list')
-			.limit(15);
-
-			var tempList2 = await FEED_HANDLER.find({
-				feed_category_list:{$in: [categories[i+1]]}
-			}).select('feed_category_list')
-			.limit(getRandomArbitrary(2, 6));
-
-			var propensityList = []
-
-			for (const list of tempList) {
-				propensityList.push(list['_id']);
-			}
-			for (const list of tempList2) {
-				propensityList.push(list['_id']);
-			}
-
-			var check = await USER_DETAIL_INFO_HANDLER.updateOne({user_nickname: userNicknameList[i]}, {
-				user_activity_list: propensityList
-			}).then(function(result) {
-            	if(result['nModified'] !=0){
-                return true;
-            	}
-            	return false;
-        	}).catch(function(error){
-            	console.log(error);
-            	return false;
-        	});
+		categoryList = await FEED_HANDLER.find({feed_category_list: ['Coat']}).select('feed_category_list')
+		.then(function(result) {
+		    return result
+		}).catch(function(error){
+		    console.log(error);
+		    return false;
+		});
+		temp = []
+		for (const element of categoryList) {
+			temp.add(element['feed_category_list'][0]);
 		}
+		for (var i = 0; i < 20; i++) {
+			var item = temp[Math.floor(Math.random() * temp.length)];
+			A_list.push(item);
+			var item = temp[Math.floor(Math.random() * temp.length)];
+			C_list.push(item);
+		}
+
+		categoryList = await FEED_HANDLER.find({feed_category_list: ['Shirts']}).select('feed_category_list')
+		.then(function(result) {
+		    return result
+		}).catch(function(error){
+		    console.log(error);
+		    return false;
+		});
+		temp = []
+		for (const element of categoryList) {
+			temp.add(element['feed_category_list'][0]);
+		}
+		for (var i = 0; i < 10; i++) {
+			var item = temp[Math.floor(Math.random() * temp.length)];
+			A_list.push(item);
+		}
+		
+		await USER_DETAIL_INFO_HANDLER.updateOne({user_nickname:'Red'}, {user_activity_list: A_list});
+
+		var userNicknameList = ['Blue','Orange','Green','Black', 'James', 'Lion', 'Rachel', 'Stone', 'Jack', 'John', 'Michael', 'Philipe', 'Minji', 'Dongjin', 'Cheolsoo', 'Jaemin', 'Jihyeon']
+		var dp = new Array(50);
+		var idx = 0
+		var randIdx = 0
+		while(idx > 40){
+			randIdx = Math.floor(Math.random() * 50);
+			if(!dp[randIdx]){
+				B_list.push(A_list[randIdx]);
+				dp[randIdx] = true;
+				idx = idx + 1;
+			}
+		}
+		categoryList = await FEED_HANDLER.find({feed_category_list: ['Jacket']}).select('feed_category_list')
+		.then(function(result) {
+		    return result
+		}).catch(function(error){
+		    console.log(error);
+		    return false;
+		});
+		temp = []
+		for (const element of categoryList) {
+			temp.add(element['feed_category_list'][0]);
+		}
+		for (var i = 0; i < 5; i++) {
+			var item = temp[Math.floor(Math.random() * temp.length)];
+			B_list.push(item);
+		}
+
+		dp = new Array(50);
+		idx = 0
+		randIdx = 0
+		while(idx > 40){
+			randIdx = Math.floor(Math.random() * 50);
+			if(!dp[randIdx]){
+				C_list.push(A_list[randIdx]);
+				dp[randIdx] = true;
+				idx = idx + 1;
+			}
+		}
+
+		dp = new Array(50);
+		idx = 0
+		randIdx = 0
+		while(idx > 40){
+			randIdx = Math.floor(Math.random() * 50);
+			if(!dp[randIdx]){
+				D_list.push(A_list[randIdx]);
+				dp[randIdx] = true;
+				idx = idx + 1;
+			}
+		}
+		categoryList = await FEED_HANDLER.find({feed_category_list: ['Dress']}).select('feed_category_list')
+		.then(function(result) {
+		    return result
+		}).catch(function(error){
+		    console.log(error);
+		    return false;
+		});
+		temp = []
+		for (const element of categoryList) {
+			temp.add(element['feed_category_list'][0]);
+		}
+		for (var i = 0; i < 5; i++) {
+			var item = temp[Math.floor(Math.random() * temp.length)];
+			D_list.push(item);
+		}
+
+		await USER_DETAIL_INFO_HANDLER.updateOne({user_nickname:'Blue'}, {user_activity_list: B_list});
+		await USER_DETAIL_INFO_HANDLER.updateOne({user_nickname:'Orange'}, {user_activity_list: C_list});
+		await USER_DETAIL_INFO_HANDLER.updateOne({user_nickname:'Green'}, {user_activity_list: D_list});
+
 
 		return check;
 	}

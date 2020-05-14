@@ -119,7 +119,6 @@ module.exports.thumbnailController  = {
 
             responseDataList.push(responseData);
         })
-        
         const resData = {
             feedList: responseDataList
         }

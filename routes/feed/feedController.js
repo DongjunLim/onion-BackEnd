@@ -7,7 +7,6 @@ module.exports.feedController = {
     //API4
     createFeed: async (req, res) => {
         const {
-            uploadedPhoto,
             feedContent,
             productTag,
             hashTag,
@@ -18,10 +17,7 @@ module.exports.feedController = {
         const { height, age, gender } = additionalInfo;
         const { dominantColor, fashionClass ,fileName } = fileInfo
 
-
-
-
-        const output = await FeedManager.createFeed(req.userNickname, uploadedPhoto, feedContent, productTag, hashTag, height, gender, age,dominantColor,fashionClass);
+        const output = await FeedManager.createFeed(req.userNickname, fileName, feedContent, productTag, hashTag, height, gender, age,dominantColor,fashionClass);
 
         return output ? res.sendStatus(201) : res.sendStatus(204);
     },

@@ -7,11 +7,37 @@ const multer = require('multer');
 const upload = multer({ dest: 'uploads/', limits: { fileSize: 10 * 1024 * 1024 } });
 const pythonModule = require('../../pythonCode/Servicer');
 const authMiddleware = require('../../middlewares/auth')
+const UserManager = require('../../models/User/UserManager');
 
-router.use('/',authMiddleware)
+router.use('/', authMiddleware)
 
-router.use('/thumbnail',thumbnailRouter);
+router.use('/thumbnail', thumbnailRouter);
 
+// router.get('/', (req, res) => {
+
+//     const { feedId } = req.query;
+
+
+
+//     const element = FeedManager.getFeed(feedId);
+//     if (element) {
+//         const responseData = {
+//             feedId: element['id'],
+//             hashTag: element['feed_hashtag'],
+//             profileUrl: element['author_profile_photo'],
+//             profilePhotoUrl: element['author_profile_photo'],
+//             photoUrl: element['feed_photo_url'],
+//             feedThumbnailUrl: element['feed_thumbnail_url'],
+//             authorNickname: element['feed_user_nickname'],
+//             content: element['feed_content'],
+//             likeCount: 4,
+//             isLike: true,
+//             isFollow: true
+//         }
+//     }
+
+//     return responsData ? res.send(responseData) : res.sendStatus(202)
+// });
 //API4
 //피드 업로드 요청
 //피드 업로드 요청을 처리하는 라우팅 경로
@@ -52,10 +78,10 @@ router.delete('/reply', feedController.deleteReply);
 //피드에 태그된 상품태그에 대한 정보 요청을 처리하는 라우팅 경로
 router.get('/product-tag', feedController.getProductTagList);
 
-router.post('/file', upload.single('file'), async (req,res) => {
+router.post('/file', upload.single('file'), async (req, res) => {
     console.log(req.file);
     console.log(req.body);
-    
+
     var responseData = await FeedManager.analyzePhoto(req.file.filename);
 
     return responseData ? res.send(responseData) : res.sendStatus(202);
@@ -64,8 +90,8 @@ router.post('/file', upload.single('file'), async (req,res) => {
 router.get('/test', async (req, res) => {
     Info = {
         feedId: "fhuf3f3",
-        hashTag: [ "tag1", "tag2", "tag3"],
-        profileUrl : "PROFILEURL",
+        hashTag: ["tag1", "tag2", "tag3"],
+        profileUrl: "PROFILEURL",
         profilePhotoUrl: "PROFILEPHOTOURL",
         authorNickname: "username",
         content: "Main Content",
@@ -78,10 +104,10 @@ router.get('/test', async (req, res) => {
         feedList: [
             {
                 feedId: "fhuf3f3",
-                feedThumbnailUrl:"https://onionphotostorage.s3.ap-northeast-2.amazonaws.com/photo/1581d0c663e8ed5d6dec564307bc2db41927b7a8",
+                feedThumbnailUrl: "https://onionphotostorage.s3.ap-northeast-2.amazonaws.com/photo/1581d0c663e8ed5d6dec564307bc2db41927b7a8",
                 photoUrl: "https://onionphotostorage.s3.ap-northeast-2.amazonaws.com/photo/1581d0c663e8ed5d6dec564307bc2db41927b7a8",
-                hashTag: [ "tag1", "tag2", "tag3"],
-                profileUrl : "PROFILEURL",
+                hashTag: ["tag1", "tag2", "tag3"],
+                profileUrl: "PROFILEURL",
                 profilePhotoUrl: "PROFILEPHOTOURL",
                 authorNickname: "username",
                 content: "Main Content2",
@@ -91,10 +117,10 @@ router.get('/test', async (req, res) => {
             },
             {
                 feedId: "fhuf3f3",
-                feedThumbnailUrl:"https://onionphotostorage.s3.ap-northeast-2.amazonaws.com/thumbnail/2.jpg",
+                feedThumbnailUrl: "https://onionphotostorage.s3.ap-northeast-2.amazonaws.com/thumbnail/2.jpg",
                 photoUrl: "https://onionphotostorage.s3.ap-northeast-2.amazonaws.com/thumbnail/2.jpg",
-                hashTag: [ "tag1", "tag2", "tag3"],
-                profileUrl : "PROFILEURL",
+                hashTag: ["tag1", "tag2", "tag3"],
+                profileUrl: "PROFILEURL",
                 profilePhotoUrl: "PROFILEPHOTOURL",
                 authorNickname: "username1121",
                 content: "Main Content1",
@@ -104,10 +130,10 @@ router.get('/test', async (req, res) => {
             },
             {
                 feedId: "fhuf3f3",
-                feedThumbnailUrl:"https://onionphotostorage.s3.ap-northeast-2.amazonaws.com/thumbnail/3.jpg",
+                feedThumbnailUrl: "https://onionphotostorage.s3.ap-northeast-2.amazonaws.com/thumbnail/3.jpg",
                 photoUrl: "https://onionphotostorage.s3.ap-northeast-2.amazonaws.com/thumbnail/3.jpg",
-                hashTag: [ "tag1", "tag2", "tag3"],
-                profileUrl : "PROFILEURL",
+                hashTag: ["tag1", "tag2", "tag3"],
+                profileUrl: "PROFILEURL",
                 profilePhotoUrl: "PROFILEPHOTOURL",
                 authorNickname: "username123123",
                 content: "Main Content3",
@@ -117,10 +143,10 @@ router.get('/test', async (req, res) => {
             },
             {
                 feedId: "fhuf3f3",
-                feedThumbnailUrl:"https://onionphotostorage.s3.ap-northeast-2.amazonaws.com/thumbnail/4.jpg",
+                feedThumbnailUrl: "https://onionphotostorage.s3.ap-northeast-2.amazonaws.com/thumbnail/4.jpg",
                 photoUrl: "https://onionphotostorage.s3.ap-northeast-2.amazonaws.com/thumbnail/4.jpg",
-                hashTag: [ "tag1", "tag2", "tag3"],
-                profileUrl : "PROFILEURL",
+                hashTag: ["tag1", "tag2", "tag3"],
+                profileUrl: "PROFILEURL",
                 profilePhotoUrl: "PROFILEPHOTOURL",
                 authorNickname: "username23213",
                 content: "Main Content4",
@@ -130,10 +156,10 @@ router.get('/test', async (req, res) => {
             },
             {
                 feedId: "fhuf3f3",
-                feedThumbnailUrl:"https://onionphotostorage.s3.ap-northeast-2.amazonaws.com/thumbnail/5.jpg",
+                feedThumbnailUrl: "https://onionphotostorage.s3.ap-northeast-2.amazonaws.com/thumbnail/5.jpg",
                 photoUrl: "https://onionphotostorage.s3.ap-northeast-2.amazonaws.com/thumbnail/5.jpg",
-                hashTag: [ "tag1", "tag2", "tag3"],
-                profileUrl : "PROFILEURL",
+                hashTag: ["tag1", "tag2", "tag3"],
+                profileUrl: "PROFILEURL",
                 profilePhotoUrl: "PROFILEPHOTOURL",
                 authorNickname: "username",
                 content: "Main Content",
@@ -143,10 +169,10 @@ router.get('/test', async (req, res) => {
             },
             {
                 feedId: "fhuf3f3",
-                feedThumbnailUrl:"https://onionphotostorage.s3.ap-northeast-2.amazonaws.com/thumbnail/6.jpg",
+                feedThumbnailUrl: "https://onionphotostorage.s3.ap-northeast-2.amazonaws.com/thumbnail/6.jpg",
                 photoUrl: "https://onionphotostorage.s3.ap-northeast-2.amazonaws.com/thumbnail/6.jpg",
-                hashTag: [ "tag1", "tag2", "tag3"],
-                profileUrl : "PROFILEURL",
+                hashTag: ["tag1", "tag2", "tag3"],
+                profileUrl: "PROFILEURL",
                 profilePhotoUrl: "PROFILEPHOTOURL",
                 authorNickname: "username",
                 content: "Main Content",
@@ -156,10 +182,10 @@ router.get('/test', async (req, res) => {
             },
             {
                 feedId: "fhuf3f3",
-                feedThumbnailUrl:"https://onionphotostorage.s3.ap-northeast-2.amazonaws.com/thumbnail/7.jpg",
+                feedThumbnailUrl: "https://onionphotostorage.s3.ap-northeast-2.amazonaws.com/thumbnail/7.jpg",
                 photoUrl: "https://onionphotostorage.s3.ap-northeast-2.amazonaws.com/thumbnail/7.jpg",
-                hashTag: [ "tag1", "tag2", "tag3"],
-                profileUrl : "PROFILEURL",
+                hashTag: ["tag1", "tag2", "tag3"],
+                profileUrl: "PROFILEURL",
                 profilePhotoUrl: "PROFILEPHOTOURL",
                 authorNickname: "username",
                 content: "Main Content",
@@ -169,10 +195,10 @@ router.get('/test', async (req, res) => {
             },
             {
                 feedId: "fhuf3f3",
-                feedThumbnailUrl:"https://onionphotostorage.s3.ap-northeast-2.amazonaws.com/thumbnail/8.jpg",
+                feedThumbnailUrl: "https://onionphotostorage.s3.ap-northeast-2.amazonaws.com/thumbnail/8.jpg",
                 photoUrl: "https://onionphotostorage.s3.ap-northeast-2.amazonaws.com/thumbnail/8.jpg",
-                hashTag: [ "tag1", "tag2", "tag3"],
-                profileUrl : "PROFILEURL",
+                hashTag: ["tag1", "tag2", "tag3"],
+                profileUrl: "PROFILEURL",
                 profilePhotoUrl: "PROFILEPHOTOURL",
                 authorNickname: "username",
                 content: "Main Content",
@@ -182,10 +208,10 @@ router.get('/test', async (req, res) => {
             },
             {
                 feedId: "fhuf3f3",
-                feedThumbnailUrl:"https://onionphotostorage.s3.ap-northeast-2.amazonaws.com/thumbnail/9.jpg",
+                feedThumbnailUrl: "https://onionphotostorage.s3.ap-northeast-2.amazonaws.com/thumbnail/9.jpg",
                 photoUrl: "https://onionphotostorage.s3.ap-northeast-2.amazonaws.com/thumbnail/9.jpg",
-                hashTag: [ "tag1", "tag2", "tag3"],
-                profileUrl : "PROFILEURL",
+                hashTag: ["tag1", "tag2", "tag3"],
+                profileUrl: "PROFILEURL",
                 profilePhotoUrl: "PROFILEPHOTOURL",
                 authorNickname: "username",
                 content: "Main Content",
@@ -195,10 +221,10 @@ router.get('/test', async (req, res) => {
             },
             {
                 feedId: "fhuf3f3",
-                feedThumbnailUrl:"https://onionphotostorage.s3.ap-northeast-2.amazonaws.com/thumbnail/10.jpg",
+                feedThumbnailUrl: "https://onionphotostorage.s3.ap-northeast-2.amazonaws.com/thumbnail/10.jpg",
                 photoUrl: "https://onionphotostorage.s3.ap-northeast-2.amazonaws.com/thumbnail/10.jpg",
-                hashTag: [ "tag1", "tag2", "tag3"],
-                profileUrl : "PROFILEURL",
+                hashTag: ["tag1", "tag2", "tag3"],
+                profileUrl: "PROFILEURL",
                 profilePhotoUrl: "PROFILEPHOTOURL",
                 authorNickname: "username",
                 content: "Main Content",
@@ -208,7 +234,7 @@ router.get('/test', async (req, res) => {
             }
         ]
     }
-    
+
     res.send(feed);
     return;
 })

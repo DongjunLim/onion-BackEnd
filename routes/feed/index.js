@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { feedController } = require('./feedController');
 const thumbnailRouter = require('./thumbnail');
+const FeedManager = require('../../models/Feed/FeedManager');
 const multer = require('multer');
 const upload = multer({ dest: 'uploads/', limits: { fileSize: 10 * 1024 * 1024 } });
 const pythonModule = require('../../pythonCode/Servicer');

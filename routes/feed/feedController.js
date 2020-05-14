@@ -55,7 +55,7 @@ module.exports.feedController = {
 
     //API8
     getReplyList: async (req, res) => {
-        const { feedId } = req.params;
+        const { feedId } = req.query;
 
         const output = await FeedManager.getReplyList(req.userNickname, feedId);
 

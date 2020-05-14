@@ -1,4 +1,5 @@
 const FeedManager = require('../../../models/Feed/FeedManager');
+const UserManager = require('../../../models/User/UserManager');
 
 
 module.exports.thumbnailController  = {
@@ -112,8 +113,9 @@ module.exports.thumbnailController  = {
                 content: element['feed_content'],  
                 likeCount : 4,
                 isLike: true,
-                isFollow: true           
+                isFollow: UserManager           
             }
+
 
             responseDataList.push(responseData);
         })

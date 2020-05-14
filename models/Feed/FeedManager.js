@@ -7,7 +7,7 @@ const s3Account = require("../../s3Account.json");
 const crypto = require("crypto");
 const mongoose = require("mongoose");
 const pythonModule = require('../../pythonCode/Servicer');
-
+const shuffle_array = require('shuffle-array');
 //for Test
 const request = require('request');
 const util = require('util');
@@ -212,7 +212,7 @@ class FeedManager{
 
 			feedIdList = [...feedIdList, ...recentFeedIdList]
 		}
-
+		shuffle_array(feedIdList);
 		var returnResult = await FeedManager.getFeedByIndexList(feedIdList);
 
 		return returnResult
@@ -267,7 +267,7 @@ class FeedManager{
 		}
 
 		var IBCF_List = IBCF_List.filter(value => colorFeedIdList.includes(value));
-
+		shuffle_array(IBCF_List);
 		var returnResult = await FeedManager.getFeedByIndexList(IBCF_List);
 
 		return returnResult;

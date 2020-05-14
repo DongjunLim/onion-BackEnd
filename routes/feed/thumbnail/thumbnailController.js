@@ -53,7 +53,7 @@ module.exports.thumbnailController  = {
                 content: element['feed_content'],  
                 likeCount : 4,
                 isLike: true,
-                isFollow: true           
+                isFollow: true    
             }
 
             responseDataList.push(responseData);
@@ -113,7 +113,7 @@ module.exports.thumbnailController  = {
                 content: element['feed_content'],  
                 likeCount : 4,
                 isLike: true,
-                isFollow: UserManager           
+                isFollow: false,
             }
 
 

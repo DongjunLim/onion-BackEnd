@@ -9,7 +9,7 @@ const productManager = require('../../models/Product/ProductManager');
 
 
 router.post('/', async (req, res) => {
-	await feedManager.testDataMaker();
+	await feedManager.setPropensity();
 	res.statusCode = 111
 	res.send();
 });

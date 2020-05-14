@@ -35,7 +35,7 @@ def classify():
         if WL_pred[i] in WL_top_values_index:
             result.append({'fashionClass': WL_classDict[i], 'percentage': round(float(WL_pred[i]), 2)})
 
-    return jsonify(result[-5:])
+    return jsonify(result)
 
 if __name__ == "__main__":
     app.run()

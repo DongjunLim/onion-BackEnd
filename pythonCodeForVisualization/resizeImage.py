@@ -2,8 +2,15 @@ import numpy as np
 import cv2
 import sys
 import matplotlib.pyplot as plt
+import os
 
 filename = sys.argv[1]
+
+directoryList =['uploads/', 'cropped/', 'thumbnail/', 'backgroundRemoval/']
+
+for dir_ in directoryList:
+	if not os.path.exists(dir_):
+		os.mkdir(dir_)
 
 def resizeImg(filename):
 	try:

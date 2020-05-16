@@ -1,6 +1,13 @@
 import numpy as np
 import cv2
 import sys
+import os
+
+directoryList =['uploads/', 'cropped/', 'thumbnail/', 'backgroundRemoval/']
+
+for dir_ in directoryList:
+	if not os.path.exists(dir_):
+		os.mkdir(dir_)
 
 filename = sys.argv[1]
 

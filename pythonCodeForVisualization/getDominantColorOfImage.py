@@ -5,7 +5,7 @@ import sys
 import colorsys
 import matplotlib.pyplot as plt
 
-filename = 'cropped/' + sys.argv[1] +'.jpg'
+filename = 'backgroundRemoval/' + sys.argv[1] +'.png'
 
 
 #Visualization Code

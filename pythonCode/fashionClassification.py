@@ -8,10 +8,8 @@ import sys
 
 filename = 'backgroundRemoval/' + sys.argv[1] + '.jpg'
 
-classDict = {0: 'Anorak', 1: 'Blazer', 2: 'Blouse', 3: 'Bomber', 4: 'Button-Down', 5: 'Caftan', 6: 'Capris', 7: 'Cardigan', 8: 'Chinos', 9: 'Coat', 10: 'Coverup', 11: 'Culottes', 12: 'Cutoffs', 13: 'Dress', 14: 'Flannel', 15: 'Gauchos', 16: 'Halter', 17: 'Henley', 18: 'Hoodie', 19: 'Jacket', 20: 'Jeans', 21: 'Jeggings', 22: 'Jersey', 23: 'Jodhpurs', 24: 'Joggers', 25: 'Jumpsuit', 26: 'Kaftan', 27: 'Kimono', 28: 'Leggings', 29: 'Onesie', 30: 'Parka', 31: 'Peacoat', 32: 'Poncho', 33: 'Robe', 34: 'Romper', 35: 'Sarong', 36: 'Shorts', 37: 'Skirt', 38: 'Sweater', 39: 'Sweatpants', 40: 'Sweatshorts', 41: 'Tank', 42: 'Tee', 43: 'Top', 44: 'Trunks', 45: 'Turtleneck'}
-
-MU_classDict = {0: 'Blazer', 1: 'Cardigan', 2: 'Coat', 3: 'Flannel', 4: 'Hoodie', 5: 'Jacket', 6: 'Parka', 7: 'Sweater', 8: 'Tee', 9: 'Turtleneck'}
-WL_classDict = {0: 'Culottes', 1: 'Cutoffs', 2: 'Jeans', 3: 'Jeggings', 4: 'Joggers', 5: 'Leggings', 6: 'Shorts', 7: 'Skirt'}
+MU_classDict = {0: 'casualJacket', 1: 'coat', 2: 'denimJacket', 3: 'formalJacket', 4: 'hoodie', 5: 'knit', 6: 'longSleeve', 7: 'padding', 8: 'riderJacket', 9: 'shirts', 10: 'shortSleeve', 11: 'sleeveless', 12: 'sweatShirts', 13: 'trenchCoat'}
+ML_classDict = {0: 'chinos', 1: 'jeans', 2: 'shorts', 3: 'slacks', 4: 'sportsPants'}
 
 model = load_model('pythonCode/models/MU/model.h5')
 

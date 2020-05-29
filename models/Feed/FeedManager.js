@@ -20,22 +20,17 @@ class FeedManager{
 	static async analyzePhoto(filename){
 		const requestPromise = util.promisify(request.post);
 
-		// const async getAPIRequestData = filename => {
-		// 	await request.post({
-		// 		url: 'http://127.0.0.1:5000/classify',
-		// 		body: {'filename': filename},
-		// 		json: true
-		// 	})
-		// }
-
 		var check1 = await pythonModule.resizeImage(filename);
 		var check2 = await pythonModule.getCroppedPeople(filename);
+		var check3 = await pythonModule.backgroundRemoval(filename);
 
-		if (check1 && check2){
-			var DominantColor = await pythonModule.getDominantColorOfImage(filename);
-			if (DominantColor == false){
-				return false;
-			}
+		if (check1 && check2 && check3){
+			var DominantColor = await requestPromise({
+				url: 'http://127.0.0.1:5000/getDominantColor',
+				body: {'filename': filename},
+				json: true
+			})
+			DominantColor = DominantColor.body;
 
 			var fashionClass = await requestPromise({
 				url: 'http://127.0.0.1:5000/classify',

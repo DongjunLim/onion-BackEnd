@@ -16,4 +16,5 @@ pythonCode/yolo/
 cropped/
 thumbnail/
 uploads/
+pythonCodeForVisualization/
 ---classifierAPIServer---/models

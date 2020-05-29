@@ -31,7 +31,7 @@ class pythonModule {
 
 		return check;
 	}
-
+	
 	static async getCroppedPeople (filename){
 		var options = {
 			mode: 'text',
@@ -42,8 +42,35 @@ class pythonModule {
 			pythonPath: 'python'
 		};
 		const pythonRunner = util.promisify(PythonShell.run);
-
 		var check = await pythonRunner('pythonCode/getCroppedPeople.py', options)
+		.then((result)=>{
+			if(result[0] == 'true')
+				return true;
+			else
+				return false;
+		})
+		.catch((err)=> {
+			console.log(err);
+			return false;
+    	});
+		if(check){
+			console.log(filename + " is Cropped Successfully!");
+		}
+		return check;
+	}
+
+	static async backgroundRemoval (filename){
+		var options = {
+			mode: 'text',
+			encoding: 'utf8',
+			pythonOptions: ['-u'],
+			scriptPath: '',
+			args: [filename],
+			pythonPath: 'python'
+		};
+		const pythonRunner = util.promisify(PythonShell.run);
+
+		var check = await pythonRunner('pythonCode/backgroundRemoval.py', options)
 		.then((result)=>{
 			if(result[0] == 'true')
 				return true;
@@ -62,8 +89,38 @@ class pythonModule {
 		// 		console.log(filename + " is Cropped Successfully!");
 		// });
 		if(check){
-			console.log(filename + " is Cropped Successfully!");
+			console.log(filename + " \'s background is removed Successfully!");
 		}
+		return check;
+	}
+
+	static async resizeImage (filename){
+		var options = {
+			mode: 'text',
+			encoding: 'utf8',
+			pythonOptions: ['-u'],
+			scriptPath: '',
+			args: [filename],
+			pythonPath: 'python'
+		};
+		const pythonRunner = util.promisify(PythonShell.run);
+
+		var check = await pythonRunner('pythonCode/resizeImage.py', options)
+		.then((result)=>{
+			if(result[0] == 'true')
+				return true;
+			else
+				return false;
+		})
+		.catch((err)=> {
+			console.log(err);
+			return false;
+    	});
+
+		if(check){
+			console.log(filename + " is resized Successfully!");
+		}
+
 		return check;
 	}
 

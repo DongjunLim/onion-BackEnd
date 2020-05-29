@@ -110,7 +110,7 @@ def run_visualization(model, file_path, file_name, output_path, wmode):
     draw_segment(image, seg_map, file_name, output_path, wmode)
 
 
-def work_mode(file: str):
+def work_mode(file):
     """Determines the desired mode of operation"""
     if os.path.isfile(file):  # Input is file
         return "file"

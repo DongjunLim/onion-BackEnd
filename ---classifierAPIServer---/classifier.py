@@ -7,7 +7,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 #getDominantColor
 import json
 import tensorflow.compat.v1 as tfv1
-from PIL import Image, ImageOps
+#from PIL import Image, ImageOps
 import io
 import sys
 

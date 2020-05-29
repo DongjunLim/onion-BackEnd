@@ -110,7 +110,7 @@ class FeedManager{
 
 			var cropurl = 'https://onionphotostorage.s3.ap-northeast-2.amazonaws.com/' + croppedDataUrl
 			var backurl = 'https://onionphotostorage.s3.ap-northeast-2.amazonaws.com/' + backgroundRemovalDatalUrl
-
+			console.log({'croppedUrl': cropurl, 'backgroundUrl': backurl, 'fileName': filename, 'dominantColor': DominantColor, 'fashionClass': fashionClass});
 			return {'croppedUrl': cropurl, 'backgroundUrl': backurl, 'fileName': filename, 'dominantColor': DominantColor, 'fashionClass': fashionClass};
 		} else {
 			return false;

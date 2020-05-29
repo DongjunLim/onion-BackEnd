@@ -9,7 +9,7 @@ const productManager = require('../../models/Product/ProductManager');
 
 
 router.post('/', async (req, res) => {
-	await feedManager.setPropensity();
+	await feedManager.analyzePhotoForDemo("dongjun");
 	res.statusCode = 111
 	res.send();
 });

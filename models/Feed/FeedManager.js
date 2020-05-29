@@ -45,6 +45,78 @@ class FeedManager{
 		}
 	}
 
+	static async analyzePhotoForDemo(filename){
+		const requestPromise = util.promisify(request.post);
+
+		var check1 = await pythonModule.resizeImage(filename);
+		var check2 = await pythonModule.getCroppedPeople(filename);
+		var check3 = await pythonModule.backgroundRemoval(filename);
+
+		if (check1 && check2 && check3){
+			var DominantColor = await requestPromise({
+				url: 'http://127.0.0.1:5000/getDominantColor',
+				body: {'filename': filename},
+				json: true
+			})
+			DominantColor = DominantColor.body;
+
+			var fashionClass = await requestPromise({
+				url: 'http://127.0.0.1:5000/classify',
+				body: {'filename': filename},
+				json: true
+			})
+			fashionClass = fashionClass.body;
+
+			var croppedDataUrl = 'cropped/' + filename + '.png';
+			var backgroundRemovalDatalUrl = 'backgroundRemoval/' + filename + '.png';
+
+			var s3 = new AWS.S3({
+				accessKeyId: s3Account.AWS_ACCESS_KEY,
+				secretAccessKey: s3Account.AWS_SECRET_ACCESS_KEY,
+				region : 'ap-northeast-2'
+			})
+
+			var cropContent = await fs.readFileSync(croppedDataUrl);
+			var backgroundRemovalContent = await fs.readFileSync(backgroundRemovalDatalUrl);
+
+			var paramForS3_crop = {
+				'Bucket':'onionphotostorage',
+				'Key' : croppedDataUrl, // '저장될 경로/파일이름' ex. /image/logo -> image 폴더에 logo.png로 저장됨. 
+				'ACL':'public-read',
+				//클라이언트에서 이미지 받을 때, 자동적으로 multer에서 확장자 .jpg로 받아야 할듯 -> 그럼 파이썬 코드도 바꿔야됨.
+				'Body': cropContent,
+				'ContentType':'image/png'
+			}
+			var paramForS3_backgroundRemoval = {
+				'Bucket':'onionphotostorage',
+				'Key' : backgroundRemovalDatalUrl,
+				'ACL':'public-read',
+				'Body': backgroundRemovalContent,
+				'ContentType':'image/png'
+			}
+
+			await s3.upload(paramForS3_crop, function(err, data){
+				if (err){
+					console.log(err);
+				}
+				console.log(data);
+			});
+			await s3.upload(paramForS3_crop, function(err, data){
+				if (err){
+					console.log(err);
+				}
+				console.log(data);
+			});
+
+			var cropurl = 'https://onionphotostorage.s3.ap-northeast-2.amazonaws.com/' + croppedDataUrl
+			var backurl = 'https://onionphotostorage.s3.ap-northeast-2.amazonaws.com/' + backgroundRemovalDatalUrl
+
+			return {'croppedUrl': cropurl, 'backgroundUrl': backurl, 'fileName': filename, 'dominantColor': DominantColor, 'fashionClass': fashionClass};
+		} else {
+			return false;
+		}
+	}
+
 	//not completed
 	static async createFeed(userNickname, uploadedPhoto, feedContent, productTag, hashTag, category, height, gender, age, DominantColor, fashionClass){
 		var feed_handler = new FEED_HANDLER();

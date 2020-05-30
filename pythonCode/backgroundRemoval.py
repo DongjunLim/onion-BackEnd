@@ -67,6 +67,8 @@ def draw_segment(image, alpha_channel, file_name, output_path, wmode):
     # Create alpha layer from model output
     for x in range(width):
         for y in range(height):
+            
+
             color = alpha_channel[y, x]
             (r, g, b) = image.getpixel((x, y))
             if color == 0:

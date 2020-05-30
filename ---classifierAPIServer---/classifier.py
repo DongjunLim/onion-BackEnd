@@ -19,7 +19,7 @@ app = Flask (__name__)
 def classify():
     json_data = request.get_json(force=True) #json 데이터를 받음. cropped 내부에 있을 파일명만 전송해주면 됨.
     filename = json_data['filename']
-    filename = os.path.join('../cropped/', filename+'.jpg')
+    filename = os.path.join('../cropped/', filename+'.png')
     
     MU_classDict = {0: 'casualJacket', 1: 'coat', 2: 'denimJacket', 3: 'formalJacket', 4: 'hoodie', 5: 'knit', 6: 'longSleeve', 7: 'padding', 8: 'riderJacket', 9: 'shirts', 10: 'shortSleeve', 11: 'sleeveless', 12: 'sweatShirts', 13: 'trenchCoat'}
     ML_classDict = {0: 'chinos', 1: 'jeans', 2: 'shorts', 3: 'slacks', 4: 'sportsPants'}
@@ -49,7 +49,7 @@ def getDominantColor():
 
     json_data = request.get_json(force=True) #json 데이터를 받음. cropped 내부에 있을 파일명만 전송해주면 됨.
     filename = json_data['filename']
-    filename = os.path.join('../backgroundRemoval/', filename+'.png')
+    filename = os.path.join('../cropped/', filename+'.png')
 
     c = Classifier()
     image = cv2.imread(filename)

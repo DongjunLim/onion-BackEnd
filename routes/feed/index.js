@@ -9,7 +9,7 @@ const pythonModule = require('../../pythonCode/Servicer');
 const authMiddleware = require('../../middlewares/auth')
 const UserManager = require('../../models/User/UserManager');
 
-router.use('/', authMiddleware)
+//router.use('/', authMiddleware)
 
 router.use('/thumbnail', thumbnailRouter);
 
@@ -68,7 +68,7 @@ router.get('/reply', feedController.getReplyList);
 //피드에 댓글을 등록하는 요청을 처리하는 라우팅 경로
 router.post('/reply', feedController.createReply);
 
-//API10
+//API10/
 //피드 댓글 삭제 요청
 //피드에 댓글을 삭제하는 요청을 처리하는 라우팅 경로
 router.delete('/reply', feedController.deleteReply);
@@ -79,13 +79,13 @@ router.delete('/reply', feedController.deleteReply);
 router.get('/product-tag', feedController.getProductTagList);
 
 router.post('/file', upload.single('file'), async (req, res) => {
-    console.log(req.file);
-    console.log(req.body);
-
-    var responseData = await FeedManager.analyzePhoto(req.file.filename);
-
-    return responseData ? res.send(responseData) : res.sendStatus(202);
-})
+    var responseData = await FeedManager.analyzePhotoForDemo(req.file.filename, (data)=>{
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Headers", "X-Requested-With");
+        return res.send(data);
+    });
+});
+    
 
 router.get('/test', async (req, res) => {
     Info = {

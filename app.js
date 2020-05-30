@@ -7,11 +7,12 @@ const UserManager = require('./models/User/UserManager');
 const mongoose = require('mongoose');
 const dbAccount = require("./mongoAccount.json");
 const router = require('./routes');
-
+const cors = require('cors');
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({limit:"50mb", extended: false}));
 app.use(bodyParser.json({ limit:"50mb" }));
 app.use('/', router);
+app.use(cors());
 
 app.set('jwt-secret',secret);
 //for DataBase

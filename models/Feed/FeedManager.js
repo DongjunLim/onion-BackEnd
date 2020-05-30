@@ -45,14 +45,14 @@ class FeedManager{
 		}
 	}
 
-	static async analyzePhotoForDemo(filename){
+	static async analyzePhotoForDemo(filename,callback){
 		const requestPromise = util.promisify(request.post);
 
 		var check1 = await pythonModule.resizeImage(filename);
 		var check2 = await pythonModule.getCroppedPeople(filename);
-		var check3 = await pythonModule.backgroundRemoval(filename);
+		//var check3 = await pythonModule.backgroundRemoval(filename);
 
-		if (check1 && check2 && check3){
+		if (check1 && check2){
 			var DominantColor = await requestPromise({
 				url: 'http://127.0.0.1:5000/getDominantColor',
 				body: {'filename': filename},
@@ -68,7 +68,7 @@ class FeedManager{
 			fashionClass = fashionClass.body;
 
 			var croppedDataUrl = 'cropped/' + filename + '.png';
-			var backgroundRemovalDatalUrl = 'backgroundRemoval/' + filename + '.png';
+			//var backgroundRemovalDatalUrl = 'backgroundRemoval/' + filename + '.png';
 
 			var s3 = new AWS.S3({
 				accessKeyId: s3Account.AWS_ACCESS_KEY,
@@ -77,7 +77,7 @@ class FeedManager{
 			})
 
 			var cropContent = await fs.readFileSync(croppedDataUrl);
-			var backgroundRemovalContent = await fs.readFileSync(backgroundRemovalDatalUrl);
+			//var backgroundRemovalContent = await fs.readFileSync(backgroundRemovalDatalUrl);
 
 			var paramForS3_crop = {
 				'Bucket':'onionphotostorage',
@@ -87,31 +87,31 @@ class FeedManager{
 				'Body': cropContent,
 				'ContentType':'image/png'
 			}
-			var paramForS3_backgroundRemoval = {
-				'Bucket':'onionphotostorage',
-				'Key' : backgroundRemovalDatalUrl,
-				'ACL':'public-read',
-				'Body': backgroundRemovalContent,
-				'ContentType':'image/png'
-			}
-
-			await s3.upload(paramForS3_crop, function(err, data){
-				if (err){
-					console.log(err);
-				}
-				console.log(data);
-			});
-			await s3.upload(paramForS3_crop, function(err, data){
-				if (err){
-					console.log(err);
-				}
-				console.log(data);
-			});
-
+			// var paramForS3_backgroundRemoval = {
+			// 	'Bucket':'onionphotostorage',
+			// 	'Key' : backgroundRemovalDatalUrl,
+			// 	'ACL':'public-read',
+			// 	'Body': backgroundRemovalContent,
+			// 	'ContentType':'image/png'
+			// }
+			var backurl = "test";
 			var cropurl = 'https://onionphotostorage.s3.ap-northeast-2.amazonaws.com/' + croppedDataUrl
-			var backurl = 'https://onionphotostorage.s3.ap-northeast-2.amazonaws.com/' + backgroundRemovalDatalUrl
-			console.log({'croppedUrl': cropurl, 'backgroundUrl': backurl, 'fileName': filename, 'dominantColor': DominantColor, 'fashionClass': fashionClass});
-			return {'croppedUrl': cropurl, 'backgroundUrl': backurl, 'fileName': filename, 'dominantColor': DominantColor, 'fashionClass': fashionClass};
+			var resultData = {'croppedUrl': cropurl, 'backgroundUrl': backurl, 'fileName': filename, 'dominantColor': DominantColor, 'fashionClass': fashionClass};
+			await s3.upload(paramForS3_crop, function(err, data){
+				if (err){
+					console.log(err);
+				}
+				callback(resultData);
+			});
+			// await s3.upload(paramForS3_backgroundRemoval, function(err, data){
+			// 	if (err){
+			// 		console.log(err);
+			// 	}
+			// 	console.log(data);
+			// });
+			
+			//var backurl = 'https://onionphotostorage.s3.ap-northeast-2.amazonaws.com/' + backgroundRemovalDatalUrl			
+			return resultData;
 		} else {
 			return false;
 		}

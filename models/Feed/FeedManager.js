@@ -119,7 +119,7 @@ class FeedManager{
 	}
 
 	//not completed
-	static async createFeed(userNickname, uploadedPhoto, feedContent, productTag, hashTag, category, height, gender, age, DominantColor, fashionClass){
+	static async createFeed(userNickname, uploadedPhoto, feedContent, productTag, hashTag, category, color, height, gender, age, DominantColor, fashionClass){
 		var feed_handler = new FEED_HANDLER();
 		var file_name = crypto.randomBytes(20).toString('hex');
 		var uploadedPhotoUrl = 'photo/' + file_name;
@@ -170,8 +170,12 @@ class FeedManager{
 		feed_handler.feed_hashtag = hashTag;
 		feed_handler.feed_content = feedContent;
 		feed_handler.feed_producttag_list = productTag;
-		feed_handler.feed_category_list = category;
 
+		//유저가 선택한 카테고리 리스트
+		feed_handler.feed_category_list = category;
+		feed_handler.feed_color_list = color;
+
+		//색상, 분류 클래스 top 3임. 리스트로 들어와야함. ex) ['red', 'blue', 'green']
 		feed_handler.feed_DominantColor_list = DominantColor;
 		feed_handler.feed_fashionClass_list = fashionClass;
 		
@@ -179,6 +183,14 @@ class FeedManager{
 		feed_handler.author_height = height;
 		feed_handler.author_age = age;
 		feed_handler.author_profile_photo = 'profile/' + userNickname;
+
+		if (DominantColor.filter(value => color.includes(value)) != []){
+			feed_handler.IsCorrectColor = 'Y'
+		}
+		if (fashionClass.filter(value => category.includes(value)) != []){
+			feed_handler.IsCorrectClass = 'Y'
+		}
+
 		var check = await feed_handler.save()
 		.then(function(result) {
 		    return true;
@@ -447,14 +459,11 @@ class FeedManager{
 			categories.add(element.split('_')[0]);
 		}
 
-		//var indexList = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28 ,29];
-		var indexList = [0, 1]
-
-		var userNicknameList = ['Red','Blue','Orange','Green','Black', 'James', 'Lion', 'Rachel', 'Stone', 'Jack', 'John', 'Michael', 'Philipe', 'Minji', 'Dongjin', 'Cheolsoo', 'Jaemin', 'Jihyeon']
 		for (const element of filelists) {
 				var category = element.split('_')[0];
+				var color = element.split('_')[1];
 				var num = element.split('_')[2];
-				var analyzedData = await FeedManager.analyzePhoto(element);
+				var analyzedData = await FeedManager.analyzePhotoForDemo(element);
 
 				if(!analyzedData)
 					continue;
@@ -462,8 +471,8 @@ class FeedManager{
 				console.log(analyzedData);
 				
 				await FeedManager.createFeed(userNicknameList[num % userNicknameList.length], 
-					element, 'feedContent'+element, [{"productId": "5eb8dca01e12780fb866f8d2", "x":40, "y": 40}], 
-					["This","Is","Hashtag"], category, 1234, 'M', 23, analyzedData['dominantColor'], analyzedData['fashionClass']);
+					element, 'feedContent'+element, ["productId"], 
+					["This","Is","Hashtag"], category, color, 1234, 'M', 23, analyzedData['dominantColor'], analyzedData['fashionClass']);
 		}
 
 		// filelists.forEach(async element=>{

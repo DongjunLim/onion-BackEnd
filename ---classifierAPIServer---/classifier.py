@@ -30,7 +30,7 @@ def classify():
     MU_pred = MU_model.predict(image)[0]
     #ML_pred = ML_model.predict(image)[0]
 
-    MU_top_values_index = sorted(MU_pred)[-5:]
+    MU_top_values_index = sorted(MU_pred)[-3:]
     #ML_top_values_index = sorted(ML_pred)[-3:]
 
     result = []
@@ -108,7 +108,7 @@ class Classifier():
         })
         results = np.squeeze(results)
 
-        top = 5
+        top = 3
         top_indices = results.argsort()[-top:][::-1]
         classes = []
         for ix in top_indices:

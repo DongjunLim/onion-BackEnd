@@ -50,7 +50,7 @@ class FeedManager{
 
 		var check1 = await pythonModule.resizeImage(filename);
 		var check2 = await pythonModule.getCroppedPeople(filename);
-		//var check3 = await pythonModule.backgroundRemoval(filename);
+		var check3 = await pythonModule.backgroundRemoval(filename);
 
 		if (check1 && check2){
 			var DominantColor = await requestPromise({
@@ -454,6 +454,8 @@ class FeedManager{
 		  readdirSync(source)
 
 		filelists = getDirectories('./uploads/');
+
+		var userNicknameList = ['Red','Blue','Orange','Green','Black', 'James', 'Lion', 'Rachel', 'Stone', 'Jack', 'John', 'Michael', 'Philipe', 'Minji', 'Dongjin', 'Cheolsoo', 'Jaemin', 'Jihyeon']
 
 		for (const element of filelists) {
 			categories.add(element.split('_')[0]);

@@ -1,5 +1,7 @@
 from flask import Flask, request, jsonify
 import tensorflow as tf
+physical_devices = tf.config.list_physical_devices('GPU')
+tf.config.experimental.set_memory_growth(physical_devices[0], True)
 from tensorflow.keras.models import load_model
 import numpy as np
 import cv2, os
@@ -7,6 +9,10 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 #getDominantColor
 import json
 import tensorflow.compat.v1 as tfv1
+config = tfv1.ConfigProto()
+config.gpu_options.allow_growth = True
+session = tfv1.Session(config=config)
+
 #from PIL import Image, ImageOps
 import io
 import sys

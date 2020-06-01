@@ -126,7 +126,7 @@ def work_mode(file):
 def cli():
     """CLI"""
     # Parse arguments
-    input_path = 'cropped/' + sys.argv[1] +'.png'
+    input_path = 'uploads/' + sys.argv[1]
     output_path = 'backgroundRemoval/' + sys.argv[1] +'.png'
 
     model_str = "xception_model"

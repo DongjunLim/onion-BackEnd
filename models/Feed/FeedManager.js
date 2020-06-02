@@ -184,10 +184,10 @@ class FeedManager{
 		feed_handler.author_age = age;
 		feed_handler.author_profile_photo = 'profile/' + userNickname;
 
-		if (DominantColor.filter(value => color.includes(value)) != []){
+		if (DominantColor.filter(value => color.includes(value)).length != 0){
 			feed_handler.IsCorrectColor = 'Y'
 		}
-		if (fashionClass.filter(value => category.includes(value)) != []){
+		if (fashionClass.filter(value => category.includes(value)).length != 0){
 			feed_handler.IsCorrectClass = 'Y'
 		}
 

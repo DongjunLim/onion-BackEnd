@@ -87,12 +87,16 @@ router.post('/file', upload.single('file'), async (req, res) => {
 });
 
 router.get('/color', async (req, res) => {
-    var color = req.params.color
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    var color = req.params.color;
     var responseData = await FeedManager.feedSenderForDemo_Color(color);
     return res.send(responseData);
 })
 
 router.get('/category', async (req, res) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
     var category = req.params.category
     var responseData = await FeedManager.feedSenderForDemo_Category(category);
     return res.send(responseData);

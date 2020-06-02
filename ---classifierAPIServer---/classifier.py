@@ -25,6 +25,8 @@ app = Flask (__name__)
 def classify():
     json_data = request.get_json(force=True) #json 데이터를 받음. cropped 내부에 있을 파일명만 전송해주면 됨.
     filename = json_data['filename']
+    isDemo = json_data['isDemo']
+
     filename = os.path.join('../backgroundRemoval/', filename+'.png')
 
     #knit는 longSleeve, sleeveless는 shortSleeve, denimJacket는 casualJacket으로 넣기    
@@ -40,13 +42,18 @@ def classify():
     #ML_top_values_index = sorted(ML_pred)[-3:]
 
     result = []
-    for i in range(len(MU_pred)):
-        if MU_pred[i] in MU_top_values_index:
-            result.append({'category': MU_classDict[i], 'percentage': round(float(MU_pred[i]), 2)})
 
-    # for i in range(len(ML_pred)):
-    #     if ML_pred[i] in ML_top_values_index:
-    #         result.append({'category': ML_classDict[i], 'percentage': round(float(ML_pred[i]), 2)})
+
+    if not isDemo:
+        for i in range(len(MU_pred)):
+            if MU_pred[i] in MU_top_values_index:
+                result.append({'category': MU_classDict[i], 'percentage': round(float(MU_pred[i]), 2)})
+        # for i in range(len(ML_pred)):
+        #     if ML_pred[i] in ML_top_values_index:
+        #         result.append({'category': ML_classDict[i], 'percentage': round(float(ML_pred[i]), 2)})
+    else:
+        for i in range(len(MU_pred)):
+            result.append({'category': MU_classDict[i], 'percentage': round(float(MU_pred[i]), 2)})
 
     return jsonify(result)
 
@@ -57,10 +64,11 @@ def getDominantColor():
     json_data = request.get_json(force=True) #json 데이터를 받음. cropped 내부에 있을 파일명만 전송해주면 됨.
     filename = json_data['filename']
     filename = os.path.join('../cropped/', filename+'.png')
+    isDemo = json_data['isDemo']
 
     c = Classifier()
     image = cv2.imread(filename)
-    result = c.predict(image)
+    result = c.predict(image, isDemo)
 
     tfv1.enable_v2_behavior()
 
@@ -93,7 +101,7 @@ class Classifier():
 
         return graph
 
-    def predict(self, img):
+    def predict(self, img, isDemo):
         classifier_input_size = (224, 224)
         img = img[:, :, ::-1]
         h, w = img.shape[:2]
@@ -114,11 +122,16 @@ class Classifier():
         })
         results = np.squeeze(results)
 
-        top = 3
-        top_indices = results.argsort()[-top:][::-1]
-        classes = []
-        for ix in top_indices:
-            classes.append({"color": self.labels[ix], "prob": str(results[ix])})
+
+        if not isDemo:
+            top = 3
+            top_indices = results.argsort()[-top:][::-1]
+            classes = []
+            for ix in top_indices:
+                classes.append({"color": self.labels[ix], "prob": str(results[ix])})
+        else:
+            for i in range(len(results)):
+                classes.append({"color": self.labels[i], "prob": str(results[i])})
 
         return classes
 

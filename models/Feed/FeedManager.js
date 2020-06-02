@@ -60,6 +60,8 @@ class FeedManager{
 			})
 			DominantColor = DominantColor.body;
 
+			await setTimeout(function(){}, 1000);
+
 			var fashionClass = await requestPromise({
 				url: 'http://127.0.0.1:5000/classify',
 				body: {'filename': filename, 'isDemo': true},

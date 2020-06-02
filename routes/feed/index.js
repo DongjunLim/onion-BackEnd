@@ -106,7 +106,7 @@ router.post('/relatedFeed', upload.single('file'), async (req, res) => {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
 
-    var responseData = await FeedManager.analyzePhotoForDemo(req.file.filename);
+    var responseData = await FeedManager.sendRelatedFeedByAnalyzedPhotoForDemo(req.file.filename);
 
     return res.send(responseData);
 });

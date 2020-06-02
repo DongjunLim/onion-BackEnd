@@ -122,11 +122,10 @@ class Classifier():
         })
         results = np.squeeze(results)
 
-
+        classes = []
         if not isDemo:
             top = 3
             top_indices = results.argsort()[-top:][::-1]
-            classes = []
             for ix in top_indices:
                 classes.append({"color": self.labels[ix], "prob": str(results[ix])})
         else:

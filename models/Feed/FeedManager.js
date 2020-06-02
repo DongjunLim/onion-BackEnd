@@ -97,19 +97,28 @@ class FeedManager{
 			var backurl = 'https://onionphotostorage.s3.ap-northeast-2.amazonaws.com/' + backgroundRemovalDatalUrl			
 			var cropurl = 'https://onionphotostorage.s3.ap-northeast-2.amazonaws.com/' + croppedDataUrl
 			var resultData = {'croppedUrl': cropurl, 'backgroundUrl': backurl, 'fileName': filename, 'dominantColor': DominantColor, 'fashionClass': fashionClass};
+
 			await s3.upload(paramForS3_crop, function(err, data){
 				if (err){
 					console.log(err);
 				}
 				console.log(data);
+				s3.upload(paramForS3_backgroundRemoval, function(err, data){
+					if (err){
+						console.log(err);
+					}
+					console.log(data);
+					callback(resultData);
+				});
 			});
-			await s3.upload(paramForS3_backgroundRemoval, function(err, data){
-				if (err){
-					console.log(err);
-				}
-				console.log(data);
-				callback(resultData);
-			});
+
+			// await s3.upload(paramForS3_backgroundRemoval, function(err, data){
+			// 	if (err){
+			// 		console.log(err);
+			// 	}
+			// 	console.log(data);
+			// 	callback(resultData);
+			// });
 			
 			return resultData;
 

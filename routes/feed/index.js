@@ -89,7 +89,7 @@ router.post('/file', upload.single('file'), async (req, res) => {
 router.get('/color', async (req, res) => {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
-    var color = req.params.color;
+    var color = req.query.color;
     var responseData = await FeedManager.feedSenderForDemo_Color(color);
     return res.send(responseData);
 })
@@ -97,10 +97,19 @@ router.get('/color', async (req, res) => {
 router.get('/category', async (req, res) => {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
-    var category = req.params.category
+    var category = req.query.category
     var responseData = await FeedManager.feedSenderForDemo_Category(category);
     return res.send(responseData);
 })  
+
+router.post('/relatedFeed', upload.single('file'), async (req, res) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+
+    var responseData = await FeedManager.analyzePhotoForDemo(req.file.filename);
+
+    return res.send(responseData);
+});
 
 router.get('/test', async (req, res) => {
     Info = {

@@ -118,6 +118,50 @@ class FeedManager{
 		}
 	}
 
+	static async sendRelatedFeedByAnalyzedPhotoForDemo(filename){
+		const requestPromise = util.promisify(request.post);
+
+		var check1 = await pythonModule.resizeImage(filename);
+		var check2 = await pythonModule.getCroppedPeople(filename);
+		var check3 = await pythonModule.backgroundRemoval(filename);
+
+		if (check1 && check2){
+			var DominantColor = await requestPromise({
+				url: 'http://127.0.0.1:5000/getDominantColor',
+				body: {'filename': filename},
+				json: true
+			})
+			DominantColor = DominantColor.body;
+
+			var fashionClass = await requestPromise({
+				url: 'http://127.0.0.1:5000/classify',
+				body: {'filename': filename},
+				json: true
+			})
+			fashionClass = fashionClass.body;
+
+			var maxvalue = 0;
+			var maxclass = '';
+			for (const element of fashionClass){
+			    if (element.percentage > maxvalue){
+			    	maxclass = element.category
+			    	maxvalue = element.percentage
+			    }
+			}
+
+			//YY할 필요 없음.
+			var queryResult =  await FEED_HANDLER.find({feed_category_list: [maxclass]}).sort({
+				created_at : -1 //내림차순, Newest to Oldest
+			})
+
+			var resultData = {'dominantColor': DominantColor, 'fashionClass': fashionClass, 'queryResult': queryResult};
+			
+			return resultData;
+		} else {
+			return false;
+		}
+	}
+
 	static async feedSenderForDemo_Category(category){
 		var queryResult =  await FEED_HANDLER.find({feed_category_list: [category]}).sort({
 			created_at : -1 //내림차순, Newest to Oldest

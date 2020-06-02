@@ -142,7 +142,7 @@ class FeedManager{
 		if (check1 && check2){
 			var DominantColor = await requestPromise({
 				url: 'http://127.0.0.1:5000/getDominantColor',
-				body: {'filename': filename},
+				body: {'filename': filename, 'isDemo': true},
 				json: true
 			})
 			DominantColor = DominantColor.body;
@@ -151,7 +151,7 @@ class FeedManager{
 
 			var fashionClass = await requestPromise({
 				url: 'http://127.0.0.1:5000/classify',
-				body: {'filename': filename},
+				body: {'filename': filename, 'isDemo': true},
 				json: true
 			})
 			fashionClass = fashionClass.body;

@@ -25,7 +25,10 @@ app = Flask (__name__)
 def classify():
     json_data = request.get_json(force=True) #json 데이터를 받음. cropped 내부에 있을 파일명만 전송해주면 됨.
     filename = json_data['filename']
-    isDemo = json_data['isDemo']
+    if 'isDemo' in json_data.keys():
+        isDemo = json_data['isDemo']
+    else:
+        isDemo = False
 
     filename = os.path.join('../backgroundRemoval/', filename+'.png')
 
@@ -64,8 +67,12 @@ def getDominantColor():
     json_data = request.get_json(force=True) #json 데이터를 받음. cropped 내부에 있을 파일명만 전송해주면 됨.
     filename = json_data['filename']
     filename = os.path.join('../cropped/', filename+'.png')
-    isDemo = json_data['isDemo']
 
+    if 'isDemo' in json_data.keys():
+        isDemo = json_data['isDemo']
+    else:
+        isDemo = False
+    
     c = Classifier()
     image = cv2.imread(filename)
     result = c.predict(image, isDemo)

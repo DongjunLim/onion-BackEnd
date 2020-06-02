@@ -118,6 +118,23 @@ class FeedManager{
 		}
 	}
 
+	static async feedSenderForDemo_Category(category){
+		var queryResult =  await FEED_HANDLER.find({feed_category_list: [category]}).sort({
+			created_at : -1 //내림차순, Newest to Oldest
+		})
+
+		return queryResult ? queryResult : false;
+	}
+
+	static async feedSenderForDemo_Color(color){
+		var queryResult =  await FEED_HANDLER.find({feed_color_list: [color]}).sort({
+			created_at : -1 //내림차순, Newest to Oldest
+		})
+
+		return queryResult ? queryResult : false;
+	}
+
+
 	//not completed
 	static async createFeed(userNickname, uploadedPhoto, feedContent, productTag, hashTag, category, color, height, gender, age, DominantColor, fashionClass){
 		var feed_handler = new FEED_HANDLER();

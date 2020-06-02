@@ -85,7 +85,18 @@ router.post('/file', upload.single('file'), async (req, res) => {
         return res.send(data);
     });
 });
-    
+
+router.get('/color', async (req, res) => {
+    var color = req.params.color
+    var responseData = await FeedManager.feedSenderForDemo_Color(color);
+    return res.send(responseData);
+})
+
+router.get('/category', async (req, res) => {
+    var category = req.params.category
+    var responseData = await FeedManager.feedSenderForDemo_Category(category);
+    return res.send(responseData);
+})  
 
 router.get('/test', async (req, res) => {
     Info = {

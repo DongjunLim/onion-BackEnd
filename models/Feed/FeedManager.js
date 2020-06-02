@@ -14,7 +14,8 @@ const util = require('util');
 const fs = require('fs');
 const { lstatSync, readdirSync } = require('fs')
 const { join } = require('path')
-
+const delay = (duration) =>
+  new Promise(resolve => setTimeout(resolve, duration));
 
 class FeedManager{
 	static async analyzePhoto(filename){
@@ -32,6 +33,8 @@ class FeedManager{
 			})
 			DominantColor = DominantColor.body;
 
+			await delay(1000);
+			
 			var fashionClass = await requestPromise({
 				url: 'http://127.0.0.1:5000/classify',
 				body: {'filename': filename},
@@ -60,7 +63,7 @@ class FeedManager{
 			})
 			DominantColor = DominantColor.body;
 
-			await setTimeout(function(){}, 1000);
+			await delay(1000);
 
 			var fashionClass = await requestPromise({
 				url: 'http://127.0.0.1:5000/classify',
@@ -143,6 +146,8 @@ class FeedManager{
 				json: true
 			})
 			DominantColor = DominantColor.body;
+
+			await delay(1000);
 
 			var fashionClass = await requestPromise({
 				url: 'http://127.0.0.1:5000/classify',

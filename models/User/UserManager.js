@@ -70,6 +70,14 @@ class UserManager{
         return check1 && check2;
     }
 
+    static async sendAllUserDetailInfo(){
+        var queryResult =  await USER_DETAIL_INFO_HANDLER.find({}).sort({
+            created_at : -1 //내림차순, Newest to Oldest
+        })
+
+        return queryResult ? queryResult : false;
+    }
+
     static async getUserThumbnailUrl(userNickname){
         //결과 양식 : string
         var queryResult =  await USER_DETAIL_INFO_HANDLER.find({'user_nickname': userNickname}).select('user_profilephoto_url -_id')

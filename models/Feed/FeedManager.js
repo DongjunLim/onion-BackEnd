@@ -401,6 +401,14 @@ class FeedManager{
 		return queryResult ? queryResult : false;
 	}
 
+	static async getKeywordFeedList(keyword){
+		var queryResult = await FEED_HANDLER.find({
+			feed_hashtag:{$in:keyword},
+		}).sort({created_at : -1});
+
+		return queryResult;
+	}
+
 	static async getUserFeedList(userNickname){
 		var queryResult =  await FEED_HANDLER.find({feed_user_nickname: userNickname}).sort({
 			created_at : -1 //내림차순, Newest to Oldest

@@ -35,6 +35,38 @@ module.exports.thumbnailController  = {
 
         return res.send(resData);
     },
+    getKeywordThumbnail : async (req, res) => {
+        var { keyword } = req.query;
+        const responseDataList = [];
+        const feedList = await FeedManager.getKeywordFeedList(keyword);
+
+        await feedList.forEach((element)=>{
+            const responseData = {
+                feedId: element['id'],
+                hashTag: element['feed_hashtag'],
+                profileUrl: element['author_profile_photo'],
+                profilePhotoUrl: element['author_profile_photo'],
+                photoUrl: element['feed_photo_url'],
+                feedThumbnailUrl: element['feed_thumbnail_url'],
+                authorNickname: element['feed_user_nickname'], 
+                content: element['feed_content'],  
+                likeCount : 4,
+                isLike: true,
+                isFollow: true           
+            }
+
+            responseDataList.push(responseData);
+        })
+        
+        const resData = {
+            feedList: responseDataList
+        }
+        
+        console.log(resData)
+
+        return res.send(resData);
+    }
+    ,
 
     //API13
     getTimelineThumbnail : async (req, res) => {

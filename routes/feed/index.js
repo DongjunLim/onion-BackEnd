@@ -9,7 +9,7 @@ const pythonModule = require('../../pythonCode/Servicer');
 const authMiddleware = require('../../middlewares/auth')
 const UserManager = require('../../models/User/UserManager');
 
-//router.use('/', authMiddleware)
+router.use('/', authMiddleware);
 
 router.use('/thumbnail', thumbnailRouter);
 

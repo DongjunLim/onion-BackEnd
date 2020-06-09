@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 import tensorflow as tf
 physical_devices = tf.config.list_physical_devices('GPU')
-tf.config.experimental.set_memory_growth(physical_devices[0], True)
+#tf.config.experimental.set_memory_growth(physical_devices[0], True)
 from tensorflow.keras.models import load_model
 import numpy as np
 import cv2, os
@@ -23,7 +23,7 @@ app = Flask (__name__)
 
 @app.route('/classify', methods = ['POST'])
 def classify():
-    json_data = request.get_json(force=True) #json 데이터를 받음. cropped 내부에 있을 파일명만 전송해주면 됨.
+    json_data = request.get_json(force=True) 
     filename = json_data['filename']
     if 'isDemo' in json_data.keys():
         isDemo = json_data['isDemo']

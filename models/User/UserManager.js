@@ -125,6 +125,7 @@ class UserManager{
         
         returnResult['user_activity_list'] = await USER_DETAIL_INFO_HANDLER.find({'user_nickname': userNickname}).select('user_activity_list -_id')
         .then(function(result) {
+            console.log(result);
             return result[0]['user_activity_list'];
         }).catch(function(error){
             console.log(error);

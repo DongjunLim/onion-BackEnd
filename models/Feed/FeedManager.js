@@ -377,56 +377,16 @@ class FeedManager{
 
 	static async getItemBasedFeedList(feedId){
 		var feedCategory = await FEED_HANDLER.findOne({_id: feedId})
-		.select('feed_category_list feed_DominantColor_list')
+		.select('feed_category_list feed_color_list')
 		.then(function(result){
 			return result;
 		})
 
 		var queryResult = await FEED_HANDLER.find({
-			feed_category_list:{$in: feedCategory['feed_category_list']}
-		}).select('feed_category_list').sort({created_at : -1});
-
-		var IBCF_List = [];
-
-		//카테고리가 70% 이상의 유사도를 보이면 유사 게시글로서 등장.
-		for (const list of queryResult) {
-			var temp = list['feed_category_list'].filter(value => feedCategory['feed_category_list'].includes(value));
-
-			if (temp.length / feedCategory['feed_category_list'].length >= 0.7){
-				IBCF_List.push(String(list['_id']))
-			}
-		}
-
-		if (feedCategory['feed_DominantColor_list'].get('v') == 0){//black
-			var colorQueryResult = await FEED_HANDLER.find({'feed_DominantColor_list.v' : 0})
-			.sort({created_at : -1});
-		// }else if (feedCategory['feed_DominantColor_list'].get('v') == 1 && feedCategory['feed_DominantColor_list'].get('s') == 0){//gray
-		// 	var colorQueryResult = await FEED_HANDLER.find({'feed_DominantColor_list.v' : 1, 'feed_DominantColor_list.s': 0})
-		// 	.sort({created_at : -1});
-		// }else if (feedCategory['feed_DominantColor_list'].get('v') == 2 && feedCategory['feed_DominantColor_list'].get('s') == 0){//white
-		// 	var colorQueryResult = await FEED_HANDLER.find({'feed_DominantColor_list.v' : 2, 'feed_DominantColor_list.s': 0})
-		// 	.sort({created_at : -1});
-		}else{
-			var h_boundary = [feedCategory['feed_DominantColor_list'].get('h')-1, feedCategory['feed_DominantColor_list'].get('h'), feedCategory['feed_DominantColor_list'].get('h')+1]
-			var s_boundary = [1, 2]
-			var v_boundary = [1, 2]
-
-			var colorQueryResult = await FEED_HANDLER.find({
-				'feed_DominantColor_list.h' : {$in: h_boundary}, 
-				'feed_DominantColor_list.s' : {$in: s_boundary}, 
-				'feed_DominantColor_list.v': {$in: v_boundary}})
-			.sort({created_at : -1});
-		}
-		var colorFeedIdList = []
-
-		for (const list of colorQueryResult) {
-			colorFeedIdList.push(String(list['_id']))
-		}
-
-		var IBCF_List = IBCF_List.filter(value => colorFeedIdList.includes(value));
-		shuffle_array(IBCF_List);
-		var returnResult = await FeedManager.getFeedByIndexList(IBCF_List);
-
+			feed_category_list:{$in: feedCategory['feed_category_list']},
+			feed_color_list:{$in: feedCategory['feed_color_list']},
+		}).sort({created_at : -1});
+		
 		return returnResult;
 	}
 

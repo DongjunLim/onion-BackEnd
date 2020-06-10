@@ -26,10 +26,8 @@ class ProfileManager{
     	profileInfo['numOfFollowUser'] = followUserList['user_follow_list'].length;
 
     	var followerList = await UserManager.getFollowerList(userNickname);
-    	profileInfo['numOfFollower'] = followerList['user_follower_list'].length;
-    	
-    	profileInfo['feedList'] = await FeedManager.getUserFeedList(userNickname);
-    	
+        profileInfo['numOfFollower'] = followerList['user_follower_list'].length;
+            	
     	var bookmarkIndexList = await UserManager.getBookmarkList(userNickname);
     	profileInfo['bookmarkList'] = await FeedManager.getFeedByIndexList(bookmarkIndexList);
     	

@@ -1,5 +1,6 @@
 const FeedManager = require('../../../models/Feed/FeedManager');
 const UserManager = require('../../../models/User/UserManager');
+const ProfileManager = require('../../../models/Profile/ProfileManager');
 
 
 module.exports.thumbnailController  = {
@@ -61,7 +62,7 @@ module.exports.thumbnailController  = {
         const resData = {
             feedList: responseDataList
         }
-        
+
         console.log(resData)
 
         return res.send(resData);
@@ -117,13 +118,13 @@ module.exports.thumbnailController  = {
                 isLike: true,
                 isFollow: true           
             }
-
             responseDataList.push(responseData);
         })
         
         const resData = {
             feedList: responseDataList
         }
+        console.log(resData);
         return res.send(resData);
     },
 

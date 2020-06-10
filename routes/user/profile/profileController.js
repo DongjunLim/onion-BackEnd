@@ -15,7 +15,11 @@ module.exports.profileController = {
     getMyProfileInfo: async (req,res) => {
 
         const output = await ProfileManager.getMyProfileInfo(req.userNickname);
-
+        console.log(output)
+        output["userNickname"] = req.userNickname
+        if(!output.profilePhotoUrl){
+            output.profilePhotoUrl = "profile/beauty_1556873758105+3.JPG";
+        }
         return output ? res.send(output) : res.sendStatus(202);
 
     },

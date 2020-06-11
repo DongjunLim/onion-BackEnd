@@ -5,11 +5,21 @@ const feedManager = require('../../models/Feed/FeedManager');
 const userManager = require('../../models/User/UserManager');
 const profileManager = require('../../models/Profile/ProfileManager');
 const productManager = require('../../models/Product/ProductManager');
+const historyManager = require('../../models/History/HistoryManager');
 
 
 
 router.post('/', async (req, res) => {
-	await feedManager.testDataMaker();
+	var userNickname='A'
+	var followerNickname='B'
+	var feedId='5ed5ed51a2ccc5171139826b'
+	var writerNickname='C'
+	var comment='hi!'
+	var likeCount=123
+		
+	await historyManager.addFollowHistory(userNickname, followerNickname);
+	await historyManager.addReplyHistory(userNickname, feedId, writerNickname, comment)
+	await historyManager.addLikeHistory(userNickname, feedId, likeCount)
 	res.statusCode = 111
 	res.send();
 });

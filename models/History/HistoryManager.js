@@ -1,8 +1,8 @@
 const USER_DETAIL_INFO = require('../../schemas/USER_DETAIL_INFO');
 
 class HistoryManager{
-    async addHistory(userNickname, historyObj){
-        const doc = await USER_DETAIL_INFO.findOne({_id:userNickname});
+    static async addHistory(userNickname, historyObj){
+        const doc = await USER_DETAIL_INFO.findOne({user_nickname:userNickname});
         await doc.user_history_list.push(historyObj);
         await doc.save((err)=>{
             if(err){

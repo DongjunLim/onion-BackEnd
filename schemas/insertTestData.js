@@ -70,7 +70,7 @@ for (var i = 0; i < 40; i++){
 		user_detail_info_handler.user_age = 23;
 		user_detail_info_handler.user_address = ["userAddress1", "userAddress2"];
 		user_detail_info_handler.user_Instagram_url = "Insta.url/" + String(i);
-		user_detail_info_handler.user_profilephoto_url = "profileUrl." + String(i);
+		user_detail_info_handler.user_profilephoto_url = "profileUrl/" + String(i);
 
 		await user_auth_info_handler.save()
 		await user_detail_info_handler.save()

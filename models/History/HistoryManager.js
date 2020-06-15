@@ -17,7 +17,7 @@ class HistoryManager{
         const historyDoc = {
             'type': 'follow',
             'follower' : followerNickname,
-            'profileUrl' : 'photoUrl/' + followerNickname,
+            'profileUrl' : 'profile/' + followerNickname,
             'created_at' : Date.now()
         }
 
@@ -32,7 +32,7 @@ class HistoryManager{
             'feedId':feedId,
             'writer': writerNickname,
             'comment':comment,
-            'profileUrl' : 'photoUrl/' +  writerNickname,
+            'profileUrl' : 'profile/' +  writerNickname,
             'created_at' : Date.now()
         }
 
@@ -54,12 +54,14 @@ class HistoryManager{
         return result ? true : false;
     }
 
-    static async getRecentlyHistoryList(userNickname){
-        var historyList =  await USER_DETAIL_INFO.findOne({user_nickname:userNickname}).select('user_history_list -_id').sort({
+    static async getRecentlyHistoryList(userNickname, callback){
+        console.log("닉네임: " + userNickname);
+        await USER_DETAIL_INFO.findOne({user_nickname:userNickname}).select('user_history_list -_id').sort({
             created_at : 1 //오름차순, Oldest to Newest
+            
+        }).then(result => {
+            callback(result);
         })
-
-        return historyList ? historyList : false;
     }
 }
 

@@ -4,6 +4,8 @@ const AuthManager = require("../Auth/AuthManager");
 const AWS = require('aws-sdk');
 const s3Account = require("../../s3Account.json");
 const crypto = require("crypto");
+const fs = require('fs');
+const { lstatSync, readdirSync } = require('fs')
 
 class UserManager{
     static async createUser(userEmail, userNickname, userPassword, userGender, userAge, userHeight, userAddress1, userAddress2, userInstagramUrl, secret){
@@ -205,6 +207,7 @@ class UserManager{
 
     static async uploadProfilePhoto(userNickname, userProfilePhoto){
         var uploadedProfileUrl = 'profile/' + userNickname;
+        var photoContent = await fs.readFileSync(uploadedProfileUrl);
 
         var s3 = new AWS.S3({
             accessKeyId: s3Account.AWS_ACCESS_KEY,
@@ -216,7 +219,7 @@ class UserManager{
             'Bucket':'onionphotostorage',
             'Key' : uploadedProfileUrl, // '저장될 경로/파일이름' ex. /image/logo -> image 폴더에 logo.png로 저장됨. 
             'ACL':'public-read',
-            'Body': userProfilePhoto,
+            'Body': photoContent,
             'ContentType':'image/png'
         }
 

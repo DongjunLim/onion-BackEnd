@@ -6,8 +6,8 @@ const FeedManager = require('../../models/Feed/FeedManager');
 const multer = require('multer');
 const upload = multer({ dest: 'uploads/', limits: { fileSize: 10 * 1024 * 1024 } });
 const pythonModule = require('../../pythonCode/Servicer');
-const authMiddleware = require('../../middlewares/auth')
 const UserManager = require('../../models/User/UserManager');
+const authMiddleware = require('../../middlewares/auth')
 
 router.use('/', authMiddleware);
 
@@ -22,7 +22,7 @@ router.use('/thumbnail', thumbnailRouter);
 //     const element = FeedManager.getFeed(feedId);
 //     if (element) {
 //         const responseData = {
-//             feedId: element['id'],
+//             feedId: element[ 'id'],
 //             hashTag: element['feed_hashtag'],
 //             profileUrl: element['author_profile_photo'],
 //             profilePhotoUrl: element['author_profile_photo'],

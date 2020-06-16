@@ -1,5 +1,7 @@
 const ProfileManager = require('../../../models/Profile/ProfileManager');
 const UserManager = require('../../../models/User/UserManager');
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/', limits: { fileSize: 10 * 1024 * 1024 } });
 
 module.exports.profileController = {
     
@@ -33,21 +35,24 @@ module.exports.profileController = {
             userAddress1,
             userAddress2,
             userInstagramUrl,
-            userProfilePhoto
-        } = req.body.userInfo;
+        } = req.body;
+        console.log(req.body);
+        return res.sendStatus(201);
+        // const updateProfileResult = UserManager.updateProfile(req.userNickname,
+        //     userGender,
+        //     userHeight,
+        //     userAge,
+        //     userAddress1,
+        //     userAddress2,
+        //     userInstagramUrl) 
 
-        const updateProfileResult = UserManager.updateProfile(req.userNickname,
-            userGender,
-            userHeight,
-            userAge,
-            userAddress1,
-            userAddress2,
-            userInstagramUrl) 
-        const updateProfilePhotoResult = await UserManager.updateProfilePhoto(req.userNickname,userProfilePhoto);
+        // if(updateProfilePhotoResult && updateProfileResult) return res.sendStatus(200);
+        // else if(!updateProfilePhotoResult)  return res.sendStatus(204);
+        // else if (!updateProfileResult)  return res.sendStatus(202);
+    },
 
-        if(updateProfilePhotoResult && updateProfileResult) return res.sendStatus(200);
-        else if(!updateProfilePhotoResult)  return res.sendStatus(204);
-        else if (!updateProfileResult)  return res.sendStatus(202);
-    }
+    // updateProfilePhoto: async (req, res) => {
+        
+    // } 
 
 }

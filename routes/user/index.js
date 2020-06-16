@@ -15,6 +15,7 @@ router.use('/bucket-list',bucketListRouter);
 router.use('/follow',followRouter);
 router.use('/profile',profileRouter);
 router.get('/', userController.getUserInfo);
+
 router.get('/ual', async (req, res) => {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");

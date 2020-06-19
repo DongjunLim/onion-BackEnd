@@ -20,7 +20,7 @@ module.exports.profileController = {
         console.log(output)
         output["userNickname"] = req.userNickname
         if(!output.profilePhotoUrl){
-            output.profilePhotoUrl = "profile/beauty_1556873758105+3.JPG";
+            output.profilePhotoUrl = "profile/" + req.userNickname;
         }
         return output ? res.send(output) : res.sendStatus(202);
 
@@ -29,26 +29,21 @@ module.exports.profileController = {
     //API27
     updateProfileInfo: async (req,res) => {
         const {
-            userGender,
             userHeight,
             userAge,
             userAddress1,
             userAddress2,
             userInstagramUrl,
         } = req.body;
-        console.log(req.body);
-        return res.sendStatus(201);
-        // const updateProfileResult = UserManager.updateProfile(req.userNickname,
-        //     userGender,
-        //     userHeight,
-        //     userAge,
-        //     userAddress1,
-        //     userAddress2,
-        //     userInstagramUrl) 
 
-        // if(updateProfilePhotoResult && updateProfileResult) return res.sendStatus(200);
-        // else if(!updateProfilePhotoResult)  return res.sendStatus(204);
-        // else if (!updateProfileResult)  return res.sendStatus(202);
+        const updateProfileResult = await UserManager.updateProfile(req.userNickname,
+            userHeight,
+            userAge,
+            userAddress1,
+            userAddress2,
+            userInstagramUrl);
+        console.log(updateProfileResult);
+        return updateProfileResult ? res.sendStatus(200) : res.sendStatus(202);
     },
 
     // updateProfilePhoto: async (req, res) => {

@@ -17,4 +17,6 @@ cropped/
 thumbnail/
 uploads/
 pythonCodeForVisualization/
+profile/
+profilePhoto/
 ---classifierAPIServer---/models

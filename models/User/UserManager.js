@@ -182,11 +182,11 @@ class UserManager{
         return returnResult;
     }
 
-    static async updateProfile(userNickname, userGender, userHeight, userAge, userAddress1, userAddress2, userInstagramUrl){
+    static async updateProfile(userNickname, userHeight, userAge, userAddress1, userAddress2, userInstagramUrl){
         //updateOne 출력양식 : { n: 1, nModified: 1, ok: 1 }
 
         var check = await USER_DETAIL_INFO_HANDLER.updateOne({ 'user_nickname': userNickname }, { 
-            user_gender: userGender,
+            
             user_height: userHeight,
             user_age: userAge,
             user_address: [userAddress1, userAddress2],
@@ -206,8 +206,9 @@ class UserManager{
     }
 
     static async uploadProfilePhoto(userNickname, userProfilePhoto){
+        var tempUrl = 'profile/' + userProfilePhoto;
+        var photoContent = await fs.readFileSync(tempUrl);
         var uploadedProfileUrl = 'profile/' + userNickname;
-        var photoContent = await fs.readFileSync(uploadedProfileUrl);
 
         var s3 = new AWS.S3({
             accessKeyId: s3Account.AWS_ACCESS_KEY,

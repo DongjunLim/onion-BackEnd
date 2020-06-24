@@ -160,6 +160,19 @@ class UserManager{
         return returnResult;
     }
 
+    static async isFollow(userNickname, callback){
+
+        let result = await USER_DETAIL_INFO_HANDLER.findOne({'user_nickname': userNickname}).select('user_follow_list -_id')
+        .then(function(result) {
+            callback(result['user_follow_list']);
+        }).catch(error=>{
+            console.log(error);
+            callback(false)
+        })
+
+        return;
+    }
+
     static async getFollowerList(userNickname){
         //팔로우 유저 썸네일 url도 같이 리턴
         var returnResult = {}
@@ -253,7 +266,6 @@ class UserManager{
             if(result['nModified'] !=0){
                 return true;
             }
-            return false;
         }).catch(function(error){
             console.log(error);
             return false;
@@ -269,7 +281,9 @@ class UserManager{
             console.log(error);
             return false;
         });
-
+        console.log("DONE")
+        console.log(check1)
+        console.log(check2)
         return check1 && check2;
     }
 
@@ -279,7 +293,6 @@ class UserManager{
             if(result['nModified'] !=0){
                 return true;
             }
-            return false;
         }).catch(function(error){
             console.log(error);
             return false;
@@ -295,7 +308,9 @@ class UserManager{
             console.log(error);
             return false;
         });
-
+        console.log("DONE")
+        console.log(check1)
+        console.log(check2)
         return check1 && check2;
     }
 

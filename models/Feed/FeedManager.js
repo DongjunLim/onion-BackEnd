@@ -387,7 +387,7 @@ class FeedManager{
 			feed_color_list:{$in: feedCategory['feed_color_list']},
 		}).sort({created_at : -1});
 		
-		return returnResult;
+		return queryResult;
 	}
 
 	static async getTimelineFeedList(userNickname){

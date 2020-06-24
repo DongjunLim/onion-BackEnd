@@ -133,6 +133,7 @@ module.exports.thumbnailController  = {
         const { feedId } = req.query;
 
         const RelativeFeedThumbnailList = await FeedManager.getItemBasedFeedList(feedId);
+        console.log(RelativeFeedThumbnailList)
         var responseDataList = [];
         await RelativeFeedThumbnailList.forEach((element)=>{
             const responseData = {

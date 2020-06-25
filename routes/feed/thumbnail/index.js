@@ -24,6 +24,9 @@ router.get('/relative',thumbnailController.getRelativeThumbnail)
 
 router.get('/keyword', thumbnailController.getKeywordThumbnail)
 
+router.get('/bookmark',thumbnailController.getBookmarkThumbnail)
+
+
 router.get('/HelloWorld', (req,res) => {
     
     return res.send("Hello, World!");

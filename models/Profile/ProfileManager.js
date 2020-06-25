@@ -28,11 +28,11 @@ class ProfileManager{
     	var followerList = await UserManager.getFollowerList(userNickname);
         profileInfo['numOfFollower'] = followerList['user_follower_list'].length;
             	
-    	var bookmarkIndexList = await UserManager.getBookmarkList(userNickname);
-    	profileInfo['bookmarkList'] = await FeedManager.getFeedByIndexList(bookmarkIndexList);
+    	// var bookmarkIndexList = await UserManager.getBookmarkList(userNickname);
+    	// profileInfo['bookmarkList'] = await FeedManager.getFeedByIndexList(bookmarkIndexList);
     	
-    	var bucketIndexList = await UserManager.getBucketList(userNickname);
-    	profileInfo['bucketList'] = await ProductManager.getProductByIndexList(bucketIndexList);
+    	// var bucketIndexList = await UserManager.getBucketList(userNickname);
+    	// profileInfo['bucketList'] = await ProductManager.getProductByIndexList(bucketIndexList);
 
     	profileInfo['profilePhotoUrl'] = await UserManager.getUserThumbnailUrl(userNickname);
     	

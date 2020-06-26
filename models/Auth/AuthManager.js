@@ -3,9 +3,7 @@ const bcrypt = require('bcrypt-nodejs');
 const USER_AUTH_INFO_HANDLER = require("../../schemas/USER_AUTH_INFO");
 
 class AuthManager {
-
-
-
+    //이메일이 이미 존재하는지 확인하는 메소드
     static async checkEmail(userEmail) {
         //return NULL or data
         var queryResult = await USER_AUTH_INFO_HANDLER.findOne({
@@ -15,6 +13,7 @@ class AuthManager {
         return queryResult ? true : false;
     }
 
+    //닉네임이 이미 존재하는지 확인하는 메소드
     static async checkNickname(userNickname) {
         //return NULL or data
         var queryResult = await USER_AUTH_INFO_HANDLER.findOne({
@@ -23,6 +22,7 @@ class AuthManager {
         return queryResult ? true : false;
     }
 
+    //비밀번호를 암호화하는 메소드 
     static async encryptPassword(password) {
         let userPassword
         await bcrypt.hash(password, null, null, (err, hash) => {
@@ -32,6 +32,7 @@ class AuthManager {
         return userPassword;
     }
 
+    //토큰이 유효한지 확인하는 메소드
     static async verify(token, secret) {
         let userInfo;
         await jwt.verify(token, secret, (err, decoded) => {
@@ -44,11 +45,13 @@ class AuthManager {
         return userInfo;
     }
 
+    //토큰을 발급하는 메소드
     static async sign(userEmail, userNickname, secret) {
         const token = await jwt.sign({ user_email: userEmail, user_nickname: userNickname }, secret, { expiresIn: '14d' });
         return token;
     }
 
+    //로그인하는 메소드
     static async login(inputEmail, inputPassword, secretKey, callback) {
         var token = null;
         var userInfo = await USER_AUTH_INFO_HANDLER.findOne({

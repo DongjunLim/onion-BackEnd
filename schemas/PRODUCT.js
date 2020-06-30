@@ -9,7 +9,7 @@ var PRODUCT_Schema = new Schema(
 	product_color: [String],
 	product_price: Number,
 	product_stock: { type: Array , default: [] },
-	product_thumbnail_url: String,
+	product_photo_url: String,
 	product_page_url: String,
 	created_at: { type: Date, default: Date.now },
 	updated_at: { type: Date, default: Date.now },

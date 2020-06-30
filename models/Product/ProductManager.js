@@ -20,12 +20,10 @@ class ProductManager{
 		return returnResult;
 	}
 
-	static async getProductListByCategoryAndBrand(category, brandName){
+	static async getProductListByBrand(brandName){
 		const queryResult = await PRODUCT_HANDLER.find({
-			product_category: category,
 			product_brand: brandName
 		});
-
 		return queryResult ? queryResult : false;
 	}
 

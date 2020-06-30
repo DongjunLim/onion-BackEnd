@@ -14,11 +14,25 @@ module.exports.productController = {
 
     //API19
     getProductList: async (req,res) => {
-        const { brand , category } = req.params;
+        const { brandName } = req.query;
 
-        const output = await ProductManager.getProductListByCategoryAndBrand(category, brand);
+        const output = await ProductManager.getProductListByBrand(brandName);
+        jsonData = new Array();
+        await output.forEach(async element=>{
+            temp = new Object();
+            temp['productId'] = element['_id']
+            temp['productName'] = element.product_name;
+            temp['productBrand'] = element.product_brand;
+            temp['productPrice'] = element.product_price;
+            temp['productWebUrl'] = element.product_page_url;
+            temp['productImageUrl'] = element.product_photo_url;
+            await jsonData.push(temp);
+        })
+        
 
-        return output ? res.send(output) : res.sendStatus(202);
+        responseData = { products:jsonData};
+        console.log(responseData);
+        return output ? res.send(responseData) : res.sendStatus(202);
         
     },
 

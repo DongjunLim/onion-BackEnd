@@ -105,7 +105,7 @@ def run_visualization(model, file_path, file_name, output_path, wmode):
     try:
         jpeg_str = open(file_path, "rb").read()
         image = Image.open(BytesIO(jpeg_str))
-    except IOError:Í
+    except IOError:
         print('Cannot retrieve image. Please check file: ' + file_path)
         return
     seg_map = model.run(image)
@@ -126,7 +126,7 @@ def work_mode(file):
 def cli():
     """CLI"""
     # Parse arguments
-    input_path = 'cropped/' + sys.argv[1]
+    input_path = 'cropped/' + sys.argv[1] +'.png'
     output_path = 'backgroundRemoval/' + sys.argv[1] +'.png'
 
     model_str = "xception_model"

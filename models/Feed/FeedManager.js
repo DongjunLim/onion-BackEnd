@@ -521,7 +521,8 @@ class FeedManager{
 				var category = element.split('_')[0];
 				var color = element.split('_')[1];
 				var num = element.split('_')[2];
-				var analyzedData = await FeedManager.analyzePhotoForDemo(element, function(data) {});
+				//var analyzedData = await FeedManager.analyzePhoto(element, function(data) {});
+				var analyzedData = await FeedManager.analyzePhoto(element);
 
 				if(!analyzedData)
 					continue;

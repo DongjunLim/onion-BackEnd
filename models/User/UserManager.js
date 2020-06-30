@@ -8,6 +8,7 @@ const fs = require('fs');
 const { lstatSync, readdirSync } = require('fs')
 
 class UserManager{
+    //유저를 생성하는 메소드
     static async createUser(userEmail, userNickname, userPassword, userGender, userAge, userHeight, userAddress1, userAddress2, userInstagramUrl, secret){
         var user_auth_info_handler = new USER_AUTH_INFO_HANDLER();
         var user_detail_info_handler = new USER_DETAIL_INFO_HANDLER();
@@ -45,6 +46,7 @@ class UserManager{
     static async initUserObject(userNickname){
     }
 
+    //계정을 삭제하는 메소드
     static async deleteUser(userNickname){
         //deleteOne 결과양식 : { n: 0, ok: 1, deletedCount: 0 }
         var check1 = await USER_AUTH_INFO_HANDLER.deleteOne({ user_nickname: userNickname })
@@ -72,6 +74,7 @@ class UserManager{
         return check1 && check2;
     }
 
+    //계정 정보를 보내는 메소드
     static async sendAllUserDetailInfo(){
         var queryResult =  await USER_DETAIL_INFO_HANDLER.find({}).sort({
             created_at : -1 //내림차순, Newest to Oldest
@@ -80,6 +83,7 @@ class UserManager{
         return queryResult ? queryResult : false;
     }
 
+    //유저가 올린 게시글 썸네일을 반환하는 메소드
     static async getUserThumbnailUrl(userNickname){
         //결과 양식 : string
         var queryResult =  await USER_DETAIL_INFO_HANDLER.find({'user_nickname': userNickname}).select('user_profilephoto_url -_id')
@@ -93,6 +97,7 @@ class UserManager{
         return queryResult;
     }
 
+    //유저의 활동을 추가하는 메소드
     static async addActivity(userNickname, feedId){
         var returnResult = {}
         
@@ -122,6 +127,7 @@ class UserManager{
         return check;
     }
 
+    //유저의 활동을 반환하는 메소드
     static async getUserActivityList(userNickname){
         var returnResult = {}
         
@@ -137,6 +143,7 @@ class UserManager{
         return returnResult['user_activity_list'];
     }
 
+    //유저의 팔로우를 반환하는 메소드
     static async getFollowUserList(userNickname){
         //팔로우 유저 썸네일 url도 같이 리턴
         //결과 양식 : {user_follow_list: ["test0509","test0511"], user_profilephoto_url: [ '0909inst.gram/abc', '11inst.gram/abc' ]}
@@ -160,6 +167,21 @@ class UserManager{
         return returnResult;
     }
 
+    //팔로우 여부를 확인하는 메소드
+    static async isFollow(userNickname, callback){
+
+        let result = await USER_DETAIL_INFO_HANDLER.findOne({'user_nickname': userNickname}).select('user_follow_list -_id')
+        .then(function(result) {
+            callback(result['user_follow_list']);
+        }).catch(error=>{
+            console.log(error);
+            callback(false)
+        })
+
+        return;
+    }
+
+    //유저의 팔로워를 반환하는 메소드
     static async getFollowerList(userNickname){
         //팔로우 유저 썸네일 url도 같이 리턴
         var returnResult = {}
@@ -182,6 +204,7 @@ class UserManager{
         return returnResult;
     }
 
+    //프로필을 갱신하는 메소드
     static async updateProfile(userNickname, userHeight, userAge, userAddress1, userAddress2, userInstagramUrl){
         //updateOne 출력양식 : { n: 1, nModified: 1, ok: 1 }
 
@@ -205,6 +228,7 @@ class UserManager{
         return check;
     }
 
+    //프로필 사진을 업로드하는 메소드
     static async uploadProfilePhoto(userNickname, userProfilePhoto){
         var tempUrl = 'profile/' + userProfilePhoto;
         var photoContent = await fs.readFileSync(tempUrl);
@@ -247,13 +271,13 @@ class UserManager{
         return check;
     }
 
+    //팔로우하는 메소드
     static async follow(userNickname, followedUserNickname){
         var check1 = await USER_DETAIL_INFO_HANDLER.updateOne({ 'user_nickname': userNickname }, { $push: { user_follow_list : followedUserNickname } })
         .then(function(result) {
             if(result['nModified'] !=0){
                 return true;
             }
-            return false;
         }).catch(function(error){
             console.log(error);
             return false;
@@ -269,17 +293,19 @@ class UserManager{
             console.log(error);
             return false;
         });
-
+        console.log("DONE")
+        console.log(check1)
+        console.log(check2)
         return check1 && check2;
     }
 
+    //언팔로우하는 메소드
     static async unFollow(userNickname, unfollowedUserNickname){
         var check1 = await USER_DETAIL_INFO_HANDLER.updateOne({ 'user_nickname': userNickname }, { $pull: { user_follow_list : unfollowedUserNickname } })
         .then(function(result) {
             if(result['nModified'] !=0){
                 return true;
             }
-            return false;
         }).catch(function(error){
             console.log(error);
             return false;
@@ -295,10 +321,13 @@ class UserManager{
             console.log(error);
             return false;
         });
-
+        console.log("DONE")
+        console.log(check1)
+        console.log(check2)
         return check1 && check2;
     }
 
+    //북마크에 게시글을 추가하는 메소드
     static async addBookmark(feedId){
         var check = await USER_DETAIL_INFO_HANDLER.updateOne({ 'user_nickname': userNickname }, { $push: { user_bookmark_list : feedId } })
         .then(function(result) {
@@ -314,6 +343,7 @@ class UserManager{
         return check;
     }
 
+    //북마크를 제거하는 메소드
     static async removeBookmark(feedId){
         var check = await USER_DETAIL_INFO_HANDLER.updateOne({ 'user_nickname': userNickname }, { $pull: { user_bookmark_list : feedId } })
         .then(function(result) {
@@ -329,6 +359,7 @@ class UserManager{
         return check;
     }
 
+    //북마크를 불러오는 메소드
     static async getBookmarkList(userNickname){
         var queryResult =  await USER_DETAIL_INFO_HANDLER.find({'user_nickname': userNickname}).select('user_bookmark_list -_id')
         .then(function(result) {
@@ -347,6 +378,7 @@ class UserManager{
     static async deleteLike(feedId){
     }
 
+    //상품을 장바구니로 옮기는 메소드
     static async addToBucketList(productId){
         var check = await USER_DETAIL_INFO_HANDLER.updateOne({ 'user_nickname': userNickname }, { $push: { user_bucket_list : productId } })
         .then(function(result) {
@@ -362,6 +394,7 @@ class UserManager{
         return check;
     }
 
+    //장바구니를 가져오는 메소드
     static async getBucketList(userNickname){
         var queryResult =  await USER_DETAIL_INFO_HANDLER.find({'user_nickname': userNickname}).select('user_bucket_list -_id')
         .then(function(result) {
@@ -379,6 +412,7 @@ class UserManager{
 
     }
 
+    //장바구니의 상품을 구매하는 메소드
     static async buyProductInBucketList(productId){
         var check = await USER_DETAIL_INFO_HANDLER.updateOne({ 'user_nickname': userNickname }, { $pull: { user_bucket_list : productId } })
         .then(function(result) {
@@ -394,6 +428,7 @@ class UserManager{
         return check;
     }
 
+    //유저 정보를 가져오는 메소드
     static async getUser(userNickname){
         var userInfo;
         await USER_DETAIL_INFO_HANDLER.findOne({user_nickname: userNickname})

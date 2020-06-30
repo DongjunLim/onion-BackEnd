@@ -5,6 +5,7 @@ const ProductManager = require("../Product/ProductManager");
 
 
 class ProfileManager{
+    //프로필 정보를 가져오는 메소드
     static async getProfileInfo(userNickname){
     	var profileInfo = {};
     	var followUserList = await UserManager.getFollowUserList(userNickname);
@@ -20,6 +21,7 @@ class ProfileManager{
     	return profileInfo;
     }
 
+    //본인의 프로필 정보를 가져오는 메소드
     static async getMyProfileInfo(userNickname){
     	var profileInfo = {};
     	var followUserList = await UserManager.getFollowUserList(userNickname);
@@ -28,11 +30,11 @@ class ProfileManager{
     	var followerList = await UserManager.getFollowerList(userNickname);
         profileInfo['numOfFollower'] = followerList['user_follower_list'].length;
             	
-    	var bookmarkIndexList = await UserManager.getBookmarkList(userNickname);
-    	profileInfo['bookmarkList'] = await FeedManager.getFeedByIndexList(bookmarkIndexList);
+    	// var bookmarkIndexList = await UserManager.getBookmarkList(userNickname);
+    	// profileInfo['bookmarkList'] = await FeedManager.getFeedByIndexList(bookmarkIndexList);
     	
-    	var bucketIndexList = await UserManager.getBucketList(userNickname);
-    	profileInfo['bucketList'] = await ProductManager.getProductByIndexList(bucketIndexList);
+    	// var bucketIndexList = await UserManager.getBucketList(userNickname);
+    	// profileInfo['bucketList'] = await ProductManager.getProductByIndexList(bucketIndexList);
 
     	profileInfo['profilePhotoUrl'] = await UserManager.getUserThumbnailUrl(userNickname);
     	

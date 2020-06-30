@@ -18,6 +18,7 @@ const delay = (duration) =>
   new Promise(resolve => setTimeout(resolve, duration));
 
 class FeedManager{
+	//이미지 분석하는 메소드
 	static async analyzePhoto(filename){
 		const requestPromise = util.promisify(request.post);
 
@@ -194,8 +195,7 @@ class FeedManager{
 		return queryResult ? queryResult : false;
 	}
 
-
-	//not completed
+//게시글을 등록하는 메소드
 	static async createFeed(userNickname, uploadedPhoto, feedContent, productTag, hashTag, category, color, height, gender, age, DominantColor, fashionClass){
 		var feed_handler = new FEED_HANDLER();
 		var file_name = crypto.randomBytes(20).toString('hex');
@@ -279,7 +279,7 @@ class FeedManager{
 		return check;
 	}
 
-	//만약 전송받은 feedId가 ObjectId 객체가 아닌 String이라면 변환과정이 필요할 것.
+	//댓글을 등록하는 메소드
 	static async createReply(userNickname, feedId, replyContent){
 		var replyDocument = { 'userNickname': userNickname, 'replyContent': replyContent };
 		
@@ -297,6 +297,7 @@ class FeedManager{
 		return check;
 	}
 
+	//피드 정보를 반환하는 메소드
 	static async getFeed(feedId){
 		var queryResult = await FEED_HANDLER.findOne({
 			_id: feedId
@@ -305,6 +306,7 @@ class FeedManager{
 		return queryResult ? queryResult : false;
 	}
 
+	//피드 Batch에 대한 정보를 반환하는 메소드
 	static async getFeedByIndexList(feedIdList){
 		var returnResult = []
 
@@ -316,6 +318,7 @@ class FeedManager{
 		return returnResult;
 	}
 
+	//사용자 활동내역을 기반으로 추천 리스트를 반환하는 메소드
 	static async getPersonalRelatedList(userNickname){
 		const ONE_PAGE_DATA_NUM = 30;
 
@@ -375,6 +378,7 @@ class FeedManager{
 		return returnResult
 	}
 
+	//현재 보고 있는 게시물과 유사한 주제의 게시글을 추천해주는 메소드
 	static async getItemBasedFeedList(feedId){
 		var feedCategory = await FEED_HANDLER.findOne({_id: feedId})
 		.select('feed_category_list feed_color_list')
@@ -387,9 +391,10 @@ class FeedManager{
 			feed_color_list:{$in: feedCategory['feed_color_list']},
 		}).sort({created_at : -1});
 		
-		return returnResult;
+		return queryResult;
 	}
 
+	//사용자가 팔로우 하는 유저들의 게시글을 보여주는 메소드
 	static async getTimelineFeedList(userNickname){
 		var followUserList = await UserManager.getFollowUserList(userNickname);
 		var queryCondition = followUserList['user_follow_list'];
@@ -401,6 +406,7 @@ class FeedManager{
 		return queryResult ? queryResult : false;
 	}
 
+	//해시태그를 통해 검색된 게시글을 반환하는 메소드
 	static async getKeywordFeedList(keyword){
 		var queryResult = await FEED_HANDLER.find({
 			feed_hashtag:{$in:keyword},
@@ -409,6 +415,7 @@ class FeedManager{
 		return queryResult;
 	}
 
+	//해당 유저의 게시글을 반환하는 메소드
 	static async getUserFeedList(userNickname){
 		var queryResult =  await FEED_HANDLER.find({feed_user_nickname: userNickname}).sort({
 			created_at : -1 //내림차순, Newest to Oldest
@@ -417,7 +424,7 @@ class FeedManager{
 		return queryResult ? queryResult : false;
 	}
 
-	//getReplyList를 원한다는 것은 FeedDetail로 들어갔다는 것.
+	//해당 게시글의 댓글을 반환하는 메소드
 	static async getReplyList(userNickname, feedId){
 		await UserManager.addActivity(userNickname, feedId);
 		
@@ -428,6 +435,7 @@ class FeedManager{
 		return queryResult ? queryResult : false;
 	}
 
+	//게시글에 등록된 제품을 반환하는 메소드
 	static async getProductList(feedId){
 		var feed_handler = new FEED_HANDLER();
 		//var product_handler = new PRODUCT_HANDLER();
@@ -445,12 +453,14 @@ class FeedManager{
 		return queryResult ? queryResult : false;
 	}
 
+	//게시글에 상품 태그가 붙은 위치를 반환하는 메소드
 	static async getProductTagList(feedId){
 		var queryResult =  await FEED_HANDLER.findOne({_id: feedId}).select('feed_producttag_list -_id')
 
 		return queryResult ? queryResult : false;
 	}
 	
+	//게시글 정보를 수정하는 메소드
 	static async updateFeed(feedId, modifiedContent){
 		var check = await FEED_HANDLER.updateOne({ _id: feedId }, { feed_content: modifiedContent, updated_at: Date.now() })
 		.then(function(result) {
@@ -466,6 +476,7 @@ class FeedManager{
 		return check;
 	}
 	
+	//게시글을 제거하는 메소드
 	static async removeFeed(feedId){
 		var check = await FEED_HANDLER.deleteOne({ _id: feedId })
 		.then(function(result) {

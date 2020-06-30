@@ -26,6 +26,7 @@ module.exports.followController = {
         console.log(req.userNickname)
 
         const output = await UserManager.follow(req.userNickname,targetNickname)
+        console.log(output)
 
         return output ? res.sendStatus(201) : res.sendStatus(202);
     },
@@ -37,6 +38,8 @@ module.exports.followController = {
         console.log(req.userNickname)
 
         const output = await UserManager.unFollow(req.userNickname, targetNickname);
+        console.log(output)
+
 
         return output ? res.sendStatus(200) : res.sendStatus(202);
 

@@ -105,7 +105,7 @@ def run_visualization(model, file_path, file_name, output_path, wmode):
     try:
         jpeg_str = open(file_path, "rb").read()
         image = Image.open(BytesIO(jpeg_str))
-    except IOError:
+    except IOError:Í
         print('Cannot retrieve image. Please check file: ' + file_path)
         return
     seg_map = model.run(image)

@@ -6,13 +6,13 @@ filename = sys.argv[1]
 
 # if people are in one picture, then return cropped picture based on the biggest person's coordinate.
 def getCroppedPeople(filename):
-	net = cv2.dnn.readNet("pythonCode/yolo/yolov3.weights", "pythonCode/yolo/yolov3.cfg")
-	with open("pythonCode/yolo/coco.names", "r") as f:
+	net = cv2.dnn.readNet("custom_yolo/yolo-obj_final.weights", "custom_yolo/yolo-obj.cfg")
+	with open("custom_yolo/obj.names", "r") as f:
 		classes = [line.strip() for line in f.readlines()]
 
 	try:
 		img = cv2.imread(filename)
-		img = cv2.resize(img, None, fx=0.4, fy=0.4)
+		#img = cv2.resize(img, None, fx=0.4, fy=0.4)
 		height, width, channels = img.shape
 		layer_names = net.getLayerNames()
 		output_layers = [layer_names[i[0] - 1] for i in net.getUnconnectedOutLayers()]
@@ -45,7 +45,7 @@ def getCroppedPeople(filename):
 		pictureOwner = []
 		
 		for i in range(len(class_ids)):
-			if str(classes[class_ids[i]]) == 'person':
+			if str(classes[class_ids[i]]) in ['shirts', 'longSleeve']:
 				x, y, w, h = boxes[i]
 				pictureOwner.append(w*h)
 				personList.append(boxes[i])

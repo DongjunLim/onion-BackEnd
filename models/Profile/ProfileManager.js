@@ -5,6 +5,7 @@ const ProductManager = require("../Product/ProductManager");
 
 
 class ProfileManager{
+    //프로필 정보를 가져오는 메소드
     static async getProfileInfo(userNickname){
     	var profileInfo = {};
     	var followUserList = await UserManager.getFollowUserList(userNickname);
@@ -20,6 +21,7 @@ class ProfileManager{
     	return profileInfo;
     }
 
+    //본인의 프로필 정보를 가져오는 메소드
     static async getMyProfileInfo(userNickname){
     	var profileInfo = {};
     	var followUserList = await UserManager.getFollowUserList(userNickname);

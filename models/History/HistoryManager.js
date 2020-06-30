@@ -1,6 +1,7 @@
 const USER_DETAIL_INFO = require('../../schemas/USER_DETAIL_INFO');
 
 class HistoryManager{
+    //기록을 추가하는 메소드
     static async addHistory(userNickname, historyObj){
         const doc = await USER_DETAIL_INFO.findOne({user_nickname:userNickname});
         await doc.user_history_list.push(historyObj);
@@ -13,6 +14,7 @@ class HistoryManager{
         })
     }
 
+    //팔로우 기록을 추가하는 메소드
     static async addFollowHistory(userNickname, followerNickname){
         const historyDoc = {
             'type': 'follow',
@@ -26,6 +28,7 @@ class HistoryManager{
         return result ? true : false;
     }
 
+    //답글 기록을 추가하는 메소드
     static async addReplyHistory(userNickname, feedId, writerNickname, comment){
         const historyDoc = {
             'type': 'reply',
@@ -41,6 +44,7 @@ class HistoryManager{
         return result ? true : false;
     }
 
+    //좋아요 기록을 추가하는 메소드
     static async addLikeHistory(userNickname, feedId, likeCount){
         const historyDoc = {
             'type': 'like',
@@ -54,6 +58,7 @@ class HistoryManager{
         return result ? true : false;
     }
 
+    //최근 기록을 반환하는 메소드
     static async getRecentlyHistoryList(userNickname, callback){
         console.log("닉네임: " + userNickname);
         await USER_DETAIL_INFO.findOne({user_nickname:userNickname}).select('user_history_list -_id').sort({

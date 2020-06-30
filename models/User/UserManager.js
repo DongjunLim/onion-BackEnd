@@ -84,6 +84,7 @@ class UserManager{
         //결과 양식 : string
         var queryResult =  await USER_DETAIL_INFO_HANDLER.find({'user_nickname': userNickname}).select('user_profilephoto_url -_id')
         .then(function(result) {
+            console.log("테스트:",result)
             return result[0]['user_profilephoto_url'];
         }).catch(function(error){
             console.log(error);

@@ -16,7 +16,7 @@ router.use('/account',accountRouter);
 router.use('/feed',feedRouter);
 router.use('/history',historyRouter);
 router.use('/login',loginRouter);
-router.use('/procutRouter',productRouter);
+router.use('/product',productRouter);
 router.use('/userRouter',userRouter);
 router.use('/user',userRouter);
 

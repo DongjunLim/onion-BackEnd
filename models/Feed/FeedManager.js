@@ -511,7 +511,7 @@ class FeedManager{
 
 		filelists = getDirectories('./uploads/');
 
-		var userNicknameList = ['Red','Blue','Orange','Green','Black', 'James', 'Lion', 'Rachel', 'Stone', 'Jack', 'John', 'Michael', 'Philipe', 'Minji', 'Dongjin', 'Cheolsoo', 'Jaemin', 'Jihyeon']
+		var userNicknameList = ['Jack', 'Chris', 'Rachel', 'Tom']
 
 		for (const element of filelists) {
 			categories.add(element.split('_')[0]);
@@ -529,7 +529,7 @@ class FeedManager{
 				console.log(analyzedData);
 				
 				await FeedManager.createFeed(userNicknameList[num % userNicknameList.length], 
-					element, 'feedContent'+element, ["productId"], 
+					element, 'feedContent-'+element, ["productId"], 
 					["This","Is","Hashtag"], category, color, 1234, 'M', 23, analyzedData['dominantColor'], analyzedData['fashionClass']);
 		}
 
